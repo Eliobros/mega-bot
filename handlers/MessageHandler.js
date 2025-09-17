@@ -296,9 +296,9 @@ Digite: \`pagamento2\`
             break;
 
         case 'delete':
-        case 'd':
-        case 'del':
             await this.deleteCommand.execute(msg, args, from, sender)
+	        break;
+
 
         default:
             await this.sendMessage(from, `❌ Comando não reconhecido. Digite ${donoData.prefixo}help para ver os comandos.`);
