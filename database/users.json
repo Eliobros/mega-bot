@@ -1,0 +1,21 @@
+{
+  "users": [],
+  "comprovantes_utilizados": [
+    {
+      "chave": "CID4HD1K59O",
+      "tipo": "mpesa",
+      "usuario": "31083282350305@lid",
+      "valor": "10.00",
+      "data_uso": "2025-09-13T12:10:57.093Z",
+      "timestamp": 1757765457093
+    },
+    {
+      "chave": "PP250913.0839",
+      "tipo": "emola",
+      "usuario": "86952166576371@lid",
+      "valor": "20.00",
+      "data_uso": "2025-09-13T12:53:09.741Z",
+      "timestamp": 1757767989741
+    }
+  ]
+}

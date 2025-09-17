@@ -1,0 +1,23 @@
+{
+  "prefixo": "!",
+  "NomeDoBot": "Tina Bot",
+  "NickDono": "Zëüs Lykraios",
+  "NumeroDono": "86952166576371",
+  "numeros_pagamento": {
+    "mpesa": "841617651",
+    "emola": "862840075"
+  },
+  "configuracoes": {
+    "bonus_threshold_gb": 10,
+    "welcome_message": "Bem-vindo ao grupo! Digite 'tabela' para ver nossos pacotes.",
+    "grupo_vendas": true,
+    "auto_detectar_comprovantes": true
+  },
+  "groups": {
+    "120363294031651231@g.us": {
+      "antilink": true,
+      "groupName": "Eliobros Tech",
+      "enabledAt": "2025-09-17T01:00:50.173Z"
+    }
+  }
+}
