@@ -9,6 +9,7 @@ const PingCommand = require('../commands/membros/ping');
 const HelpCommand = require('../commands/membros/help');
 
 // Comandos de dono
+const AntiMentionCommand = require('../commands/dono/antimention');
 const DeleteCommand = require('../commands/dono/delete')
 const SetPrefixCommand = require('../commands/dono/setprefix')
 const LinkGpCommand = require('../commands/dono/linkgp')
@@ -18,6 +19,7 @@ const StatsCommand = require('../commands/dono/stats');
 const ComprovantesCommand = require('../commands/dono/comprovantes');
 const GrupoCommand = require('../commands/dono/grupo');
 const BanCommand = require('../commands/dono/ban');
+const AdminCommand = require('../commands/dono/admin');
 
 class MessageHandler {
     constructor(sock, dataManager) {
@@ -36,6 +38,8 @@ class MessageHandler {
         this.helpCommand = new HelpCommand(sock, dataManager);
 
         // Inicializar comandos de dono
+        this.adminCommands = new AdminCommand(sock, dataManager)
+        this.antimentionCommand = new AntiMentionCommand(sock, dataManager);
         this.deleteCommand = new DeleteCommand(sock, dataManager)
         this.antilinkCommand = new AntiLinkCommand(sock, dataManager)
         this.setprefixCommand = new SetPrefixCommand(sock, dataManager)
@@ -45,7 +49,48 @@ class MessageHandler {
         this.comprovantesCommand = new ComprovantesCommand(sock, dataManager);
         this.grupoCommand = new GrupoCommand(sock, dataManager);
         this.banCommand = new BanCommand(sock, dataManager);
-        // ✅ Removida linha duplicada: this.antilinkCommand = new AntiLinkCommand(sock, dataManager)
+        this.hidetagCommand = new AdminCommand(sock, dataManager);
+        this.promoteCommand = new AdminCommand(sock, dataManager);
+        this.rebaixarCommand = new AdminCommand(sock, dataManager);
+        this.bemvindoCommand = new AdminCommand(sock, dataManager);
+        this.saiuCommand = new AdminCommand(sock, dataManager);
+        this.msgbvCommand = new AdminCommand(sock, dataManager);
+        this.msgsaiuCommand = new AdminCommand(sock, dataManager);
+
+        // ✅ CORREÇÃO: Registrar eventos no constructor, NÃO no método handle()
+        this.setupEvents();
+    }
+
+    // ✅ Método separado para configurar eventos (chamado apenas UMA vez)
+    setupEvents() {
+        // Detectar mudanças no grupo (entrada/saída de membros)
+        this.sock.ev.on('group-participants-update', async (update) => {
+            const { id: groupJid, participants, action } = update;
+            
+            console.log(`👥 Evento detectado: ${action} no grupo ${groupJid}`);
+            console.log(`👤 Participantes: ${participants.join(', ')}`);
+            
+            try {
+                for (const participantJid of participants) {
+                    if (action === 'add') {
+                        // Novo membro entrou
+                        console.log(`👋 Novo membro: ${participantJid} entrou em ${groupJid}`);
+                        await this.adminCommands.handleNewMember(groupJid, participantJid);
+                        
+                    } else if (action === 'remove') {
+                        // Membro saiu/foi removido
+                        console.log(`👋 Membro saiu: ${participantJid} saiu de ${groupJid}`);
+                        await this.adminCommands.handleMemberLeft(groupJid, participantJid);
+                    }
+                }
+            } catch (error) {
+                console.error(`❌ Erro ao processar evento ${action}:`, error);
+            }
+        });
+
+
+
+        console.log("✅ Eventos configurados com sucesso!");
     }
 
     async handle(msg) {
@@ -140,8 +185,6 @@ class MessageHandler {
                 case '/tabela':
                     await this.tabelaCommand.execute(msg);
                     break;
-
-                
             }
         }
     }
@@ -247,63 +290,110 @@ Digite: \`pagamento2\`
         return false; // Não foi comando de pagamento
     }
     
-   async handleDonoCommand(msg, messageText, from, sender) {
-    const donoData = this.dataManager.getDonoData();
-    const comando = messageText.replace(donoData.prefixo, '').trim();
-    const args = comando.split(' ');
-    const cmd = args[0].toLowerCase();
-    
-    // 🔧 CORREÇÃO: Remover o comando dos args para passar apenas os parâmetros
-    const commandArgs = args.slice(1); // Remove o primeiro elemento (comando)
-    
-    console.log(`🔍 DEBUG COMANDO:
-    - Comando completo: "${comando}"
-    - Comando (cmd): "${cmd}"
-    - Args originais: ${JSON.stringify(args)}
-    - Args para comando: ${JSON.stringify(commandArgs)}`);
+    async handleDonoCommand(msg, messageText, from, sender) {
+        const donoData = this.dataManager.getDonoData();
+        const comando = messageText.replace(donoData.prefixo, '').trim();
+        const args = comando.split(' ');
+        const cmd = args[0].toLowerCase();
+        
+        // 🔧 CORREÇÃO: Remover o comando dos args para passar apenas os parâmetros
+        const commandArgs = args.slice(1); // Remove o primeiro elemento (comando)
+        
+        console.log(`🔍 DEBUG COMANDO:
+        - Comando completo: "${comando}"
+        - Comando (cmd): "${cmd}"
+        - Args originais: ${JSON.stringify(args)}
+        - Args para comando: ${JSON.stringify(commandArgs)}`);
 
-    switch (cmd) {
-        case 'comprar':
-            await this.comprarCommand.execute(msg, commandArgs, from, sender);
-            break;
+        switch (cmd) {
+            case 'comprar':
+                await this.comprarCommand.execute(msg, commandArgs, from, sender);
+                break;
 
-        case 'stats':
-            await this.statsCommand.execute(from);
-            break;
+            case 'stats':
+                await this.statsCommand.execute(from);
+                break;
 
-        case 'comprovantes':
-            await this.comprovantesCommand.execute(from, commandArgs);
-            break;
+            case 'comprovantes':
+                await this.comprovantesCommand.execute(from, commandArgs);
+                break;
 
-        case 'grupo':
-            await this.grupoCommand.execute(commandArgs, from);
-            break;
+            case 'grupo':
+                await this.grupoCommand.execute(commandArgs, from);
+                break;
 
-        case 'ban':
-            await this.banCommand.execute(msg, commandArgs, from, sender);
-            break;
+            case 'ban':
+            case 'b':
+            case 'chutar':
+                await this.banCommand.execute(msg, commandArgs, from, sender);
+                break;
 
-        case 'antilink':
-            await this.antilinkCommand.execute(msg, commandArgs, from, sender);
-            break;
+            case 'antilink':
+                await this.antilinkCommand.execute(msg, commandArgs, from, sender);
+                break;
 
-        case 'setprefix':
-            await this.setprefixCommand.execute(msg, commandArgs, from, sender);
-            break;
+            case 'setprefix':
+                await this.setprefixCommand.execute(msg, commandArgs, from, sender);
+                break;
 
-        case 'linkgp':
-            await this.linkgpCommand.execute(msg, commandArgs, from, sender);
-            break;
+            case 'linkgp':
+                await this.linkgpCommand.execute(msg, commandArgs, from, sender);
+                break;
 
-        case 'delete':
-            await this.deleteCommand.execute(msg, args, from, sender)
-	        break;
+            case 'antimention':
+                await this.antimentionCommand.execute(msg, commandArgs, from, sender);
+                break;
 
+            case 'delete':
+            case 'del':
+                await this.deleteCommand.execute(msg, commandArgs, from, sender);
+                break;
+            
+            case 'hidetag':
+            case 'ht':
+                await this.hidetagCommand.execute(msg, commandArgs, from, sender);
+                break;
 
-        default:
-            await this.sendMessage(from, `❌ Comando não reconhecido. Digite ${donoData.prefixo}help para ver os comandos.`);
+            case 'promover':
+            case 'promote':
+                await this.adminCommands.promover(msg, commandArgs, from, sender);
+                break;
+
+            case 'rebaixar':
+            case 'demote':
+                await this.adminCommands.rebaixar(msg, commandArgs, from, sender);
+                break;
+
+            case 'advertir':
+            case 'warn':
+                await this.adminCommands.advertir(msg, commandArgs, from, sender);
+                break;
+
+            case 'msgbv':
+                await this.adminCommands.msgbv(msg, commandArgs, from, sender);
+                break;
+
+            case 'msgsaiu':
+                await this.adminCommands.msgsaiu(msg, commandArgs, from, sender);
+                break;
+
+            case 'bemvindo':
+                await this.adminCommands.bemvindo(msg, commandArgs, from, sender);
+                break;
+
+            case 'saiu':
+                await this.adminCommands.saiu(msg, commandArgs, from, sender);
+                break;
+
+            case 'admins':
+                await this.adminCommands.admins(msg, commandArgs, from, sender);
+                break;
+
+            default:
+                await this.sendMessage(from, `❌ Comando não reconhecido. Digite ${donoData.prefixo}help para ver os comandos.`);
+        }
     }
-}
+
     getMessageText(msg) {
         return (
             msg.message?.conversation ||

@@ -16,6 +16,22 @@
       "valor": "20.00",
       "data_uso": "2025-09-13T12:53:09.741Z",
       "timestamp": 1757767989741
+    },
+    {
+      "chave": "CII5HEWSUZT",
+      "tipo": "mpesa",
+      "usuario": "86952166576371@lid",
+      "valor": "10.00",
+      "data_uso": "2025-09-18T07:43:54.267Z",
+      "timestamp": 1758181434267
+    },
+    {
+      "chave": "PP250917.2118",
+      "tipo": "emola",
+      "usuario": "86952166576371@lid",
+      "valor": "20.00",
+      "data_uso": "2025-09-18T07:47:12.393Z",
+      "timestamp": 1758181632393
     }
   ]
 }

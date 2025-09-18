@@ -1,36 +1,47 @@
-const CompraHandler = require('../../handlers/CompraHandler');
-
-class ComprarCommand {
+class CompraHandler {
     constructor(sock, dataManager) {
         this.sock = sock;
         this.dataManager = dataManager;
-        this.compraHandler = new CompraHandler(sock, dataManager);
     }
 
-    async execute(msg, args, from, sender) {
-        const prefixo = this.dataManager.getDonoData().prefixo;
-        
-        if (args.length < 2) {
-            await this.sendMessage(from, `❌ Uso correto: ${prefixo}comprar <pacote>\nExemplo: ${prefixo}comprar 1100MB`);
-            return;
-        }
-        
-        // Verificar se a mensagem foi uma resposta
-        if (msg.message?.extendedTextMessage?.contextInfo?.quotedMessage) {
-            const quotedSender = msg.message.extendedTextMessage.contextInfo.participant;
-            await this.compraHandler.processar(quotedSender, args[1], from);
-        } else {
-            await this.sendMessage(from, '❌ Você precisa marcar a mensagem do cliente para processar a compra!');
-        }
-    }
-
-    async sendMessage(jid, text, options = {}) {
+    // Processa a compra de um usuário
+    async processar(userNumber, pacoteNome, from) {
         try {
-            await this.sock.sendMessage(jid, { text, ...options });
-        } catch (error) {
-            console.error('Erro ao enviar mensagem:', error);
+            const tabela = this.dataManager.getTabelaData(); // pega todas as tabelas
+            if (!tabela || Object.keys(tabela).length === 0) {
+                await this.sendMessage(from, '❌ Nenhuma tabela de pacotes encontrada!');
+                return;
+            }
+
+            // Supondo que você tenha um grupo específico, ou queira pegar a tabela geral
+            const pacotes = tabela.pacotes; // aqui você precisa garantir que o JSON tenha "pacotes" no nível root
+            if (!pacotes) {
+                await this.sendMessage(from, '❌ Nenhum pacote disponível na tabela!');
+                return;
+            }
+
+            const pacote = pacotes.find(p => p.nome === pacoteNome);
+            if (!pacote) {
+                await this.sendMessage(from, `❌ Pacote "${pacoteNome}" não encontrado!`);
+                return;
+            }
+
+            // Aqui você processaria a compra (ex: atualizar userData, confirmar pagamento, etc)
+            await this.sendMessage(from, `✅ Pacote "${pacoteNome}" processado com sucesso para ${userNumber}!`);
+
+        } catch (err) {
+            console.error('Erro ao processar compra:', err);
+            await this.sendMessage(from, '❌ Ocorreu um erro ao processar a compra!');
+        }
+    }
+
+    async sendMessage(jid, text) {
+        try {
+            await this.sock.sendMessage(jid, { text });
+        } catch (err) {
+            console.error('Erro ao enviar mensagem:', err);
         }
     }
 }
 
-module.exports = ComprarCommand;
+module.exports = CompraHandler;

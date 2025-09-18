@@ -1,0 +1,53 @@
+{
+  "120363401341705925@g.us": {
+    "tipo": "texto",
+    "tabela": "*TABELA NORMAL PARA CONSUMIDORES DA VODACOM ❤️*\n\n*PACOTES DE 24HORAS*\n*5MT---------270MB*📶\n*7MT---------378MB*📶\n*10MT-------550MB*📶\n*12MT-------640MB*📶\n*15MT-------810MB*📶\n*20MT------1.100GB*📶\n*25MT------1.370GB*📶\n*30MT------1.630GB*📶\n*35MT------1.900GB*📶\n*40MT------2.170GB*📶\n*45MT------2.430GB*📶\n*50MT------2.700GB*📶\n*60MT------3.240GB*📶\n*70MT------3.790GB*📶\n*80MT------4.340GB*📶\n*90MT------4.900GB*📶\n*100MT----5.400GB*📶"
+  },
+  "120363294031651231@g.us": {
+    "tipo": "megas",
+    "tabela": {
+      "titulo": "*MEGAS VODACOM SUPER PROMOÇÃO*🥳🤯🚀",
+      "megas_diarios": {
+        "titulo": "*MEGAS DIÁRIOS* 🗓",
+        "pacotes": [
+          {"mb": "500MB", "preco": "9MTS", "emoji": "💸"},
+          {"mb": "550MB", "preco": "10MTS", "emoji": "📈"},
+          {"mb": "800MB", "preco": "15MTS", "emoji": "🔥"},
+          {"mb": "1024MB", "preco": "18MTS", "emoji": "📊"},
+           {"mb": "1100MB", "preco": "20MTS", "emoji": "💸"},
+          {"mb": "1350MB", "preco": "25MTS", "emoji": "📈"},
+          {"mb": "1650", "preco": "30MTS", "emoji": "🔥"},
+          {"mb": "1825MB", "preco": "35MTS", "emoji": "📊"},
+           {"mb": "2200MB", "preco": "40MTS", "emoji": "💸"},
+          {"mb": "2750MB", "preco": "50MTS", "emoji": "📈"},
+          {"mb": "5000MB", "preco": "95MTS", "emoji": "🔥"},
+          {"mb": "8800MB", "preco": "160MTS", "emoji": "📊"},
+          {"mb": "10GB", "preco": "180MTS", "emoji": "😲"}
+        ]
+      },
+      "megas_semanais": {
+        "titulo": "*MEGAS SEMANAIS*(7DIAS🚨)",
+        "pacotes": [
+          {"mb": "850MB", "preco": "30MT", "emoji": "🎮"},
+          {"mb": "1700MB", "preco": "50MT", "emoji": "🖥️"}
+        ]
+      },
+      "megas_mensais": {
+        "titulo": "*MEGAS MENSAIS* (Válidos por 30 dias) 📆",
+        "pacotes": [
+          {"mb": "3500MB", "preco": "110MT", "emoji": "💡"},
+          {"mb": "5000MB", "preco": "150MT", "emoji": "📱"}
+        ]
+      },
+      "nota": "*NOTA:* Para megas semanal e mensal, não pode dever txuna. 🚫",
+      "contato": "*☎️chamadas e sms :833891195*",
+      "formas_pagamento": {
+        "titulo": "*FORMAS DE PAGAMENTO ✅*",
+        "admin": "*ADM SUKUNA💎*📈",
+        "mpesa": "*M-PESA💳 853341114 Fábio Belchior*✅",
+        "emola": "*E-MOLA💴 865325439 Fábio Belchior*✅"
+      },
+      "instrucoes": "*INSTRUÇÕES*:\n📩 *Envie o seu comprovativo no grupo, juntamente com o número que vai receber o pacote!*"
+    }
+  }
+}

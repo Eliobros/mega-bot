@@ -11,7 +11,7 @@ class Bot {
 
         // 📌 IDs dos grupos permitidos
         this.allowedGroups = [
-            //'120363294031651231@g.us',
+            '120363294031651231@g.us',
     '120363401341705925@g.us',
 	    '120363402444500303@g.us',
             // '96170191420-1389636270@g.us' // adicione mais se quiser

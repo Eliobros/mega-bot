@@ -5,17 +5,17 @@ class DataManager {
     constructor() {
         this.basePath = path.join(__dirname, '..', 'database');
 
-        // Arquivos
+        // ---------- Arquivos ----------
         this.donoPath = path.join(this.basePath, 'dono.json');
         this.groupsPath = path.join(this.basePath, 'groupsAllowed.json');
         this.usersPath = path.join(this.basePath, 'users.json');
-        this.tabelasPath = path.join(this.basePath, 'tabelas.json'); // arquivo único para todas as tabelas
+        this.tabelasPath = path.join(this.basePath, 'tabelas.json'); // arquivo único de tabelas
 
-        // Dados em memória
+        // ---------- Dados em memória ----------
         this.donoData = null;
         this.groupsData = { grupos: [] };
         this.usersData = { users: [], comprovantes_utilizados: [] };
-        this.tabelasData = null;
+        this.tabelasData = {};
     }
 
     // ---------- Helpers ----------
@@ -45,7 +45,7 @@ class DataManager {
 
     // ---------- Carregamento ----------
     loadAll() {
-        this.donoData = this.loadJSON(this.donoPath, null);
+        this.donoData = this.loadJSON(this.donoPath, { prefixo: '!', NomeDoBot: 'Bot', NickDono: 'Admin', NumeroDono: '' });
         this.groupsData = this.loadJSON(this.groupsPath, { grupos: [] });
         this.usersData = this.loadJSON(this.usersPath, { users: [], comprovantes_utilizados: [] });
         this.tabelasData = this.loadJSON(this.tabelasPath, {});
@@ -123,9 +123,12 @@ class DataManager {
         return this.usersData.comprovantes_utilizados.length !== before;
     }
 
+	getTabelaByGroup(groupId) {
+        return this.tabelas[groupId];
+    }
+
     findUserByNumber(number) {
-        const users = this.getUsersData().users;
-        return users.find(u => u.number === number) || null;
+        return this.getUsersData().users.find(u => u.number === number) || null;
     }
 
     removeUser(number) {
@@ -139,18 +142,19 @@ class DataManager {
         return false;
     }
 
-    // ---------- Tabelas por grupo ----------
-    loadTabelas() {
-        if (!this.tabelasData) this.tabelasData = this.loadJSON(this.tabelasPath, {});
+    // ---------- Tabelas ----------
+    getTabelaData() {
+        if (!this.tabelasData) this.loadAll();
+        return this.tabelasData;
     }
 
     getTabelaByGroup(groupId) {
-        this.loadTabelas();
+        if (!this.tabelasData) this.loadAll();
         return this.tabelasData[groupId] || null;
     }
 
     saveTabelaByGroup(groupId, tabelaObj) {
-        this.loadTabelas();
+        if (!this.tabelasData) this.loadAll();
         this.tabelasData[groupId] = tabelaObj;
         this.saveJSON(this.tabelasPath, this.tabelasData);
     }
