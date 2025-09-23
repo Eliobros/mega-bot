@@ -491,13 +491,19 @@ class AdminCommands {
     async statusbot(msg, args, groupJid) {
         try {
             const os = require('os');
+            const { execSync } = require('child_process');
             const totalMem = os.totalmem();
             const freeMem = os.freemem();
             const usedMem = totalMem - freeMem;
             const cpus = os.cpus();
             const load = os.loadavg()[0].toFixed(2);
-            const totalDisk = 'N/A';
-            const usedDisk = 'N/A';
+            let totalDisk = 'N/A';
+            let usedDisk = 'N/A';
+            try {
+                const out = execSync('df -h --output=size,used / | tail -1').toString().trim();
+                const [size, used] = out.split(/\s+/);
+                totalDisk = size; usedDisk = used;
+            } catch {}
             const name = this.getConfig().NomeDoBot || 'Bot';
             const host = os.hostname();
 

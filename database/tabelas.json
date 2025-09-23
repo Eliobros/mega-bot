@@ -25,13 +25,7 @@
         "valor_numerico": 550,
         "tipo_dados": "MB"
       },
-      {
-        "nome": "12MT",
-        "preco": "12 MT",
-        "quantidade": "640MB",
-        "valor_numerico": 640,
-        "tipo_dados": "MB"
-      },
+      
       {
         "nome": "15MT",
         "preco": "15 MT",
