@@ -79,7 +79,7 @@ class MessageHandler {
     // ✅ Método separado para configurar eventos (chamado apenas UMA vez)
     setupEvents() {
         // Detectar mudanças no grupo (entrada/saída de membros)
-        this.sock.ev.on('group-participants-update', async (update) => {
+        this.sock.ev.on('group-participants.update', async (update) => {
             const { id: groupJid, participants,action } = update;
             
             console.log(`👥 Evento detectado: ${action} no grupo ${groupJid}`);
@@ -181,8 +181,13 @@ class MessageHandler {
 
         // 📌 Comandos públicos
         if (messageText) {
-            const command = messageText.toLowerCase().trim();
-            switch (command) {
+            const rawText = messageText.trim();
+            const lowerText = rawText.toLowerCase();
+            const parts = rawText.split(/\s+/);
+            const lowerCmd = parts[0].toLowerCase();
+            const publicArgs = parts.slice(1);
+
+            switch (lowerCmd) {
                 case '/start':
                 case '/menu':
                     await this.menuCommand.execute(from);
@@ -199,6 +204,16 @@ class MessageHandler {
                 case 'tabela':
                 case '/tabela':
                     await this.tabelaCommand.execute(msg, from, sender);
+                    break;
+
+                case 'me':
+                case '/me':
+                    await this.infoCommand.execute(msg, [], from, sender, false);
+                    break;
+
+                case 'info':
+                case '/info':
+                    await this.infoCommand.execute(msg, publicArgs, from, sender, true);
                     break;
             }
         }
