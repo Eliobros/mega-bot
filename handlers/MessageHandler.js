@@ -123,6 +123,38 @@ class MessageHandler {
 
         const senderName = msg.pushName || "Usuário";
 
+        // 📌 Atualizar/armazenar pushName para ranking e exibição
+        try {
+            const usersData = this.dataManager.getUsersData();
+            if (!usersData.usuarios) usersData.usuarios = {};
+            const jidKey = sender;
+            if (!usersData.usuarios[jidKey]) {
+                usersData.usuarios[jidKey] = {
+                    nome: senderName,
+                    pushName: senderName,
+                    numero: senderNumber,
+                    total_compras: 0,
+                    total_gb_acumulado: 0,
+                    primeira_compra: '',
+                    ultima_compra: '',
+                    compras_hoje: 0,
+                    historico_compras: []
+                };
+            } else {
+                usersData.usuarios[jidKey].pushName = senderName;
+                if (!usersData.usuarios[jidKey].nome || usersData.usuarios[jidKey].nome === usersData.usuarios[jidKey].numero) {
+                    usersData.usuarios[jidKey].nome = senderName;
+                }
+                if (!usersData.usuarios[jidKey].numero) {
+                    usersData.usuarios[jidKey].numero = senderNumber;
+                }
+            }
+            this.dataManager.saveUsersData();
+        } catch (e) {
+            // apenas log, não bloquear o fluxo
+            console.log('Aviso: não foi possível atualizar pushName do usuário.');
+        }
+
         // 📌 Pega nome do grupo se for grupo
         let groupName = "N/A";
         if (isGroup && this.sock.groupMetadata) {

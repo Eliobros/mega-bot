@@ -129,12 +129,70 @@
     "nome": "Pacotes Semanais",
     "descricao": "Pacotes com validade de 7 dias",
     "validade": "7 dias",
-    "pacotes": []
+    "pacotes": [
+      {
+        "nome": "30MT",
+        "preco": "30 MT",
+        "quantidade": "850MB",
+        "valor_numerico": 850,
+        "tipo_dados": "MB"
+      },
+      {
+        "nome": "50MT",
+        "preco": "50 MT",
+        "quantidade": "1700MB",
+        "valor_numerico": 1700,
+        "tipo_dados": "MB"
+      },
+      {
+        "nome": "85MT",
+        "preco": "85 MT",
+        "quantidade": "2900MB",
+        "valor_numerico": 2900,
+        "tipo_dados": "MB"
+      },
+      {
+        "nome": "100MT",
+        "preco": "100 MT",
+        "quantidade": "3400MB",
+        "valor_numerico": 3400,
+        "tipo_dados": "MB"
+      },
+      {
+        "nome": "160MT",
+        "preco": "160 MT",
+        "quantidade": "5200MB",
+        "valor_numerico": 5200,
+        "tipo_dados": "MB"
+      }
+    ]
   },
   "megas_mensais": {
     "nome": "Pacotes Mensais",
     "descricao": "Pacotes com validade de 30 dias",
     "validade": "30 dias",
-    "pacotes": []
+    "pacotes": [
+      {
+        "nome": "300MT",
+        "preco": "300 MT",
+        "quantidade": "5GB",
+        "valor_numerico": 5,
+        "tipo_dados": "GB"
+      },
+      {
+        "nome": "500MT",
+        "preco": "500 MT",
+        "quantidade": "10GB",
+        "valor_numerico": 10,
+        "tipo_dados": "GB"
+      },
+      {
+        "nome": "800MT",
+        "preco": "800 MT",
+        "quantidade": "20GB",
+        "valor_numerico": 20,
+        "tipo_dados": "GB"
+      }
+    ]
   }
 }

@@ -9,13 +9,8 @@ class Bot {
         this.messageHandler = null;
         this.sock = null;
 
-        // 📌 IDs dos grupos permitidos
-        this.allowedGroups = [
-            '120363294031651231@g.us',
-    '120363401341705925@g.us',
-	    '120363402444500303@g.us',
-            // '96170191420-1389636270@g.us' // adicione mais se quiser
-        ];
+        // 📌 Grupos permitidos agora vêm do DataManager (database/groupsAllowed.json)
+        this.allowedGroups = null;
     }
 
     async start() {
@@ -38,6 +33,10 @@ class Bot {
 
             // 📌 Filtro: só PV ou grupos permitidos
             if (msg.key.remoteJid.endsWith('@g.us')) {
+                // Lazy-load dos grupos permitidos do DataManager
+                if (!this.allowedGroups) {
+                    this.allowedGroups = this.dataManager.getAllowedGroups();
+                }
                 if (!this.allowedGroups.includes(msg.key.remoteJid)) {
                     return; // ignora grupos que não estão na lista
                 }
