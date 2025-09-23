@@ -96,7 +96,7 @@ class ComprovanteHandler {
             const valor = valorMatch ? valorMatch[1] : null;
             
             // Extrair número de destino
-            const numeroMatch = texto.match(/para (\d+) - ([A-Z\s]+)/);
+            const numeroMatch = texto.match(/para (\d+) - ([^\n]+)/);
             const numeroDestino = numeroMatch ? numeroMatch[1] : null;
             const nomeDestino = numeroMatch ? numeroMatch[2].trim() : null;
             
@@ -107,7 +107,10 @@ class ComprovanteHandler {
             
             // Validar se é para os números corretos
             const donoData = this.dataManager.getDonoData();
-            const numerosValidos = [donoData.numeros_pagamento?.mpesa || '853341114'];
+            const mpesaCfg = donoData.numeros_pagamento?.mpesa;
+            const numerosValidos = Array.isArray(mpesaCfg)
+                ? mpesaCfg
+                : (mpesaCfg ? [mpesaCfg] : ['853341114']);
             const isDestinoValido = numerosValidos.includes(numeroDestino);
             
             return {
@@ -139,7 +142,7 @@ class ComprovanteHandler {
             const valor = valorMatch ? valorMatch[1] : null;
             
             // Extrair conta e nome de destino
-            const destinoMatch = texto.match(/para conta (\d+), nome: ([A-Z\s]+)/);
+            const destinoMatch = texto.match(/para conta (\d+), nome: ([^\n]+)/);
             const numeroDestino = destinoMatch ? destinoMatch[1] : null;
             const nomeDestino = destinoMatch ? destinoMatch[2].trim() : null;
             
@@ -153,7 +156,10 @@ class ComprovanteHandler {
             
             // Validar se é para os números corretos
             const donoData = this.dataManager.getDonoData();
-            const numerosValidos = [donoData.numeros_pagamento?.emola || '865325439'];
+            const emolaCfg = donoData.numeros_pagamento?.emola;
+            const numerosValidos = Array.isArray(emolaCfg)
+                ? emolaCfg
+                : (emolaCfg ? [emolaCfg] : ['865325439']);
             const isDestinoValido = numerosValidos.includes(numeroDestino);
             
             return {
@@ -204,8 +210,12 @@ class ComprovanteHandler {
             mensagem += `📝 Aguarde o processamento do seu pedido.\n`;
             mensagem += `👨‍💼 Em caso de dúvidas, contacte o ${donoData.NickDono}`;
         } else {
+            const mpesaCfg = donoData.numeros_pagamento?.mpesa;
+            const numerosMpesa = Array.isArray(mpesaCfg)
+                ? mpesaCfg.join(', ')
+                : (mpesaCfg || '853341114');
             mensagem += `\n\n❌ *Atenção!* Este comprovativo não é válido.\n`;
-            mensagem += `💰 Certifique-se de enviar para o número correto: ${donoData.numeros_pagamento?.mpesa || '853341114'}`;
+            mensagem += `💰 Certifique-se de enviar para o(s) número(s) correto(s): ${numerosMpesa}`;
         }
         
         await this.sendMessage(groupJid, mensagem, { mentions: [senderJid] });
@@ -243,8 +253,12 @@ class ComprovanteHandler {
             mensagem += `📝 Aguarde o processamento do seu pedido.\n`;
             mensagem += `👨‍💼 Em caso de dúvidas, contacte o ${donoData.NickDono}`;
         } else {
+            const emolaCfg = donoData.numeros_pagamento?.emola;
+            const numerosEmola = Array.isArray(emolaCfg)
+                ? emolaCfg.join(', ')
+                : (emolaCfg || '865325439');
             mensagem += `\n\n❌ *Atenção!* Este comprovativo não é válido.\n`;
-            mensagem += `💰 Certifique-se de enviar para o número correto: ${donoData.numeros_pagamento?.emola || '865325439'}`;
+            mensagem += `💰 Certifique-se de enviar para o(s) número(s) correto(s): ${numerosEmola}`;
         }
         
         await this.sendMessage(groupJid, mensagem, { mentions: [senderJid] });
