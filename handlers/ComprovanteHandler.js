@@ -186,7 +186,17 @@ class ComprovanteHandler {
         mensagem += `🔑 *Chave:* ${dados.chave}\n`;
         
         if (dados.isDestinoValido) {
-            mensagem += `🏦 *Destino validado:* ${dados.nomeDestino}\n`;
+            // Mapear números conhecidos para nomes amigáveis (Habibo / Paulo)
+            const mpesaCfg = donoData.numeros_pagamento?.mpesa;
+            const numerosValidos = Array.isArray(mpesaCfg)
+                ? mpesaCfg
+                : (mpesaCfg ? [mpesaCfg] : ['853341114']);
+            const friendlyMap = {
+                '841617651': 'Habibo',
+                '848300881': 'Paulo'
+            };
+            const friendly = friendlyMap[dados.numeroDestino] || dados.nomeDestino || 'Destino válido';
+            mensagem += `🏦 *Destino validado:* ${friendly}\n`;
         } else {
             mensagem += `❌ *Destino inválido:* ${dados.nomeDestino}\n`;
         }
