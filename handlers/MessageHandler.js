@@ -90,6 +90,18 @@ class MessageHandler {
                     if (action === 'add') {
                         // Novo membro entrou
                         console.log(`👋 Novo membro: ${participantJid} entrou em ${groupJid}`);
+                        // Antifake: permitir apenas +258
+                        try {
+                            const cfg = this.dataManager.getDonoData().groups?.[groupJid] || {};
+                            if (cfg.antifake === true) {
+                                const num = participantJid.replace('@s.whatsapp.net','');
+                                if (!num.startsWith('258')) {
+                                    await this.sock.groupParticipantsUpdate(groupJid, [participantJid], 'remove');
+                                    await this.sendMessage(groupJid, `🚫 Número não permitido: @${num}. Apenas Moçambique (+258).`, { mentions: [participantJid] });
+                                    continue;
+                                }
+                            }
+                        } catch {}
                         await this.adminCommands.handleNewMember(groupJid, participantJid);
                         
                     } else if (action === 'remove') {
@@ -103,7 +115,28 @@ class MessageHandler {
             }
         });
 
-
+        // Anti-call: bloquear chamadas recebidas
+        this.sock.ev.on('call', async (calls) => {
+            try {
+                const dono = this.dataManager.getDonoData();
+                const anticallAtivo = Object.values(dono.groups || {}).some(g => g.anticall === true);
+                if (!anticallAtivo) return;
+                for (const call of calls) {
+                    const fromJid = call.from || call.id || null;
+                    if (!fromJid) continue;
+                    try {
+                        await this.sock.updateBlockStatus(fromJid, 'block');
+                        const num = fromJid.replace('@s.whatsapp.net', '');
+                        await this.sendMessage(fromJid, '🚫 Chamadas não são permitidas. Você foi bloqueado.');
+                        console.log(`📵 Usuário ${num} bloqueado por ligação.`);
+                    } catch (e) {
+                        console.log('Falha ao bloquear chamador:', e?.message || e);
+                    }
+                }
+            } catch (e) {
+                console.log('Erro no handler de call:', e?.message || e);
+            }
+        });
 
         console.log("✅ Eventos configurados com sucesso!");
     }
@@ -190,6 +223,24 @@ class MessageHandler {
             return;
         }
 
+        // 📌 Verificar anti-palavrão
+        if (isGroup && messageText) {
+            const dono = this.dataManager.getDonoData();
+            const gcfg = dono.groups?.[from] || {};
+            if (gcfg.antipalavrao === true && Array.isArray(gcfg.palavroes) && gcfg.palavroes.length > 0) {
+                const textoLower = messageText.toLowerCase();
+                const hit = gcfg.palavroes.find(p => textoLower.includes(p.toLowerCase()));
+                if (hit) {
+                    // tentar apagar a mensagem
+                    try {
+                        await this.sock.sendMessage(from, { delete: msg.key });
+                    } catch {}
+                    await this.sendMessage(from, `⚠️ @${senderNumber}, palavra proibida detectada.`, { mentions: [sender] });
+                    return;
+                }
+            }
+        }
+
         // 📌 Verificar antilink antes de processar outros comandos
         if (isGroup && messageText) {
             const linkDetected = await this.antilinkCommand.checkForLinks(msg, from, sender);
@@ -202,6 +253,19 @@ class MessageHandler {
         if (messageText && this.comprovanteHandler.isComprovante(messageText)) {
             await this.comprovanteHandler.processar(messageText, from, sender);
             return;
+        }
+
+        // 📌 Anti-PV: bloquear se ativado em algum grupo
+        if (!isGroup && messageText) {
+            const dono = this.dataManager.getDonoData();
+            const antipvAtivo = Object.values(dono.groups || {}).some(g => g.antipv === true);
+            if (antipvAtivo) {
+                try {
+                    await this.sendMessage(from, '🚫 PV desativado. Contate-nos pelos grupos.');
+                    await this.sock.updateBlockStatus(from, 'block');
+                } catch {}
+                return;
+            }
         }
 
         // 📌 Comandos do dono (prefixo !)
@@ -247,6 +311,27 @@ class MessageHandler {
                 case '/info':
                     await this.infoCommand.execute(msg, publicArgs, from, sender, true);
                     break;
+
+                case 'dono':
+                case '/dono': {
+                    const dono = this.dataManager.getDonoData();
+                    await this.sendMessage(from, `👨‍💼 Dono: ${dono.NickDono}\n📞 Número: +${dono.NumeroDono}`);
+                    break;
+                }
+
+                case 'infodono':
+                case '/infodono': {
+                    const dono = this.dataManager.getDonoData();
+                    await this.sendMessage(from, `👨‍💼 Nome: ${dono.NickDono}\n📞 Número: +${dono.NumeroDono}`);
+                    break;
+                }
+
+                case 'infobot':
+                case '/infobot': {
+                    const dono = this.dataManager.getDonoData();
+                    await this.sendMessage(from, `🤖 Bot: ${dono.NomeDoBot || 'Bot'}\n⚙️ Prefixo: ${dono.prefixo || '!'}\n🔗 Repositório: https://github.com/Eliobros/mega-bot`);
+                    break;
+                }
             }
         }
     }
@@ -505,6 +590,48 @@ Digite: \`pagamento2\`
             case 'setdesc':
             case 'mudardesc':
                 await this.descgpCommand.execute(msg, commandArgs, from, sender);
+                break;
+
+            case 'reiniciar':
+            case 'restart':
+                await this.adminCommands.reiniciar(msg, commandArgs, from);
+                break;
+
+            case 'status-bot':
+            case 'statusbot':
+                await this.adminCommands.statusbot(msg, commandArgs, from);
+                break;
+
+            case 'premio':
+                await this.adminCommands.premio(msg, commandArgs, from);
+                break;
+
+            case 'anticall':
+                await this.adminCommands.anticall(msg, commandArgs, from);
+                break;
+
+            case 'antipalavrao':
+                await this.adminCommands.antipalavrao(msg, commandArgs, from);
+                break;
+
+            case 'addpalavrao':
+                await this.adminCommands.addpalavrao(msg, commandArgs, from);
+                break;
+
+            case 'rmpalavra':
+                await this.adminCommands.rmpalavra(msg, commandArgs, from);
+                break;
+
+            case 'listpalavra':
+                await this.adminCommands.listpalavra(msg, commandArgs, from);
+                break;
+
+            case 'antifake':
+                await this.adminCommands.antifake(msg, commandArgs, from);
+                break;
+
+            case 'antipv':
+                await this.adminCommands.antipv(msg, commandArgs, from);
                 break;
 
             default:

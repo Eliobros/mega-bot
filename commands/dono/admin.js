@@ -19,6 +19,16 @@ class AdminCommands {
         }
     }
 
+    saveConfig(data) {
+        try {
+            fs.writeFileSync(this.donoFile, JSON.stringify(data, null, 2));
+            return true;
+        } catch (err) {
+            console.error('Erro ao salvar dono.json:', err);
+            return false;
+        }
+    }
+
     getAdvertencias() {
         try {
             return JSON.parse(fs.readFileSync(this.advertenciasFile));
@@ -404,6 +414,128 @@ class AdminCommands {
         } catch (error) {
             console.error("Erro ao chamar admins:", error);
             await this.sendMessage(groupJid, '❌ Erro ao chamar administradores!');
+        }
+    }
+
+    // ===== Moderations and toggles =====
+    async toggleGroupFlag(groupJid, flagKey, value) {
+        const cfg = this.getConfig();
+        if (!cfg.groups) cfg.groups = {};
+        if (!cfg.groups[groupJid]) cfg.groups[groupJid] = {};
+        cfg.groups[groupJid][flagKey] = value;
+        this.saveConfig(cfg);
+        return cfg.groups[groupJid];
+    }
+
+    async anticall(msg, args, groupJid) {
+        const on = args[0] === '1';
+        const g = await this.toggleGroupFlag(groupJid, 'anticall', on);
+        await this.sendMessage(groupJid, `${on ? '✅' : '❌'} Anti-call ${on ? 'ativado' : 'desativado'} neste grupo.`);
+    }
+
+    async antipalavrao(msg, args, groupJid) {
+        const on = args[0] === '1';
+        const g = await this.toggleGroupFlag(groupJid, 'antipalavrao', on);
+        if (!g.palavroes) g.palavroes = [];
+        this.saveConfig(this.getConfig());
+        await this.sendMessage(groupJid, `${on ? '✅' : '❌'} Anti-palavrão ${on ? 'ativado' : 'desativado'} neste grupo.`);
+    }
+
+    async addpalavrao(msg, args, groupJid) {
+        const palavra = args.join(' ').trim();
+        if (!palavra) {
+            await this.sendMessage(groupJid, '❌ Informe a palavra a bloquear.');
+            return;
+        }
+        const cfg = this.getConfig();
+        if (!cfg.groups) cfg.groups = {};
+        if (!cfg.groups[groupJid]) cfg.groups[groupJid] = {};
+        if (!Array.isArray(cfg.groups[groupJid].palavroes)) cfg.groups[groupJid].palavroes = [];
+        if (!cfg.groups[groupJid].palavroes.includes(palavra)) cfg.groups[groupJid].palavroes.push(palavra);
+        this.saveConfig(cfg);
+        await this.sendMessage(groupJid, `✅ Palavra adicionada: "${palavra}"`);
+    }
+
+    async rmpalavra(msg, args, groupJid) {
+        const palavra = args.join(' ').trim();
+        const cfg = this.getConfig();
+        const arr = cfg.groups?.[groupJid]?.palavroes || [];
+        const before = arr.length;
+        cfg.groups[groupJid].palavroes = arr.filter(p => p.toLowerCase() !== palavra.toLowerCase());
+        this.saveConfig(cfg);
+        await this.sendMessage(groupJid, before !== cfg.groups[groupJid].palavroes.length ? `✅ Removida: "${palavra}"` : `ℹ️ Não estava na lista: "${palavra}"`);
+    }
+
+    async listpalavra(msg, args, groupJid) {
+        const arr = this.getConfig().groups?.[groupJid]?.palavroes || [];
+        await this.sendMessage(groupJid, arr.length ? `📝 Palavras bloqueadas:\n- ${arr.join('\n- ')}` : 'ℹ️ Nenhuma palavra bloqueada.');
+    }
+
+    async antifake(msg, args, groupJid) {
+        const on = args[0] === '1';
+        await this.toggleGroupFlag(groupJid, 'antifake', on);
+        await this.sendMessage(groupJid, `${on ? '✅' : '❌'} Anti-fake ${on ? 'ativado' : 'desativado'} (permite apenas números +258).`);
+    }
+
+    async antipv(msg, args, groupJid) {
+        const on = args[0] === '1';
+        await this.toggleGroupFlag(groupJid, 'antipv', on);
+        await this.sendMessage(groupJid, `${on ? '✅' : '❌'} Anti-PV ${on ? 'ativado (o bot bloqueará PV)' : 'desativado'}.`);
+    }
+
+    async reiniciar(msg, args, groupJid) {
+        await this.sendMessage(groupJid, '♻️ Reiniciando bot...');
+        process.exit(0);
+    }
+
+    async statusbot(msg, args, groupJid) {
+        try {
+            const os = require('os');
+            const totalMem = os.totalmem();
+            const freeMem = os.freemem();
+            const usedMem = totalMem - freeMem;
+            const cpus = os.cpus();
+            const load = os.loadavg()[0].toFixed(2);
+            const totalDisk = 'N/A';
+            const usedDisk = 'N/A';
+            const name = this.getConfig().NomeDoBot || 'Bot';
+            const host = os.hostname();
+
+            let msgTxt = `🤖 Nome do bot: ${name}\n`;
+            msgTxt += `💾 Armazenamento: ${totalDisk}/${usedDisk}\n`;
+            msgTxt += `🧠 Memória: ${(totalMem/1e9).toFixed(2)}GB / ${(usedMem/1e9).toFixed(2)}GB\n`;
+            msgTxt += `🖥️ CPU: ${cpus[0]?.model || 'N/A'} (load ${load})\n`;
+            msgTxt += `🖧 Hostname: ${host}\n`;
+            msgTxt += `📦 Repo: https://github.com/Eliobros/mega-bot`;
+
+            await this.sendMessage(groupJid, msgTxt);
+        } catch (e) {
+            await this.sendMessage(groupJid, '❌ Erro ao coletar status do bot.');
+        }
+    }
+
+    async premio(msg, args, groupJid) {
+        const usersData = require('../../utils/dataManager');
+        // Não instanciar aqui; usar o de fora seria melhor, mas criaremos uma visão simples
+        try {
+            const dm = new (require('../../utils/dataManager'))();
+            dm.loadAll();
+            const data = dm.getUsersData();
+            const users = Object.entries(data.usuarios || {}).map(([jid, u]) => ({ jid, ...u }))
+                .sort((a, b) => (b.total_gb_acumulado||0) - (a.total_gb_acumulado||0));
+            const top = users[0];
+            if (!top) {
+                await this.sendMessage(groupJid, 'ℹ️ Ainda não há compradores para premiar.');
+                return;
+            }
+            const num = top.numero || top.jid.replace('@s.whatsapp.net','');
+            const nome = top.pushName || top.nome || num;
+            const hoje = new Date();
+            const dia = hoje.getDate();
+            const msgTxt = `🏆 PRÊMIO DO TOP 1\n\n👤 ${nome} (@${num}) está no topo do ranking!\n🎁 Receberá 1GB no dia ${dia} deste mês se se mantiver em 1º.\n⚠️ Mantenha-se no topo para não perder a oportunidade!`;
+            await this.sendMessage(groupJid, msgTxt, { mentions: [top.jid] });
+        } catch (e) {
+            await this.sendMessage(groupJid, '❌ Erro ao calcular prêmio.');
         }
     }
 
