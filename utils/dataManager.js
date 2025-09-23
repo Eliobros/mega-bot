@@ -67,6 +67,27 @@ class DataManager {
         return this.groupsData.grupos || [];
     }
 
+    addAllowedGroup(groupId) {
+        if (!this.groupsData) this.loadAll();
+        if (!this.groupsData.grupos.includes(groupId)) {
+            this.groupsData.grupos.push(groupId);
+            this.saveJSON(this.groupsPath, this.groupsData);
+            return true;
+        }
+        return false;
+    }
+
+    removeAllowedGroup(groupId) {
+        if (!this.groupsData) this.loadAll();
+        const before = this.groupsData.grupos.length;
+        this.groupsData.grupos = this.groupsData.grupos.filter(g => g !== groupId);
+        if (this.groupsData.grupos.length !== before) {
+            this.saveJSON(this.groupsPath, this.groupsData);
+            return true;
+        }
+        return false;
+    }
+
     isGroupAllowed(groupId) {
         return this.getAllowedGroups().includes(groupId);
     }

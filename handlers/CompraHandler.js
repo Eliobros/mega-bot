@@ -7,7 +7,7 @@ class CompraHandler {
         this.dataManager = dataManager;
     }
 
-    async processar(clienteJid, pacote, groupJid) {
+    async processar(clienteJid, pacote, groupJid, tipoPreferido = null) {
         try {
             // Garantir que clienteJid é string e válido
             if (typeof clienteJid !== 'string' || !clienteJid) {
@@ -18,8 +18,8 @@ class CompraHandler {
             const clienteNumero = clienteJid.replace(/@.*/, '');
             const hoje = new Date().toISOString().split('T')[0];
 
-            // Buscar informações do pacote
-            const pacoteInfo = this.encontrarPacote(pacote);
+            // Buscar informações do pacote (opcionalmente por tipo preferido: d/s/m)
+            const pacoteInfo = this.encontrarPacote(pacote, tipoPreferido);
             if (!pacoteInfo) {
                 await this.sendMessage(groupJid, `❌ Pacote "${pacote}" não encontrado na tabela!`);
                 return;
@@ -138,13 +138,47 @@ class CompraHandler {
         }
     }
 
-    encontrarPacote(nomePacote) {
+    encontrarPacote(nomePacote, tipoPreferido = null) {
         const tabelaData = this.dataManager.getTabelaData();
         if (!tabelaData) {
             return null;
         }
 
         const pacoteNormalizado = nomePacote.toLowerCase().replace(/\s+/g, '');
+
+        // Mapear tipo preferido para chaves
+        const preferMap = {
+            'd': 'megas_diarios',
+            's': 'megas_semanais',
+            'm': 'megas_mensais'
+        };
+        const chavePreferida = tipoPreferido && preferMap[tipoPreferido.toLowerCase()] ? preferMap[tipoPreferido.toLowerCase()] : null;
+
+        // Buscar apenas no tipo preferido se informado
+        const buscarEmColecao = (colecao, tipoRotulo) => {
+            if (!colecao?.pacotes) return null;
+            for (const pacote of colecao.pacotes) {
+                // Buscar por nome (ex: "20MT")
+                if (pacote.nome.toLowerCase() === nomePacote.toLowerCase()) {
+                    return { ...pacote, tipo: tipoRotulo };
+                }
+                // Buscar por quantidade (ex: "1100MB")
+                if (pacote.quantidade.toLowerCase().replace(/\s+/g, '') === pacoteNormalizado) {
+                    return { ...pacote, tipo: tipoRotulo };
+                }
+                // Buscar por valor numérico
+                const inputNum = parseInt(nomePacote.replace(/\D/g, ''));
+                if (!isNaN(inputNum) && pacote.valor_numerico === inputNum) {
+                    return { ...pacote, tipo: tipoRotulo };
+                }
+            }
+            return null;
+        };
+
+        if (chavePreferida) {
+            const resPref = buscarEmColecao(tabelaData[chavePreferida], chavePreferida === 'megas_diarios' ? 'diario' : (chavePreferida === 'megas_semanais' ? 'semanal' : 'mensal'));
+            if (resPref) return resPref;
+        }
 
         // Buscar em megas diários
         if (tabelaData.megas_diarios?.pacotes) {

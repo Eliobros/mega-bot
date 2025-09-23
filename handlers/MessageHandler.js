@@ -365,6 +365,23 @@ Digite: \`pagamento2\`
         - Args para comando: ${JSON.stringify(commandArgs)}`);
 
         switch (cmd) {
+            case 'addgp':
+                if (from.endsWith('@g.us')) {
+                    const added = this.dataManager.addAllowedGroup(from);
+                    await this.sendMessage(from, added ? '✅ Grupo adicionado à lista de permitidos.' : 'ℹ️ Este grupo já está na lista de permitidos.');
+                } else {
+                    await this.sendMessage(from, '❌ Use este comando dentro do grupo que deseja permitir.');
+                }
+                break;
+
+            case 'rmgp':
+                if (from.endsWith('@g.us')) {
+                    const removed = this.dataManager.removeAllowedGroup(from);
+                    await this.sendMessage(from, removed ? '✅ Grupo removido da lista de permitidos.' : 'ℹ️ Este grupo não estava na lista de permitidos.');
+                } else {
+                    await this.sendMessage(from, '❌ Use este comando dentro do grupo que deseja remover.');
+                }
+                break;
             case 'comprar':
                 await this.comprarCommand.execute(msg, commandArgs, from, sender);
                 break;
