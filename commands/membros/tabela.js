@@ -25,7 +25,8 @@ class TabelaCommand {
             if (data.megas_diarios?.pacotes?.length) {
                 mensagemTabela += `*PACOTES DIÁRIOS(24H🚨)*\n\n`;
                 data.megas_diarios.pacotes.forEach(p => {
-                    mensagemTabela += `• ${p.nome} -------- ${p.quantidade} (${p.preco})📶\n`;
+                    const emoji = p.emoji || '📶';
+                    mensagemTabela += `• ${p.nome} -------- ${p.quantidade}${emoji}\n`;
                 });
                 mensagemTabela += `\n\n`;
             }
@@ -33,7 +34,8 @@ class TabelaCommand {
             if (data.megas_semanais?.pacotes?.length) {
                 mensagemTabela += `*PACOTES SEMANAIS(7DIAS🚨)*\n\n`;
                 data.megas_semanais.pacotes.forEach(p => {
-                    mensagemTabela += `• ${p.nome} -------- ${p.quantidade} (${p.preco})🎮\n`;
+                    const emoji = p.emoji || '';
+                    mensagemTabela += `• ${p.nome} -------- ${p.quantidade}${emoji}\n`;
                 });
                 mensagemTabela += `\n\n`;
             }

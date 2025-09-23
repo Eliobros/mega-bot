@@ -9,21 +9,24 @@
         "preco": "5 MT",
         "quantidade": "270MB",
         "valor_numerico": 270,
-        "tipo_dados": "MB"
+        "tipo_dados": "MB",
+        "emoji": "📶"
       },
       {
         "nome": "7MT",
         "preco": "7 MT",
         "quantidade": "378MB",
         "valor_numerico": 378,
-        "tipo_dados": "MB"
+        "tipo_dados": "MB",
+        "emoji": "📶"
       },
       {
         "nome": "10MT",
         "preco": "10 MT",
         "quantidade": "550MB",
         "valor_numerico": 550,
-        "tipo_dados": "MB"
+        "tipo_dados": "MB",
+        "emoji": "📶"
       },
       
       {
@@ -31,91 +34,104 @@
         "preco": "15 MT",
         "quantidade": "810MB",
         "valor_numerico": 810,
-        "tipo_dados": "MB"
+        "tipo_dados": "MB",
+        "emoji": "📶"
       },
       {
         "nome": "20MT",
         "preco": "20 MT",
         "quantidade": "1100MB",
         "valor_numerico": 1100,
-        "tipo_dados": "MB"
+        "tipo_dados": "MB",
+        "emoji": "📶"
       },
       {
         "nome": "25MT",
         "preco": "25 MT",
         "quantidade": "1370MB",
         "valor_numerico": 1370,
-        "tipo_dados": "MB"
+        "tipo_dados": "MB",
+        "emoji": "📶"
       },
       {
         "nome": "30MT",
         "preco": "30 MT",
         "quantidade": "1630MB",
         "valor_numerico": 1630,
-        "tipo_dados": "MB"
+        "tipo_dados": "MB",
+        "emoji": "📶"
       },
       {
         "nome": "35MT",
         "preco": "35 MT",
         "quantidade": "1900MB",
         "valor_numerico": 1900,
-        "tipo_dados": "MB"
+        "tipo_dados": "MB",
+        "emoji": "📶"
       },
       {
         "nome": "40MT",
         "preco": "40 MT",
         "quantidade": "2170MB",
         "valor_numerico": 2170,
-        "tipo_dados": "MB"
+        "tipo_dados": "MB",
+        "emoji": "📶"
       },
       {
         "nome": "45MT",
         "preco": "45 MT",
         "quantidade": "2430MB",
         "valor_numerico": 2430,
-        "tipo_dados": "MB"
+        "tipo_dados": "MB",
+        "emoji": "📶"
       },
       {
         "nome": "50MT",
         "preco": "50 MT",
         "quantidade": "2700MB",
         "valor_numerico": 2700,
-        "tipo_dados": "MB"
+        "tipo_dados": "MB",
+        "emoji": "📶"
       },
       {
         "nome": "60MT",
         "preco": "60 MT",
         "quantidade": "3240MB",
         "valor_numerico": 3240,
-        "tipo_dados": "MB"
+        "tipo_dados": "MB",
+        "emoji": "📶"
       },
       {
         "nome": "70MT",
         "preco": "70 MT",
         "quantidade": "3790MB",
         "valor_numerico": 3790,
-        "tipo_dados": "MB"
+        "tipo_dados": "MB",
+        "emoji": "📶"
       },
       {
         "nome": "80MT",
         "preco": "80 MT",
         "quantidade": "4340MB",
         "valor_numerico": 4340,
-        "tipo_dados": "MB"
+        "tipo_dados": "MB",
+        "emoji": "📶"
       },
       {
         "nome": "90MT",
         "preco": "90 MT",
         "quantidade": "4900MB",
         "valor_numerico": 4900,
-        "tipo_dados": "MB"
+        "tipo_dados": "MB",
+        "emoji": "📶"
       },
       {
         "nome": "100MT",
         "preco": "100 MT",
         "quantidade": "5400MB",
         "valor_numerico": 5400,
-        "tipo_dados": "MB"
+        "tipo_dados": "MB",
+        "emoji": "📶"
       }
     ]
   },
@@ -129,35 +145,40 @@
         "preco": "30 MT",
         "quantidade": "850MB",
         "valor_numerico": 850,
-        "tipo_dados": "MB"
+        "tipo_dados": "MB",
+        "emoji": "🎮"
       },
       {
         "nome": "50MT",
         "preco": "50 MT",
         "quantidade": "1700MB",
         "valor_numerico": 1700,
-        "tipo_dados": "MB"
+        "tipo_dados": "MB",
+        "emoji": "🖥️"
       },
       {
         "nome": "85MT",
         "preco": "85 MT",
         "quantidade": "2900MB",
         "valor_numerico": 2900,
-        "tipo_dados": "MB"
+        "tipo_dados": "MB",
+        "emoji": "🕹️"
       },
       {
         "nome": "100MT",
         "preco": "100 MT",
         "quantidade": "3400MB",
         "valor_numerico": 3400,
-        "tipo_dados": "MB"
+        "tipo_dados": "MB",
+        "emoji": "🎰"
       },
       {
         "nome": "160MT",
         "preco": "160 MT",
         "quantidade": "5200MB",
         "valor_numerico": 5200,
-        "tipo_dados": "MB"
+        "tipo_dados": "MB",
+        "emoji": "👾"
       }
     ]
   },
