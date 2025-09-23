@@ -1,34 +1,76 @@
+const fs = require("fs");
+const path = require("path");
+const SetPrefixCommand = require("../dono/setprefix");
+
 class MenuCommand {
-    constructor(sock, dataManager) {
+    constructor(sock) {
         this.sock = sock;
-        this.dataManager = dataManager;
     }
 
-    async execute(jid) {
-        const botName = this.dataManager.getDonoData().NomeDoBot;
-        
-        const menu = `
-🤖 *${botName}*
+    async execute(msg, args) {
+        const sender = msg.pushName || "Usuário";
+        const prefix = SetPrefixCommand.getCurrentPrefix();
 
-📋 *Comandos disponíveis:*
-• /menu - Mostrar este menu
-• /ping - Testar conexão
-• /help - Ajuda
-• tabela - Ver tabela de preços 💰
+        const dataAtual = new Date().toLocaleString("pt-BR", { timeZone: "America/Sao_Paulo" });
 
-💡 *Dica:* Digite "oi" para uma saudação!
+        let groupName = "Privado";
+        let participantes = 1;
 
-_Bot criado com Baileys_ ⚡
-        `;
-        
-        await this.sendMessage(jid, menu.trim());
-    }
+        if (msg.key.remoteJid && msg.key.remoteJid.endsWith("@g.us")) {
+            try {
+                const metadata = await this.sock.groupMetadata(msg.key.remoteJid);
+                groupName = metadata.subject || "Grupo sem nome";
+                participantes = metadata.participants.length;
+            } catch (err) {
+                console.error("Erro ao obter metadados do grupo:", err);
+            }
+        }
 
-    async sendMessage(jid, text, options = {}) {
+        // Função para listar comandos de uma pasta
+        function listarComandos(diretorio, excluir = []) {
+            try {
+                return fs.readdirSync(diretorio)
+                    .filter(file => file.endsWith(".js"))
+                    .map(file => path.basename(file, ".js"))
+                    .filter(cmd => !excluir.includes(cmd));
+            } catch {
+                return [];
+            }
+        }
+
+        const comandosDono = listarComandos(path.join(__dirname, "../dono"), ["setprefix"]);
+        const comandosMembros = listarComandos(path.join(__dirname, "../membros"), ["menu"]);
+
+        // Monta o menu
+        let menu = `
+┏━╌❅『💙』❅╌━┓
+👤 Usuário: @${sender}
+👥 Grupo: ${groupName}
+📅 Data: ${dataAtual}
+👥 Participantes: ${participantes}
+📌 Prefixo atual: ${prefix}
+┗━╌❅『💙』❅╌━┛
+
+╭╌❅╌═⊱『MENU DONO』⊰═╌❅╌╮
+${comandosDono.map(cmd => `╎💙 ${prefix}${cmd}`).join("\n")}
+╰╌❅╌═══════════════╌❅╌╯
+
+╭╌❅╌═⊱『MENU MEMBROS』⊰═╌❅╌╮
+${comandosMembros.map(cmd => `╎💙 ${prefix}${cmd}`).join("\n")}
+╰╌❅╌═══════════════╌❅╌╯
+`;
+
         try {
-            await this.sock.sendMessage(jid, { text, ...options });
-        } catch (error) {
-            console.error('Erro ao enviar mensagem:', error);
+            // Envia citando a mensagem original
+            await this.sock.sendMessage(
+                msg.key.remoteJid || msg.from,
+                { text: menu },
+                { quoted: msg }
+            );
+        } catch (err) {
+            console.error("Erro ao enviar menu:", err);
+            // fallback: envia sem citar
+            await this.sock.sendMessage(msg.key.remoteJid || msg.from, { text: menu });
         }
     }
 }

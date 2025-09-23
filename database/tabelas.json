@@ -1,1 +1,140 @@
-{}
+{
+  "megas_diarios": {
+    "nome": "Pacotes de 24 Horas - Vodacom",
+    "descricao": "Tabela normal para consumidores da Vodacom",
+    "validade": "24 horas",
+    "pacotes": [
+      {
+        "nome": "5MT",
+        "preco": "5 MT",
+        "quantidade": "270MB",
+        "valor_numerico": 270,
+        "tipo_dados": "MB"
+      },
+      {
+        "nome": "7MT",
+        "preco": "7 MT",
+        "quantidade": "378MB",
+        "valor_numerico": 378,
+        "tipo_dados": "MB"
+      },
+      {
+        "nome": "10MT",
+        "preco": "10 MT",
+        "quantidade": "550MB",
+        "valor_numerico": 550,
+        "tipo_dados": "MB"
+      },
+      {
+        "nome": "12MT",
+        "preco": "12 MT",
+        "quantidade": "640MB",
+        "valor_numerico": 640,
+        "tipo_dados": "MB"
+      },
+      {
+        "nome": "15MT",
+        "preco": "15 MT",
+        "quantidade": "810MB",
+        "valor_numerico": 810,
+        "tipo_dados": "MB"
+      },
+      {
+        "nome": "20MT",
+        "preco": "20 MT",
+        "quantidade": "1100MB",
+        "valor_numerico": 1100,
+        "tipo_dados": "MB"
+      },
+      {
+        "nome": "25MT",
+        "preco": "25 MT",
+        "quantidade": "1370MB",
+        "valor_numerico": 1370,
+        "tipo_dados": "MB"
+      },
+      {
+        "nome": "30MT",
+        "preco": "30 MT",
+        "quantidade": "1630MB",
+        "valor_numerico": 1630,
+        "tipo_dados": "MB"
+      },
+      {
+        "nome": "35MT",
+        "preco": "35 MT",
+        "quantidade": "1900MB",
+        "valor_numerico": 1900,
+        "tipo_dados": "MB"
+      },
+      {
+        "nome": "40MT",
+        "preco": "40 MT",
+        "quantidade": "2170MB",
+        "valor_numerico": 2170,
+        "tipo_dados": "MB"
+      },
+      {
+        "nome": "45MT",
+        "preco": "45 MT",
+        "quantidade": "2430MB",
+        "valor_numerico": 2430,
+        "tipo_dados": "MB"
+      },
+      {
+        "nome": "50MT",
+        "preco": "50 MT",
+        "quantidade": "2700MB",
+        "valor_numerico": 2700,
+        "tipo_dados": "MB"
+      },
+      {
+        "nome": "60MT",
+        "preco": "60 MT",
+        "quantidade": "3240MB",
+        "valor_numerico": 3240,
+        "tipo_dados": "MB"
+      },
+      {
+        "nome": "70MT",
+        "preco": "70 MT",
+        "quantidade": "3790MB",
+        "valor_numerico": 3790,
+        "tipo_dados": "MB"
+      },
+      {
+        "nome": "80MT",
+        "preco": "80 MT",
+        "quantidade": "4340MB",
+        "valor_numerico": 4340,
+        "tipo_dados": "MB"
+      },
+      {
+        "nome": "90MT",
+        "preco": "90 MT",
+        "quantidade": "4900MB",
+        "valor_numerico": 4900,
+        "tipo_dados": "MB"
+      },
+      {
+        "nome": "100MT",
+        "preco": "100 MT",
+        "quantidade": "5400MB",
+        "valor_numerico": 5400,
+        "tipo_dados": "MB"
+      }
+    ]
+  },
+  "megas_semanais": {
+    "nome": "Pacotes Semanais",
+    "descricao": "Pacotes com validade de 7 dias",
+    "validade": "7 dias",
+    "pacotes": []
+  },
+  "megas_mensais": {
+    "nome": "Pacotes Mensais",
+    "descricao": "Pacotes com validade de 30 dias",
+    "validade": "30 dias",
+    "pacotes": []
+  }
+}

@@ -35,17 +35,17 @@ class SetPrefixCommand {
     isValidPrefix(prefix) {
         // Validar se o prefixo é aceitável
         const validPrefixes = ['!', '/', '.', '#', '*', '>', '<', '?', '+', '-', '=', '@', '$', '%', '&', '~'];
-        
+
         // Verificar se é um dos prefixos válidos ou se é um caractere único
         if (validPrefixes.includes(prefix)) {
             return true;
         }
-        
+
         // Permitir apenas 1 caractere e não permitir letras/números/espaços
         if (prefix.length === 1 && !/[a-zA-Z0-9\s]/.test(prefix)) {
             return true;
         }
-        
+
         return false;
     }
 
@@ -54,8 +54,24 @@ class SetPrefixCommand {
         const donoJid = config.NumeroDono + '@s.whatsapp.net';
         const currentPrefix = this.getCurrentPrefix();
 
-        // Verificar se é o dono
-        if (senderJid !== donoJid) {
+        // LOGS DE DEBUG PARA IDENTIFICAR O PROBLEMA
+        console.log('🔍 DEBUG SETPREFIX:');
+        console.log('   - Dono no config:', config.NumeroDono);
+        console.log('   - DonoJid construído:', donoJid);
+        console.log('   - SenderJid recebido:', senderJid);
+        console.log('   - São iguais (método antigo)?', senderJid === donoJid);
+
+        // NOVA VERIFICAÇÃO - Comparar só os números
+        const donoNumber = config.NumeroDono;
+        const senderNumber = senderJid.replace(/@.*/, ''); // Remove @lid ou @s.whatsapp.net
+
+        console.log('🔍 Comparando apenas números:');
+        console.log('   - Dono número:', donoNumber);
+        console.log('   - Sender número:', senderNumber);
+        console.log('   - São iguais (método novo)?', senderNumber === donoNumber);
+
+        // Verificar se é o dono usando a nova lógica
+        if (senderNumber !== donoNumber) {
             await this.sendMessage(groupJid, '❌ *Acesso Negado!*\n\n🔒 Apenas o dono do bot pode alterar o prefixo.');
             return;
         }
@@ -71,7 +87,7 @@ class SetPrefixCommand {
             helpMsg += `✅ *Prefixos válidos:*\n`;
             helpMsg += `\`! / . # * > < ? + - = @ $ % & ~\`\n\n`;
             helpMsg += `⚠️ *Nota:* Após alterar, use o novo prefixo nos comandos!`;
-            
+
             await this.sendMessage(groupJid, helpMsg);
             return;
         }
@@ -88,7 +104,7 @@ class SetPrefixCommand {
             errorMsg += `• Apenas 1 caractere\n`;
             errorMsg += `• Não pode ser letra ou número\n`;
             errorMsg += `• Não pode conter espaços`;
-            
+
             await this.sendMessage(groupJid, errorMsg);
             return;
         }
@@ -114,7 +130,7 @@ class SetPrefixCommand {
             successMsg += `• \`${newPrefix}antilink status\` - Ver antilink\n`;
             successMsg += `• \`${newPrefix}setprefix ${currentPrefix}\` - Voltar ao anterior\n\n`;
             successMsg += `⚠️ *IMPORTANTE:* Use o novo prefixo \`${newPrefix}\` em todos os comandos!`;
-            
+
             await this.sendMessage(groupJid, successMsg);
 
             // Log para o dono (se não for no privado)
@@ -127,15 +143,17 @@ class SetPrefixCommand {
                     logMsg += `🔄 *Mudança:* \`${currentPrefix}\` → \`${newPrefix}\`\n`;
                     logMsg += `📅 *Data:* ${new Date().toLocaleString('pt-BR')}\n`;
                     logMsg += `🆔 *Grupo:* ${groupJid}`;
-                    
-                    await this.sendMessage(donoJid, logMsg);
+
+                    // Usar o número do dono corrigido para enviar o log
+                    const donoJidLog = donoNumber + '@s.whatsapp.net';
+                    await this.sendMessage(donoJidLog, logMsg);
                 } catch (error) {
                     console.error("Erro ao enviar log:", error);
                 }
             }
 
             console.log(`✅ Prefixo alterado: "${currentPrefix}" → "${newPrefix}" por ${senderJid}`);
-            
+
         } else {
             await this.sendMessage(groupJid, `❌ *Erro interno!*\n\n🔧 Não foi possível salvar o novo prefixo. Tente novamente.`);
         }

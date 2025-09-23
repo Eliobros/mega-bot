@@ -3,8 +3,9 @@
   "NomeDoBot": "Tina Bot",
   "NickDono": "Zëüs Lykraios",
   "NumeroDono": "86952166576371",
+  "MozhostPassword": "Cadeira33@",
   "numeros_pagamento": {
-    "mpesa": "841617651",
+    "mpesa": ["841617651", "848300881"],
     "emola": "862840075"
   },
   "configuracoes": {
@@ -17,7 +18,7 @@
     "120363294031651231@g.us": {
       "antilink": true,
       "groupName": "Eliobros Tech",
-      "enabledAt": "2025-09-17T01:00:50.173Z",
+      "enabledAt": "2025-09-20T10:35:16.438Z",
       "antimention": true,
       "antimention_enabledAt": "2025-09-17T03:22:31.168Z",
       "bemvindo_ativo": true,
@@ -26,6 +27,12 @@
       "msgbv_ativa": true,
       "msgsaiu": "*Poxa @user sentiremos a sua falta😢, volte sempre ta? O grupo {grupo} estara com as portas abertas pra o receber* \nO numero de membros foi atualizado pra [ *{mebros}*]",
       "msgsaiu_ativa": true
+    },
+    "120363401341705925@g.us": {
+      "antilink": true,
+      "groupName": "MEGAS DA VODACOM 24/24🌐💸",
+      "enabledAt": "2025-09-22T12:39:05.647Z"
     }
-  }
+  },
+  "Prefixo": "/"
 }

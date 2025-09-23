@@ -1,5 +1,86 @@
 {
-  "users": [],
+  "users": [
+    {
+      "number": {
+        "key": {
+          "remoteJid": "120363294031651231@g.us",
+          "fromMe": false,
+          "id": "A5220A03FA0906F160F004F44CBE4434",
+          "participant": "86952166576371@lid",
+          "participantPn": "258862840075@s.whatsapp.net"
+        },
+        "messageTimestamp": 1758358589,
+        "pushName": "Eliobros Tech",
+        "broadcast": false,
+        "message": {
+          "extendedTextMessage": {
+            "text": "!comprar 7MT",
+            "previewType": "NONE",
+            "contextInfo": {
+              "stanzaId": "3EB0ED1C8A6A70FB8AB394",
+              "participant": "38560870695150@lid",
+              "quotedMessage": {
+                "conversation": "❌ Não existe tabela para este grupo."
+              }
+            },
+            "inviteLinkGroupTypeV2": "DEFAULT"
+          },
+          "messageContextInfo": {
+            "messageSecret": "hTZ2LAj41l5/nsP/tbscBMNHDEDgaPfEHSpA481Wrd0="
+          }
+        }
+      },
+      "compras": [
+        {
+          "pacote": "7MT",
+          "quantidadeMB": 378,
+          "data": "2025-09-20T08:56:29.497Z"
+        }
+      ],
+      "totalAcumuladoMB": 378,
+      "ultimaCompra": "2025-09-20T08:56:29.497Z"
+    },
+    {
+      "number": {
+        "key": {
+          "remoteJid": "120363294031651231@g.us",
+          "fromMe": false,
+          "id": "A5F652752E5B65CC97C1446EC6B16E09",
+          "participant": "86952166576371@lid",
+          "participantPn": "258862840075@s.whatsapp.net"
+        },
+        "messageTimestamp": 1758359060,
+        "pushName": "Eliobros Tech",
+        "broadcast": false,
+        "message": {
+          "extendedTextMessage": {
+            "text": "!comprar 7MT",
+            "previewType": "NONE",
+            "contextInfo": {
+              "stanzaId": "3EB0FCD601616CCC19C691",
+              "participant": "38560870695150@lid",
+              "quotedMessage": {
+                "conversation": "❌ Pacote \"1100MB\" não encontrado!"
+              }
+            },
+            "inviteLinkGroupTypeV2": "DEFAULT"
+          },
+          "messageContextInfo": {
+            "messageSecret": "vgmvBIiTyO2BvEBU0EUicMhU1piVfyg+plcPJ8RWG2c="
+          }
+        }
+      },
+      "pushName": "86952166576371@lid",
+      "totalComprado": "NaN",
+      "compras": [
+        {
+          "data": "2025-09-20T09:04:20.756Z",
+          "pacote": "7MT",
+          "valorGB": "NaN"
+        }
+      ]
+    }
+  ],
   "comprovantes_utilizados": [
     {
       "chave": "CID4HD1K59O",
@@ -32,6 +113,551 @@
       "valor": "20.00",
       "data_uso": "2025-09-18T07:47:12.393Z",
       "timestamp": 1758181632393
+    },
+    {
+      "chave": "CIJ4HFECLVE",
+      "tipo": "mpesa",
+      "usuario": "21956309049426@lid",
+      "valor": "5.00",
+      "data_uso": "2025-09-19T10:54:20.574Z",
+      "timestamp": 1758279260574
+    },
+    {
+      "chave": "PP250920.0943",
+      "tipo": "emola",
+      "usuario": "52467656065112@lid",
+      "valor": "7.00",
+      "data_uso": "2025-09-20T07:43:43.732Z",
+      "timestamp": 1758354223732
+    },
+    {
+      "chave": "PP250920.1304",
+      "tipo": "emola",
+      "usuario": "267675901108390@lid",
+      "valor": "100.00",
+      "data_uso": "2025-09-20T11:07:39.055Z",
+      "timestamp": 1758366459055
+    },
+    {
+      "chave": "CIK6HFUK64O",
+      "tipo": "mpesa",
+      "usuario": "160786479595732@lid",
+      "valor": "25.00",
+      "data_uso": "2025-09-20T12:55:05.971Z",
+      "timestamp": 1758372905971
+    },
+    {
+      "chave": "CIK2HFVGFH6",
+      "tipo": "mpesa",
+      "usuario": "113645371584627@lid",
+      "valor": "5.00",
+      "data_uso": "2025-09-20T14:05:27.840Z",
+      "timestamp": 1758377127840
+    },
+    {
+      "chave": "CIL5HG3PHBV",
+      "tipo": "mpesa",
+      "usuario": "19134783959259@lid",
+      "valor": "18.00",
+      "data_uso": "2025-09-21T07:08:58.617Z",
+      "timestamp": 1758438538617
+    },
+    {
+      "chave": "CIL6HG8YVVY",
+      "tipo": "mpesa",
+      "usuario": "113645371584627@lid",
+      "valor": "5.00",
+      "data_uso": "2025-09-21T14:22:55.578Z",
+      "timestamp": 1758464575578
+    },
+    {
+      "chave": "CIL8HGBHYF8",
+      "tipo": "mpesa",
+      "usuario": "113645371584627@lid",
+      "valor": "5.00",
+      "data_uso": "2025-09-21T16:47:09.298Z",
+      "timestamp": 1758473229299
+    },
+    {
+      "chave": "CIM1HGPURKV",
+      "tipo": "mpesa",
+      "usuario": "113645371584627@lid",
+      "valor": "7.00",
+      "data_uso": "2025-09-22T17:16:43.834Z",
+      "timestamp": 1758561403834
+    },
+    {
+      "chave": "CIM1HGPVRKV",
+      "tipo": "mpesa",
+      "usuario": "86952166576371@lid",
+      "valor": "7.00",
+      "data_uso": "2025-09-22T17:52:04.155Z",
+      "timestamp": 1758563524155
+    },
+    {
+      "chave": "PP250913.2207.Q11580",
+      "tipo": "emola",
+      "usuario": "97925841580265@lid",
+      "valor": "10.00",
+      "data_uso": "2025-09-23T08:12:51.212Z",
+      "timestamp": 1758615171212
+    },
+    {
+      "chave": "CIN4HGXHUVA",
+      "tipo": "mpesa",
+      "usuario": "228853423276108@lid",
+      "valor": "7.00",
+      "data_uso": "2025-09-23T09:52:49.931Z",
+      "timestamp": 1758621169931
+    },
+    {
+      "chave": "CIN0HGZNRHU",
+      "tipo": "mpesa",
+      "usuario": "113645371584627@lid",
+      "valor": "7.00",
+      "data_uso": "2025-09-23T12:36:11.359Z",
+      "timestamp": 1758630971359
     }
-  ]
+  ],
+  "usuarios": {
+    "38560870695150@lid": {
+      "nome": "38560870695150",
+      "numero": "38560870695150",
+      "total_compras": 3,
+      "total_gb_acumulado": 2.517578125,
+      "primeira_compra": "2025-09-20",
+      "ultima_compra": "2025-09-23",
+      "compras_hoje": 2,
+      "historico_compras": [
+        {
+          "data": "2025-09-20",
+          "hora": "10:03:30",
+          "pacote": "20MT",
+          "quantidade": "1100MB",
+          "preco": "20 MT",
+          "gb": 1.07421875,
+          "tipo": "diario"
+        },
+        {
+          "data": "2025-09-23",
+          "hora": "09:57:37",
+          "pacote": "7MT",
+          "quantidade": "378MB",
+          "preco": "7 MT",
+          "gb": 0.369140625,
+          "tipo": "diario"
+        },
+        {
+          "data": "2025-09-23",
+          "hora": "12:32:17",
+          "pacote": "20MT",
+          "quantidade": "1100MB",
+          "preco": "20 MT",
+          "gb": 1.07421875,
+          "tipo": "diario"
+        }
+      ]
+    },
+    "52467656065112@lid": {
+      "nome": "52467656065112",
+      "numero": "52467656065112",
+      "total_compras": 1,
+      "total_gb_acumulado": 0.369140625,
+      "primeira_compra": "2025-09-20",
+      "ultima_compra": "2025-09-20",
+      "compras_hoje": 1,
+      "historico_compras": [
+        {
+          "data": "2025-09-20",
+          "hora": "10:04:31",
+          "pacote": "7MT",
+          "quantidade": "378MB",
+          "preco": "7 MT",
+          "gb": 0.369140625,
+          "tipo": "diario"
+        }
+      ]
+    },
+    "160786479595732@lid": {
+      "nome": "160786479595732",
+      "numero": "160786479595732",
+      "total_compras": 6,
+      "total_gb_acumulado": 8.28125,
+      "primeira_compra": "2025-09-20",
+      "ultima_compra": "2025-09-23",
+      "compras_hoje": 1,
+      "historico_compras": [
+        {
+          "data": "2025-09-20",
+          "hora": "12:56:43",
+          "pacote": "25MT",
+          "quantidade": "1370MB",
+          "preco": "25 MT",
+          "gb": 1.337890625,
+          "tipo": "diario"
+        },
+        {
+          "data": "2025-09-21",
+          "hora": "05:36:49",
+          "pacote": "25MT",
+          "quantidade": "1370MB",
+          "preco": "25 MT",
+          "gb": 1.337890625,
+          "tipo": "diario"
+        },
+        {
+          "data": "2025-09-21",
+          "hora": "16:28:52",
+          "pacote": "25MT",
+          "quantidade": "1370MB",
+          "preco": "25 MT",
+          "gb": 1.337890625,
+          "tipo": "diario"
+        },
+        {
+          "data": "2025-09-22",
+          "hora": "06:48:49",
+          "pacote": "25MT",
+          "quantidade": "1370MB",
+          "preco": "25 MT",
+          "gb": 1.337890625,
+          "tipo": "diario"
+        },
+        {
+          "data": "2025-09-22",
+          "hora": "17:15:19",
+          "pacote": "30MT",
+          "quantidade": "1630MB",
+          "preco": "30 MT",
+          "gb": 1.591796875,
+          "tipo": "diario"
+        },
+        {
+          "data": "2025-09-23",
+          "hora": "17:55:36",
+          "pacote": "25MT",
+          "quantidade": "1370MB",
+          "preco": "25 MT",
+          "gb": 1.337890625,
+          "tipo": "diario"
+        }
+      ]
+    },
+    "113645371584627@lid": {
+      "nome": "113645371584627",
+      "numero": "113645371584627",
+      "total_compras": 5,
+      "total_gb_acumulado": 1.529296875,
+      "primeira_compra": "2025-09-20",
+      "ultima_compra": "2025-09-23",
+      "compras_hoje": 1,
+      "historico_compras": [
+        {
+          "data": "2025-09-20",
+          "hora": "14:09:39",
+          "pacote": "5MT",
+          "quantidade": "270MB",
+          "preco": "5 MT",
+          "gb": 0.263671875,
+          "tipo": "diario"
+        },
+        {
+          "data": "2025-09-21",
+          "hora": "15:32:42",
+          "pacote": "5MT",
+          "quantidade": "270MB",
+          "preco": "5 MT",
+          "gb": 0.263671875,
+          "tipo": "diario"
+        },
+        {
+          "data": "2025-09-21",
+          "hora": "16:53:39",
+          "pacote": "5MT",
+          "quantidade": "270MB",
+          "preco": "5 MT",
+          "gb": 0.263671875,
+          "tipo": "diario"
+        },
+        {
+          "data": "2025-09-22",
+          "hora": "17:19:18",
+          "pacote": "7MT",
+          "quantidade": "378MB",
+          "preco": "7 MT",
+          "gb": 0.369140625,
+          "tipo": "diario"
+        },
+        {
+          "data": "2025-09-23",
+          "hora": "12:36:47",
+          "pacote": "7MT",
+          "quantidade": "378MB",
+          "preco": "7 MT",
+          "gb": 0.369140625,
+          "tipo": "diario"
+        }
+      ]
+    },
+    "40463507660960@lid": {
+      "nome": "40463507660960",
+      "numero": "40463507660960",
+      "total_compras": 6,
+      "total_gb_acumulado": 4.498046875,
+      "primeira_compra": "2025-09-20",
+      "ultima_compra": "2025-09-22",
+      "compras_hoje": 1,
+      "historico_compras": [
+        {
+          "data": "2025-09-20",
+          "hora": "14:31:26",
+          "pacote": "7MT",
+          "quantidade": "378MB",
+          "preco": "7 MT",
+          "gb": 0.369140625,
+          "tipo": "diario"
+        },
+        {
+          "data": "2025-09-21",
+          "hora": "16:09:10",
+          "pacote": "7MT",
+          "quantidade": "378MB",
+          "preco": "7 MT",
+          "gb": 0.369140625,
+          "tipo": "diario"
+        },
+        {
+          "data": "2025-09-21",
+          "hora": "16:09:42",
+          "pacote": "10MT",
+          "quantidade": "550MB",
+          "preco": "10 MT",
+          "gb": 0.537109375,
+          "tipo": "diario"
+        },
+        {
+          "data": "2025-09-21",
+          "hora": "18:47:09",
+          "pacote": "20MT",
+          "quantidade": "1100MB",
+          "preco": "20 MT",
+          "gb": 1.07421875,
+          "tipo": "diario"
+        },
+        {
+          "data": "2025-09-21",
+          "hora": "19:34:06",
+          "pacote": "20MT",
+          "quantidade": "1100MB",
+          "preco": "20 MT",
+          "gb": 1.07421875,
+          "tipo": "diario"
+        },
+        {
+          "data": "2025-09-22",
+          "hora": "19:43:43",
+          "pacote": "20MT",
+          "quantidade": "1100MB",
+          "preco": "20 MT",
+          "gb": 1.07421875,
+          "tipo": "diario"
+        }
+      ]
+    },
+    "68865941884987@lid": {
+      "nome": "68865941884987",
+      "numero": "68865941884987",
+      "total_compras": 3,
+      "total_gb_acumulado": 1.337890625,
+      "primeira_compra": "2025-09-21",
+      "ultima_compra": "2025-09-22",
+      "compras_hoje": 1,
+      "historico_compras": [
+        {
+          "data": "2025-09-21",
+          "hora": "04:59:18",
+          "pacote": "10MT",
+          "quantidade": "550MB",
+          "preco": "10 MT",
+          "gb": 0.537109375,
+          "tipo": "diario"
+        },
+        {
+          "data": "2025-09-21",
+          "hora": "16:01:13",
+          "pacote": "5MT",
+          "quantidade": "270MB",
+          "preco": "5 MT",
+          "gb": 0.263671875,
+          "tipo": "diario"
+        },
+        {
+          "data": "2025-09-22",
+          "hora": "20:06:45",
+          "pacote": "10MT",
+          "quantidade": "550MB",
+          "preco": "10 MT",
+          "gb": 0.537109375,
+          "tipo": "diario"
+        }
+      ]
+    },
+    "211184162750525@lid": {
+      "nome": "211184162750525",
+      "numero": "211184162750525",
+      "total_compras": 2,
+      "total_gb_acumulado": 1.611328125,
+      "primeira_compra": "2025-09-22",
+      "ultima_compra": "2025-09-22",
+      "compras_hoje": 2,
+      "historico_compras": [
+        {
+          "data": "2025-09-22",
+          "hora": "11:39:46",
+          "pacote": "20MT",
+          "quantidade": "1100MB",
+          "preco": "20 MT",
+          "gb": 1.07421875,
+          "tipo": "diario"
+        },
+        {
+          "data": "2025-09-22",
+          "hora": "11:59:07",
+          "pacote": "10MT",
+          "quantidade": "550MB",
+          "preco": "10 MT",
+          "gb": 0.537109375,
+          "tipo": "diario"
+        }
+      ]
+    },
+    "22789432074423@lid": {
+      "nome": "22789432074423",
+      "numero": "22789432074423",
+      "total_compras": 2,
+      "total_gb_acumulado": 1.0546875,
+      "primeira_compra": "2025-09-22",
+      "ultima_compra": "2025-09-23",
+      "compras_hoje": 1,
+      "historico_compras": [
+        {
+          "data": "2025-09-22",
+          "hora": "18:24:20",
+          "pacote": "15MT",
+          "quantidade": "810MB",
+          "preco": "15 MT",
+          "gb": 0.791015625,
+          "tipo": "diario"
+        },
+        {
+          "data": "2025-09-23",
+          "hora": "13:04:41",
+          "pacote": "5MT",
+          "quantidade": "270MB",
+          "preco": "5 MT",
+          "gb": 0.263671875,
+          "tipo": "diario"
+        }
+      ]
+    },
+    "234664866402541@lid": {
+      "nome": "234664866402541",
+      "numero": "234664866402541",
+      "total_compras": 1,
+      "total_gb_acumulado": 0.537109375,
+      "primeira_compra": "2025-09-22",
+      "ultima_compra": "2025-09-22",
+      "compras_hoje": 1,
+      "historico_compras": [
+        {
+          "data": "2025-09-22",
+          "hora": "19:26:01",
+          "pacote": "10MT",
+          "quantidade": "550MB",
+          "preco": "10 MT",
+          "gb": 0.537109375,
+          "tipo": "diario"
+        }
+      ]
+    },
+    "149740444491809@lid": {
+      "nome": "149740444491809",
+      "numero": "149740444491809",
+      "total_compras": 2,
+      "total_gb_acumulado": 2.1484375,
+      "primeira_compra": "2025-09-23",
+      "ultima_compra": "2025-09-23",
+      "compras_hoje": 2,
+      "historico_compras": [
+        {
+          "data": "2025-09-23",
+          "hora": "09:35:04",
+          "pacote": "20MT",
+          "quantidade": "1100MB",
+          "preco": "20 MT",
+          "gb": 1.07421875,
+          "tipo": "diario"
+        },
+        {
+          "data": "2025-09-23",
+          "hora": "17:17:14",
+          "pacote": "20MT",
+          "quantidade": "1100MB",
+          "preco": "20 MT",
+          "gb": 1.07421875,
+          "tipo": "diario"
+        }
+      ]
+    },
+    "266206384807954@lid": {
+      "nome": "266206384807954",
+      "numero": "266206384807954",
+      "total_compras": 1,
+      "total_gb_acumulado": 0.263671875,
+      "primeira_compra": "2025-09-23",
+      "ultima_compra": "2025-09-23",
+      "compras_hoje": 1,
+      "historico_compras": [
+        {
+          "data": "2025-09-23",
+          "hora": "18:12:00",
+          "pacote": "5MT",
+          "quantidade": "270MB",
+          "preco": "5 MT",
+          "gb": 0.263671875,
+          "tipo": "diario"
+        }
+      ]
+    },
+    "90512677687469@lid": {
+      "nome": "90512677687469",
+      "numero": "90512677687469",
+      "total_compras": 1,
+      "total_gb_acumulado": 1.07421875,
+      "primeira_compra": "2025-09-23",
+      "ultima_compra": "2025-09-23",
+      "compras_hoje": 1,
+      "historico_compras": [
+        {
+          "data": "2025-09-23",
+          "hora": "19:03:16",
+          "pacote": "20MT",
+          "quantidade": "1100MB",
+          "preco": "20 MT",
+          "gb": 1.07421875,
+          "tipo": "diario"
+        }
+      ]
+    }
+  },
+  "estatisticas_grupo": {
+    "total_usuarios": 12,
+    "total_compras_realizadas": 33,
+    "ultima_atualizacao": "2025-09-23",
+    "maior_comprador": {
+      "numero": "160786479595732",
+      "nome": "160786479595732",
+      "total_gb": 8.28125
+    }
+  }
 }

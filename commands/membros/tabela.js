@@ -4,64 +4,52 @@ class TabelaCommand {
         this.dataManager = dataManager;
     }
 
-    async execute(message) {
-        const groupId = message.key.remoteJid; // pega o ID do grupo
-        const tabelaData = this.dataManager.getTabelaByGroup(groupId);
+    async execute(msg) {
+        try {
+            // Extrai o JID do grupo ou do usuário
+            const jid = msg.key.remoteJid;
+            if (!jid || typeof jid !== 'string') {
+                console.error('JID inválido:', msg);
+                return;
+            }
 
-        if (!tabelaData) {
-            await this.sendMessage(groupId, '❌ Não existe tabela para este grupo.');
-            return;
+            const mensagemTabela = `*TABELA   NORMAL PARA CONSUMIDORES DA VODACOM ❤️*
+
+*PACOTES DIÁRIOS(24H🚨)*
+
+• 5MT -------- 270MB📶
+• 7MT -------- 378MB📶
+• 10MT ------- 550MB📶
+• 15MT ------- 810MB📶
+• 20MT ------- 1.100MB📶
+• 25MT ------- 1.370MB📶
+• 30MT ------- 1.630MB📶
+• 35MT ------- 1.900MB📶
+• 40MT ------- 2.170MB📶
+• 45MT ------- 2.430MB📶
+• 50MT ------- 2.700MB📶
+• 60MT ------- 3.240MB📶
+• 70MT ------- 3.790MB📶
+• 80MT ------- 4.340MB📶
+• 90MT ------- 4.900MB📶
+• 100MT ------ 5.400MB📶
+
+
+*PACOTES SEMANAIS(7DIAS🚨)*
+
+• 30MT -------- 850MB🎮
+• 50MT -------- 1.700MB🖥️
+• 85MT -------- 2.900MB🕹️
+• 100MT ------- 3.400MB🎰
+• 160MT ------- 5.200MB👾
+
+
+`;
+
+            await this.sendMessage(jid, mensagemTabela);
+        } catch (err) {
+            console.error("Erro no execute do TabelaCommand:", err);
         }
-
-        let tabelaMensagem = '';
-
-        if (tabelaData.tipo === 'megas') {
-            // Tabela estruturada
-            const t = tabelaData.tabela;
-            tabelaMensagem += `${t.titulo}\n\n`;
-
-            if (t.megas_diarios?.pacotes) {
-                tabelaMensagem += `${t.megas_diarios.titulo}\n`;
-                t.megas_diarios.pacotes.forEach(p => {
-                    tabelaMensagem += `- ${p.mb} = ${p.preco} ${p.emoji}\n`;
-                });
-                tabelaMensagem += '\n';
-            }
-
-            if (t.megas_semanais?.pacotes) {
-                tabelaMensagem += `${t.megas_semanais.titulo}\n`;
-                t.megas_semanais.pacotes.forEach(p => {
-                    tabelaMensagem += `• ${p.mb} = ${p.preco}${p.emoji}\n`;
-                });
-                tabelaMensagem += '\n';
-            }
-
-            if (t.megas_mensais?.pacotes) {
-                tabelaMensagem += `${t.megas_mensais.titulo}\n`;
-                t.megas_mensais.pacotes.forEach(p => {
-                    tabelaMensagem += `- ${p.mb} = ${p.preco} ${p.emoji}\n`;
-                });
-                tabelaMensagem += '\n';
-            }
-
-            tabelaMensagem += `${t.nota || ''}\n\n`;
-            tabelaMensagem += `${t.contato || ''}\n\n`;
-
-            if (t.formas_pagamento) {
-                tabelaMensagem += `${t.formas_pagamento.titulo || ''}\n`;
-                tabelaMensagem += `${t.formas_pagamento.admin || ''}\n`;
-                tabelaMensagem += `${t.formas_pagamento.mpesa || ''}\n`;
-                tabelaMensagem += `${t.formas_pagamento.emola || ''}\n\n`;
-            }
-
-            tabelaMensagem += `${t.instrucoes || ''}`;
-
-        } else if (tabelaData.tipo === 'texto') {
-            // Tabela simples em texto
-            tabelaMensagem = tabelaData.tabela;
-        }
-
-        await this.sendMessage(groupId, tabelaMensagem);
     }
 
     async sendMessage(jid, text, options = {}) {

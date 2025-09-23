@@ -1,0 +1,72 @@
+{
+  "120363401341705925@g.us_58949046956033@lid": {
+    "count": 1,
+    "warnings": [
+      {
+        "motivo": "@58949046956033",
+        "admin": "86952166576371@lid",
+        "data": "2025-09-21T07:54:43.025Z"
+      }
+    ],
+    "userNum": "58949046956033@lid",
+    "groupName": "MEGAS DA VODACOM 24/24🌐💸"
+  },
+  "120363401341705925@g.us_137851505262744@lid": {
+    "count": 2,
+    "warnings": [
+      {
+        "motivo": "@137851505262744  Propaganda",
+        "admin": "86952166576371@lid",
+        "data": "2025-09-21T15:30:15.368Z"
+      },
+      {
+        "motivo": "propaganda de vendas",
+        "admin": "86952166576371@lid",
+        "data": "2025-09-22T17:40:55.093Z"
+      }
+    ],
+    "userNum": "137851505262744@lid",
+    "groupName": "MEGAS DA VODACOM 24/24🌐💸"
+  },
+  "120363401341705925@g.us_264625820065999@lid": {
+    "count": 2,
+    "warnings": [
+      {
+        "motivo": "Marcação de Status",
+        "admin": "86952166576371@lid",
+        "data": "2025-09-21T16:24:36.959Z"
+      },
+      {
+        "motivo": "Status",
+        "admin": "86952166576371@lid",
+        "data": "2025-09-22T17:37:28.965Z"
+      }
+    ],
+    "userNum": "264625820065999@lid",
+    "groupName": "MEGAS DA VODACOM 24/24🌐💸"
+  },
+  "120363401341705925@g.us_116024716312618@lid": {
+    "count": 1,
+    "warnings": [
+      {
+        "motivo": "Link no grupo",
+        "admin": "86952166576371@lid",
+        "data": "2025-09-22T10:53:47.590Z"
+      }
+    ],
+    "userNum": "116024716312618@lid",
+    "groupName": "MEGAS DA VODACOM 24/24🌐💸"
+  },
+  "120363401341705925@g.us_211514724229294@lid": {
+    "count": 1,
+    "warnings": [
+      {
+        "motivo": "Marcação do grupo no Status",
+        "admin": "86952166576371@lid",
+        "data": "2025-09-22T18:23:44.713Z"
+      }
+    ],
+    "userNum": "211514724229294@lid",
+    "groupName": "MEGAS DA VODACOM 24/24🌐💸"
+  }
+}

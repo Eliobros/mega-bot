@@ -7,8 +7,16 @@ const MenuCommand = require('../commands/membros/menu');
 const TabelaCommand = require('../commands/membros/tabela');
 const PingCommand = require('../commands/membros/ping');
 const HelpCommand = require('../commands/membros/help');
+const PlayCommand = require('../commands/membros/play')
 
-// Comandos de dono
+//comandos para dono
+const MeInfoCommand = require('../commands/dono/me');
+const AddCoinCommand = require('../commands/dono/addcoin');
+const FotoGpCommand = require('../commands/dono/fotogp');
+const ClientesCommand = require('../commands/dono/clientes');
+const DescGpCommand = require('../commands/dono/descgp');
+const NomeGpCommand = require('../commands/dono/nomegp');
+const RebaixarCommand = require('../commands/dono/rebaixar');
 const AntiMentionCommand = require('../commands/dono/antimention');
 const DeleteCommand = require('../commands/dono/delete')
 const SetPrefixCommand = require('../commands/dono/setprefix')
@@ -20,7 +28,7 @@ const ComprovantesCommand = require('../commands/dono/comprovantes');
 const GrupoCommand = require('../commands/dono/grupo');
 const BanCommand = require('../commands/dono/ban');
 const AdminCommand = require('../commands/dono/admin');
-
+const PromoverCommand = require('../commands/dono/promover');
 class MessageHandler {
     constructor(sock, dataManager) {
         this.sock = sock;
@@ -32,12 +40,19 @@ class MessageHandler {
         this.compraHandler = new CompraHandler(sock, dataManager);
 
         // Inicializar comandos de membros
+	this.playCommand = new PlayCommand(sock, dataManager);
         this.menuCommand = new MenuCommand(sock, dataManager);
         this.tabelaCommand = new TabelaCommand(sock, dataManager);
         this.pingCommand = new PingCommand(sock, dataManager);
         this.helpCommand = new HelpCommand(sock, dataManager);
 
         // Inicializar comandos de dono
+	this.infoCommand = new MeInfoCommand(sock, dataManager)
+	this.clientesCommand = new ClientesCommand(sock, dataManager);
+	this.addcoinCommand = new AddCoinCommand(sock, dataManager);
+        this.fotogpCommand = new FotoGpCommand(sock, dataManager);
+        this.descgpCommand = new DescGpCommand(sock, dataManager);
+        this.nomegpCommand = new NomeGpCommand(sock, dataManager)
         this.adminCommands = new AdminCommand(sock, dataManager)
         this.antimentionCommand = new AntiMentionCommand(sock, dataManager);
         this.deleteCommand = new DeleteCommand(sock, dataManager)
@@ -50,8 +65,8 @@ class MessageHandler {
         this.grupoCommand = new GrupoCommand(sock, dataManager);
         this.banCommand = new BanCommand(sock, dataManager);
         this.hidetagCommand = new AdminCommand(sock, dataManager);
-        this.promoteCommand = new AdminCommand(sock, dataManager);
-        this.rebaixarCommand = new AdminCommand(sock, dataManager);
+        this.promoteCommand = new PromoverCommand(sock, dataManager);
+        this.rebaixarCommand = new RebaixarCommand(sock, dataManager);
         this.bemvindoCommand = new AdminCommand(sock, dataManager);
         this.saiuCommand = new AdminCommand(sock, dataManager);
         this.msgbvCommand = new AdminCommand(sock, dataManager);
@@ -65,7 +80,7 @@ class MessageHandler {
     setupEvents() {
         // Detectar mudanças no grupo (entrada/saída de membros)
         this.sock.ev.on('group-participants-update', async (update) => {
-            const { id: groupJid, participants, action } = update;
+            const { id: groupJid, participants,action } = update;
             
             console.log(`👥 Evento detectado: ${action} no grupo ${groupJid}`);
             console.log(`👤 Participantes: ${participants.join(', ')}`);
@@ -183,7 +198,7 @@ class MessageHandler {
 
                 case 'tabela':
                 case '/tabela':
-                    await this.tabelaCommand.execute(msg);
+                    await this.tabelaCommand.execute(msg, from, sender);
                     break;
             }
         }
@@ -265,9 +280,6 @@ Digite: \`pagamento2\`
 
 *💳 FORMAS DE PAGAMENTO:*
 
-🔹 *E-MOLA:* 866399986
-   📝 Nome: Aida 💸
-
 🔹 *M-PESA:* 848300881
    📝 Nome: Paulo 💸
 
@@ -332,6 +344,12 @@ Digite: \`pagamento2\`
                 await this.antilinkCommand.execute(msg, commandArgs, from, sender);
                 break;
 
+	    case 'info':
+	    case 'me':
+	    case 'dados':
+		await this.infoCommand.execute(msg, commandArgs, from, sender);
+		break;
+
             case 'setprefix':
                 await this.setprefixCommand.execute(msg, commandArgs, from, sender);
                 break;
@@ -346,6 +364,7 @@ Digite: \`pagamento2\`
 
             case 'delete':
             case 'del':
+	    case 'd':
                 await this.deleteCommand.execute(msg, commandArgs, from, sender);
                 break;
             
@@ -356,16 +375,17 @@ Digite: \`pagamento2\`
 
             case 'promover':
             case 'promote':
-                await this.adminCommands.promover(msg, commandArgs, from, sender);
+                await this.promoteCommand.execute(msg, commandArgs, from, sender);
                 break;
 
             case 'rebaixar':
             case 'demote':
-                await this.adminCommands.rebaixar(msg, commandArgs, from, sender);
+                await this.rebaixarCommand.execute(msg, commandArgs, from, sender);
                 break;
 
             case 'advertir':
             case 'warn':
+	    case 'adv':
                 await this.adminCommands.advertir(msg, commandArgs, from, sender);
                 break;
 
@@ -385,8 +405,42 @@ Digite: \`pagamento2\`
                 await this.adminCommands.saiu(msg, commandArgs, from, sender);
                 break;
 
+	    case 'play':
+	    case 'p':
+		await this.playCommand.execute(msg, commandArgs, from, sender)
+		break
+
             case 'admins':
                 await this.adminCommands.admins(msg, commandArgs, from, sender);
+                break
+
+	    case 'clientes':
+	    case 'rankmb':
+		await this.clientesCommand.execute(msg, commandArgs, from, sender);
+		break
+
+            case 'nomegp':
+            case 'setname':
+            case 'mudarname':
+            case 'mudarnome':
+                await this.nomegpCommand.execute(msg, commandArgs, from, sender);
+                break;
+
+            case 'fotogp':
+            case 'setfoto':
+            case 'mudarfoto':
+                await this.fotogpCommand.execute(msg, commandArgs, from, sender);
+                break;
+
+	    case 'addcoin':
+	    case 'addsaldo':
+		await this.addcoinCommand.execute(msg, commandArgs, from, sender)
+		break;
+
+            case 'descgp':
+            case 'setdesc':
+            case 'mudardesc':
+                await this.descgpCommand.execute(msg, commandArgs, from, sender);
                 break;
 
             default:
