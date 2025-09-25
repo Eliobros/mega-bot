@@ -1,6 +1,10 @@
-const fs = require('fs'); const path = require('path'); const { exec } = require('child_process'); const { promisify } = require('util'); const fetch = require('node-fetch');
-
-const execAsync = promisify(exec);
+const fs = require('fs'); const path = require('path'); const fetch = require('node-fetch');
+const playdl = require('play-dl');
+const ffmpeg = require('fluent-ffmpeg');
+const ffmpegPath = require('ffmpeg-static');
+if (ffmpegPath) {
+    ffmpeg.setFfmpegPath(ffmpegPath);
+}
 
 class PlayCommand { constructor(sock, dataManager) { this.sock = sock; this.dataManager = dataManager; this.tempDir = path.join(__dirname, '../../temp'); this.maxDuration = 600; // 10 minutos em segundos this.maxFileSize = 50 * 1024 * 1024; // 50MB
 
@@ -18,6 +22,13 @@ async execute(msg, args, from, sender) {
 
         const query = args.join(' ');
         const isYouTubeUrl = this.isValidYouTubeUrl(query);
+
+        // Opcional: cookies do YouTube para reduzir 429 (configure YT_COOKIES no ambiente)
+        try {
+            if (process.env.YT_COOKIES) {
+                await playdl.setToken({ youtube: { cookie: process.env.YT_COOKIES } });
+            }
+        } catch {}
 
         if (!isYouTubeUrl && query.includes('http')) {
             await this.sendMessage(from, '❌ *URL não suportada!*\n\n🔗 Apenas URLs do YouTube são aceitas.');
@@ -74,19 +85,20 @@ isValidYouTubeUrl(url) {
 
 async searchYouTube(query) {
     try {
-        const searchCommand = `yt-dlp -j "ytsearch1:${query}"`;
-        const { stdout } = await execAsync(searchCommand);
-        const info = JSON.parse(stdout);
-
+        const results = await playdl.search(query, { limit: 1, source: { youtube: 'video' } });
+        const info = results[0];
+        if (!info) return null;
+        const details = await playdl.video_info(info.url);
+        const basic = details.video_details;
         return {
-            title: info.title,
-            duration: info.duration,
-            url: info.webpage_url,
-            id: info.id,
-            channel: info.channel,
-            channelUrl: info.channel_url,
-            views: info.view_count,
-            description: (info.description || '').slice(0, 45)
+            title: basic.title,
+            duration: Number(basic.durationInSec || basic.durationInSec === 0 ? basic.durationInSec : 0),
+            url: basic.url,
+            id: basic.id,
+            channel: basic.channel?.name || 'Desconhecido',
+            channelUrl: basic.channel?.url || '',
+            views: basic.views || 0,
+            description: (basic.description || '').slice(0, 45)
         };
     } catch (error) {
         console.error('Erro ao buscar no YouTube:', error);
@@ -96,19 +108,17 @@ async searchYouTube(query) {
 
 async getVideoInfo(url) {
     try {
-        const infoCommand = `yt-dlp -j "${url}"`;
-        const { stdout } = await execAsync(infoCommand);
-        const info = JSON.parse(stdout);
-
+        const details = await playdl.video_info(url);
+        const basic = details.video_details;
         return {
-            title: info.title || 'Título não disponível',
-            duration: info.duration || 0,
-            url: info.webpage_url || url,
-            id: info.id || 'unknown',
-            channel: info.channel || 'Desconhecido',
-            channelUrl: info.channel_url || '',
-            views: info.view_count || 0,
-            description: (info.description || '').slice(0, 45)
+            title: basic.title || 'Título não disponível',
+            duration: Number(basic.durationInSec || basic.durationInSec === 0 ? basic.durationInSec : 0),
+            url: basic.url || url,
+            id: basic.id || 'unknown',
+            channel: basic.channel?.name || 'Desconhecido',
+            channelUrl: basic.channel?.url || '',
+            views: basic.views || 0,
+            description: (basic.description || '').slice(0, 45)
         };
     } catch (error) {
         console.error('Erro ao obter info do vídeo:', error);
@@ -119,18 +129,18 @@ async getVideoInfo(url) {
 async downloadAudio(url) {
     const timestamp = Date.now();
     const outputPath = path.join(this.tempDir, `audio_${timestamp}_${Math.random().toString(36).slice(2)}.mp3`);
-
     try {
-        const downloadCommand = `yt-dlp "${url}" -f "bestaudio/best" --extract-audio --audio-format mp3 --audio-quality 128K --no-playlist -o "${outputPath.replace('.mp3', '.%(ext)s')}"`;
-
-        await execAsync(downloadCommand, { timeout: 300000 });
-
-        if (fs.existsSync(outputPath)) return outputPath;
-
-        const files = fs.readdirSync(this.tempDir).filter(f => f.startsWith(path.basename(outputPath, '.mp3')));
-        if (files.length > 0) return path.join(this.tempDir, files[0]);
-
-        throw new Error('Arquivo de áudio não foi criado');
+        const { stream } = await playdl.stream(url);
+        await new Promise((resolve, reject) => {
+            const command = ffmpeg(stream)
+                .audioBitrate(128)
+                .format('mp3')
+                .on('error', reject)
+                .on('end', resolve)
+                .save(outputPath);
+        });
+        if (!fs.existsSync(outputPath)) throw new Error('Arquivo de áudio não foi criado');
+        return outputPath;
     } catch (error) {
         console.error('Erro no download:', error);
         throw new Error('Falha no download do áudio');
@@ -229,7 +239,9 @@ cleanupFiles(filePaths) {
 
 async handleError(jid, error) {
     let errorMsg = '❌ *Erro ao processar música!*\n\n';
-    if (error.message.includes('download')) errorMsg += '📡 Falha no download.';
+    if (String(error.message || '').toLowerCase().includes('429') || String(error.stderr||'').includes('Too Many Requests')) errorMsg += '🚦 Limite atingido no YouTube. Tente novamente em alguns minutos.';
+    else if (String(error.message||'').includes('Sign in to confirm') || String(error.stderr||'').includes('confirm you’re not a bot')) errorMsg += '🔐 O YouTube pediu verificação. Tente outro termo ou configure cookies.';
+    else if (error.message.includes('download')) errorMsg += '📡 Falha no download.';
     else if (error.message.includes('not found') || error.message.includes('404')) errorMsg += '🔍 Vídeo não encontrado.';
     else if (error.message.includes('timeout')) errorMsg += '⏱️ Timeout no download.';
     else if (error.message.includes('age')) errorMsg += '🔞 Vídeo com restrição de idade.';
