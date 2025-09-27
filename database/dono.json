@@ -5,7 +5,10 @@
   "NumeroDono": "86952166576371",
   "MozhostPassword": "Cadeira33@",
   "numeros_pagamento": {
-    "mpesa": ["841617651", "848300881"],
+    "mpesa": [
+      "841617651",
+      "848300881"
+    ],
     "emola": "862840075"
   },
   "configuracoes": {
@@ -31,7 +34,10 @@
     "120363401341705925@g.us": {
       "antilink": true,
       "groupName": "MEGAS DA VODACOM 24/24🌐💸",
-      "enabledAt": "2025-09-22T12:39:05.647Z"
+      "enabledAt": "2025-09-25T10:24:12.335Z",
+      "disabledAt": "2025-09-25T10:24:01.437Z",
+      "bemvindo_ativo": true,
+      "saiu_ativo": true
     }
   },
   "Prefixo": "/"

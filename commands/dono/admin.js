@@ -537,8 +537,8 @@ class AdminCommands {
             const num = top.numero || top.jid.replace('@s.whatsapp.net','');
             const nome = top.pushName || top.nome || num;
             const hoje = new Date();
-            const dia = hoje.getDate();
-            const msgTxt = `🏆 PRÊMIO DO TOP 1\n\n👤 ${nome} (@${num}) está no topo do ranking!\n🎁 Receberá 1GB no dia ${dia} deste mês se se mantiver em 1º.\n⚠️ Mantenha-se no topo para não perder a oportunidade!`;
+            const dia = '1 de outubro';
+            const msgTxt = `🏆 PRÊMIO DO TOP 1\n\n👤 ${nome} (@${num}) está no topo do ranking!\n🎁 Receberá 1GB no dia ${dia}  se se mantiver em 1º.\n⚠️ Mantenha-se no topo para não perder a oportunidade!`;
             await this.sendMessage(groupJid, msgTxt, { mentions: [top.jid] });
         } catch (e) {
             await this.sendMessage(groupJid, '❌ Erro ao calcular prêmio.');

@@ -406,25 +406,16 @@ Digite: \`pagamento2\`
         // Pagamento 2 (Aida & Paulo)
         if (text === "pagamento2") {
             const payment2Message = `
-🏦 *PAGAMENTO OPÇÃO 2* 💵
+🚨🌐 *MEGABYTE
 
-━━━━━━━━━━━━━━━━━━━━━━━
+*FORMAS DE PAGAMENTO*
+Call, sms & WhatsApp* *856496229*
 
-*💳 FORMAS DE PAGAMENTO:*
+*FORMAS/ PAGAMENTOS :*
+- 💵 *𝗘-𝗠𝗢𝗟𝗔: 870745174 💎Emilio Sigauque*
+- 💵 *𝗠-𝗣𝗘𝗦𝗔: 848300881💎Paulo cuana.*
 
-🔹 *M-PESA:* 848300881
-   📝 Nome: Paulo 💸
-
-━━━━━━━━━━━━━━━━━━━━━━━
-
-📋 *INSTRUÇÕES:*
-1️⃣ Faça o pagamento usando os dados acima
-2️⃣ Envie o comprovativo neste grupo
-3️⃣ Aguarde a confirmação do administrador
-
-⚠️ *Importante:* Guarde seu comprovativo até a confirmação!
-
-🤖 *Tina Bot* 💎
+NB:*DEPOIS DE ENVIAR O VALOR, ENVIE O COMPROVANTE E O NR PARA RECEBER OS MEGAS NO GRUPO OU NO MEU PRIVADO*
             `;
 
             await this.sock.sendMessage(from, { text: payment2Message });
