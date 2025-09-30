@@ -26,10 +26,12 @@
       "antimention_enabledAt": "2025-09-17T03:22:31.168Z",
       "bemvindo_ativo": true,
       "saiu_ativo": true,
-      "msgbv": "*Bem vindo @user ao grupo {grupo}, voce é o usuario numero {membros}*",
+      "msgbv": "Ola @user, bem vindo ao grupo {grupo} abaixo estao seu dados:\n============//=====\n             WLCOME \n===========//======\n|-> *Grupo*: {grupo}\n|-> *Usuario:* {nome}\n|-> *Id*: @user\n|-> *Membro Nr*: [ {membros} }\n\n*Lembre-se de ser respeitoso no grupo*\n==================",
       "msgbv_ativa": true,
       "msgsaiu": "*Poxa @user sentiremos a sua falta😢, volte sempre ta? O grupo {grupo} estara com as portas abertas pra o receber* \nO numero de membros foi atualizado pra [ *{mebros}*]",
-      "msgsaiu_ativa": true
+      "msgsaiu_ativa": true,
+      "anticall": true,
+      "antipv": false
     },
     "120363401341705925@g.us": {
       "antilink": true,
@@ -37,7 +39,9 @@
       "enabledAt": "2025-09-25T10:24:12.335Z",
       "disabledAt": "2025-09-25T10:24:01.437Z",
       "bemvindo_ativo": true,
-      "saiu_ativo": true
+      "saiu_ativo": true,
+      "msgbv": "Ola @user, bem vindo ao grupo {grupo} abaixo estao seu dados:\n============//=====\n             WLCOME \n===========//======\n|-> *Grupo*: {grupo}\n|-> *Usuario:* @user\n|-> *Id*: {nome}\n|-> *Membro Nr*: [ {membros} }\n\n*Lembre-se de ser respeitoso no grupo*\n==================",
+      "msgbv_ativa": true
     }
   },
   "Prefixo": "/"
