@@ -40,7 +40,7 @@
       "disabledAt": "2025-09-25T10:24:01.437Z",
       "bemvindo_ativo": true,
       "saiu_ativo": true,
-      "msgbv": "Ola @user, bem vindo ao grupo {grupo} abaixo estao seu dados:\n============//=====\n             WLCOME \n===========//======\n|-> *Grupo*: {grupo}\n|-> *Usuario:* @user\n|-> *Id*: {nome}\n|-> *Membro Nr*: [ {membros} }\n\n*Lembre-se de ser respeitoso no grupo*\n==================",
+      "msgbv": "🎉 Olá @user! Seja muito bem-vindo(a) ao grupo *{grupo}*! 🎉\n\nAqui estão seus dados no grupo:\n==============================\n👥 *Grupo:* {grupo}\n🆔 *Usuário:* {nome}\n🔖 *ID:* @user\n🔢 *Membro Nº:* {membros}\n==============================\n\n💡 Lembre-se de sempre ser respeitoso(a) e participar de forma positiva no grupo.  \n\n📌 Como funciona no grupo de vendas:\n- Para ver a tabela de preços, digite *tabela*\n- Para ver os métodos de pagamento, digite *Pagamento1* ou *Pagamento2*\n\n🚀 Aproveite e boas vendas!",
       "msgbv_ativa": true
     }
   },
