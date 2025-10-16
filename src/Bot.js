@@ -28,20 +28,42 @@ class Bot {
 
         // Escutar mensagens
         this.sock.ev.on('messages.upsert', async (m) => {
-            const msg = m.messages[0];
-            if (!msg) return;
+    const msg = m.messages[0];
+    if (!msg) return;
 
-            // 📌 Filtro: só PV ou grupos permitidos
-            if (msg.key.remoteJid.endsWith('@g.us')) {
-                // Recarregar grupos permitidos em cada mensagem para refletir mudanças por comando
-                this.allowedGroups = this.dataManager.getAllowedGroups();
-                if (!this.allowedGroups.includes(msg.key.remoteJid)) {
-                    return; // ignora grupos que não estão na lista
+    const from = msg.key.remoteJid;
+
+    if (from.endsWith('@g.us')) {
+        // Atualiza grupos e assinaturas
+        this.allowedGroups = this.dataManager.getAllowedGroups();
+        const assinatura = this.dataManager.getGroupSubscription(from);
+
+        if (!assinatura) {
+            const nova = this.dataManager.addGroupSubscription(from, 30);
+            await this.sock.sendMessage(from, {
+                text: `✅ *Tina ativada neste grupo!*\nAssinatura válida até: ${nova.endDate.toLocaleDateString()}`,
+            });
+        } else {
+            const agora = new Date();
+            const expira = new Date(assinatura.endDate);
+
+            if (agora > expira) {
+                if (assinatura.active) {
+                    this.dataManager.deactivateGroupSubscription(from);
+                    await this.sock.sendMessage(from, {
+                        text: `⚠️ *A assinatura deste grupo expirou!*\nO dono deve renovar para continuar usando a Tina.`,
+                    });
                 }
+                return; // ❌ para de responder
             }
+        }
 
-            await this.messageHandler.handle(msg);
-        });
+        // ignora se o grupo não está na lista de permitidos
+        if (!this.allowedGroups.includes(from)) return;
+    }
+
+    await this.messageHandler.handle(msg);
+});
     }
 }
 

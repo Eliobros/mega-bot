@@ -10,7 +10,16 @@ class SetPrefixCommand {
 
     getConfig() {
         try {
-            return JSON.parse(fs.readFileSync(this.donoFile));
+            const data = JSON.parse(fs.readFileSync(this.donoFile));
+            
+            // ⚠️ VALIDAÇÃO: Garantir que NumeroDono existe e não é o número chinês
+            if (!data.NumeroDono || data.NumeroDono.startsWith('86')) {
+                console.error('⚠️ ATENÇÃO: NumeroDono inválido no dono.json!');
+                console.error('   Valor atual:', data.NumeroDono);
+                console.error('   Por favor, corrija para seu número real (ex: 258862840075)');
+            }
+            
+            return data;
         } catch (error) {
             console.error("Erro ao ler dono.json:", error);
             return { Prefixo: '!', NumeroDono: '' };
@@ -33,15 +42,12 @@ class SetPrefixCommand {
     }
 
     isValidPrefix(prefix) {
-        // Validar se o prefixo é aceitável
         const validPrefixes = ['!', '/', '.', '#', '*', '>', '<', '?', '+', '-', '=', '@', '$', '%', '&', '~'];
 
-        // Verificar se é um dos prefixos válidos ou se é um caractere único
         if (validPrefixes.includes(prefix)) {
             return true;
         }
 
-        // Permitir apenas 1 caractere e não permitir letras/números/espaços
         if (prefix.length === 1 && !/[a-zA-Z0-9\s]/.test(prefix)) {
             return true;
         }
@@ -51,26 +57,20 @@ class SetPrefixCommand {
 
     async execute(msg, args, groupJid, senderJid) {
         const config = this.getConfig();
-        const donoJid = config.NumeroDono + '@s.whatsapp.net';
         const currentPrefix = this.getCurrentPrefix();
 
-        // LOGS DE DEBUG PARA IDENTIFICAR O PROBLEMA
-        console.log('🔍 DEBUG SETPREFIX:');
-        console.log('   - Dono no config:', config.NumeroDono);
-        console.log('   - DonoJid construído:', donoJid);
-        console.log('   - SenderJid recebido:', senderJid);
-        console.log('   - São iguais (método antigo)?', senderJid === donoJid);
-
-        // NOVA VERIFICAÇÃO - Comparar só os números
+        // ✅ VALIDAÇÃO MELHORADA - Extrair apenas os números
         const donoNumber = config.NumeroDono;
-        const senderNumber = senderJid.replace(/@.*/, ''); // Remove @lid ou @s.whatsapp.net
+        const senderNumber = senderJid.split('@')[0]; // Remove tudo depois do @
+        
+        // LOGS DE DEBUG
+        console.log('🔍 DEBUG SETPREFIX:');
+        console.log('   - Dono no config:', donoNumber);
+        console.log('   - Sender extraído:', senderNumber);
+        console.log('   - SenderJid completo:', senderJid);
+        console.log('   - São iguais?', senderNumber === donoNumber);
 
-        console.log('🔍 Comparando apenas números:');
-        console.log('   - Dono número:', donoNumber);
-        console.log('   - Sender número:', senderNumber);
-        console.log('   - São iguais (método novo)?', senderNumber === donoNumber);
-
-        // Verificar se é o dono usando a nova lógica
+        // Verificar se é o dono
         if (senderNumber !== donoNumber) {
             await this.sendMessage(groupJid, '❌ *Acesso Negado!*\n\n🔒 Apenas o dono do bot pode alterar o prefixo.');
             return;
@@ -144,7 +144,7 @@ class SetPrefixCommand {
                     logMsg += `📅 *Data:* ${new Date().toLocaleString('pt-BR')}\n`;
                     logMsg += `🆔 *Grupo:* ${groupJid}`;
 
-                    // Usar o número do dono corrigido para enviar o log
+                    // ✅ USAR NÚMERO CORRETO para enviar log
                     const donoJidLog = donoNumber + '@s.whatsapp.net';
                     await this.sendMessage(donoJidLog, logMsg);
                 } catch (error) {
@@ -166,7 +166,7 @@ class SetPrefixCommand {
             const config = JSON.parse(fs.readFileSync(donoFile));
             return config.Prefixo || '!';
         } catch (error) {
-            return '!'; // Prefixo padrão
+            return '!';
         }
     }
 

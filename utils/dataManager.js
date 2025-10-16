@@ -144,10 +144,6 @@ class DataManager {
         return this.usersData.comprovantes_utilizados.length !== before;
     }
 
-	getTabelaByGroup(groupId) {
-        return this.tabelas[groupId];
-    }
-
     findUserByNumber(number) {
         return this.getUsersData().users.find(u => u.number === number) || null;
     }
@@ -170,14 +166,80 @@ class DataManager {
     }
 
     getTabelaByGroup(groupId) {
-        if (!this.tabelasData) this.loadAll();
-        return this.tabelasData[groupId] || null;
+    if (!this.tabelasData) this.loadAll(); // garante que os dados estão carregados
+    return this.tabelasData[groupId] || null; // retorna a tabela do grupo ou null
+}
+
+   saveTabelaByGroup(groupId, tabelaObj) {
+    if (!this.tabelasData) this.loadAll();
+    this.tabelasData[groupId] = tabelaObj;
+    this.saveJSON(this.tabelasPath, this.tabelasData);
+}
+
+    // ---------- Assinaturas de Grupos ----------
+    getGroupSubscriptionsData() {
+        if (!this.groupSubscriptionsData) {
+            const filePath = path.join(this.basePath, 'groupSubscriptions.json');
+            this.groupSubscriptionsData = this.loadJSON(filePath, { assinaturas: [] });
+        }
+        return this.groupSubscriptionsData;
     }
 
-    saveTabelaByGroup(groupId, tabelaObj) {
-        if (!this.tabelasData) this.loadAll();
-        this.tabelasData[groupId] = tabelaObj;
-        this.saveJSON(this.tabelasPath, this.tabelasData);
+    saveGroupSubscriptionsData() {
+        const filePath = path.join(this.basePath, 'groupSubscriptions.json');
+        this.saveJSON(filePath, this.groupSubscriptionsData);
+    }
+
+    getGroupSubscription(groupId) {
+        const data = this.getGroupSubscriptionsData();
+        return data.assinaturas.find(g => g.groupId === groupId);
+    }
+
+    addGroupSubscription(groupId, days = 30) {
+        const data = this.getGroupSubscriptionsData();
+        const endDate = new Date();
+        endDate.setDate(endDate.getDate() + days);
+
+        const group = {
+            groupId,
+            startDate: new Date(),
+            endDate,
+            active: true
+        };
+
+        data.assinaturas.push(group);
+        this.saveGroupSubscriptionsData();
+        return group;
+    }
+
+    renewGroupSubscription(groupId, days = 30) {
+        const data = this.getGroupSubscriptionsData();
+        const group = data.assinaturas.find(g => g.groupId === groupId);
+        if (group) {
+            const endDate = new Date();
+            endDate.setDate(endDate.getDate() + days);
+            group.endDate = endDate;
+            group.active = true;
+            this.saveGroupSubscriptionsData();
+            return true;
+        }
+        return false;
+    }
+
+    deactivateGroupSubscription(groupId) {
+        const data = this.getGroupSubscriptionsData();
+        const group = data.assinaturas.find(g => g.groupId === groupId);
+        if (group) {
+            group.active = false;
+            this.saveGroupSubscriptionsData();
+        }
+    }
+
+    isGroupSubscriptionActive(groupId) {
+        const group = this.getGroupSubscription(groupId);
+        if (!group) return false;
+        const now = new Date();
+        return group.active && now <= new Date(group.endDate);
     }
 }
 

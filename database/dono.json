@@ -2,7 +2,7 @@
   "prefixo": "!",
   "NomeDoBot": "Tina Bot",
   "NickDono": "Zëüs Lykraios",
-  "NumeroDono": "86952166576371",
+  "NumeroDono": "258841617651",
   "MozhostPassword": "Cadeira33@",
   "numeros_pagamento": {
     "mpesa": [
@@ -42,6 +42,10 @@
       "saiu_ativo": true,
       "msgbv": "🎉 Olá @user! Seja muito bem-vindo(a) ao grupo *{grupo}*! 🎉\n\nAqui estão seus dados no grupo:\n==============================\n👥 *Grupo:* {grupo}\n🆔 *Usuário:* {nome}\n🔖 *ID:* @user\n🔢 *Membro Nº:* {membros}\n==============================\n\n💡 Lembre-se de sempre ser respeitoso(a) e participar de forma positiva no grupo.  \n\n📌 Como funciona no grupo de vendas:\n- Para ver a tabela de preços, digite *tabela*\n- Para ver os métodos de pagamento, digite *Pagamento1* ou *Pagamento2*\n\n🚀 Aproveite e boas vendas!",
       "msgbv_ativa": true
+    },
+    "86952166576371@s.whatsapp.net": {
+      "antipv": false,
+      "anticall": false
     }
   },
   "Prefixo": "/"

@@ -6,51 +6,27 @@ class TabelaCommand {
 
     async execute(msg) {
         try {
-            // Extrai o JID do grupo ou do usuário
             const jid = msg.key.remoteJid;
-            if (!jid || typeof jid !== 'string') {
-                console.error('JID inválido:', msg);
-                return;
+
+            // 🔒 Só funciona em grupos
+            if (!jid.endsWith('@g.us')) {
+                return this.sendMessage(jid, '❌ Este comando só pode ser usado em grupos.');
             }
 
-            // Construir tabela a partir do JSON estruturado
-            const data = this.dataManager.getTabelaData();
-            if (!data) {
-                await this.sendMessage(jid, '❌ Erro: Tabela indisponível.');
-                return;
+            // 🔍 Buscar tabela salva para o grupo
+            const tabelaInfo = this.dataManager.getTabelaByGroup(jid);
+
+            if (!tabelaInfo || !tabelaInfo.tabela) {
+                return this.sendMessage(jid, '📭 Nenhuma tabela registrada para este grupo ainda.\nPeça ao dono da Tina para registrar uma com o comando *!addTabela*.');
             }
 
-            let mensagemTabela = `*TABELA   NORMAL PARA CONSUMIDORES DA VODACOM ❤️*\n\n`;
-
-            if (data.megas_diarios?.pacotes?.length) {
-                mensagemTabela += `*PACOTES DIÁRIOS(24H🚨)*\n\n`;
-                data.megas_diarios.pacotes.forEach(p => {
-                    const emoji = p.emoji || '📶';
-                    mensagemTabela += `• ${p.nome} -------- ${p.quantidade}${emoji}\n`;
-                });
-                mensagemTabela += `\n\n`;
-            }
-
-            if (data.megas_semanais?.pacotes?.length) {
-                mensagemTabela += `*PACOTES SEMANAIS(7DIAS🚨)*\n\n`;
-                data.megas_semanais.pacotes.forEach(p => {
-                    const emoji = p.emoji || '';
-                    mensagemTabela += `• ${p.nome} -------- ${p.quantidade}${emoji}\n`;
-                });
-                mensagemTabela += `\n\n`;
-            }
-
-            if (data.megas_mensais?.pacotes?.length) {
-                mensagemTabela += `*PACOTES MENSAIS(30DIAS🚨)*\n\n`;
-                data.megas_mensais.pacotes.forEach(p => {
-                    mensagemTabela += `• ${p.nome} -------- ${p.quantidade} (${p.preco})🗓️\n`;
-                });
-                mensagemTabela += `\n\n`;
-            }
+            // 🧾 Mensagem final com tabela
+            const mensagemTabela = `📋 *Tabela deste grupo:*\n\n${tabelaInfo.tabela}`;
 
             await this.sendMessage(jid, mensagemTabela);
         } catch (err) {
-            console.error("Erro no execute do TabelaCommand:", err);
+            console.error('Erro no execute do TabelaCommand:', err);
+            await this.sendMessage(msg.key.remoteJid, '❌ Erro ao carregar a tabela deste grupo.');
         }
     }
 

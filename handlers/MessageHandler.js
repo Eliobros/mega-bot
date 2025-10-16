@@ -2,6 +2,7 @@ const TabelaHandler = require('./TabelaHandler');
 const ComprovanteHandler = require('./ComprovanteHandler');
 const CompraHandler = require('./CompraHandler');
 
+
 // Comandos de membros
 const MenuCommand = require('../commands/membros/menu');
 const TabelaCommand = require('../commands/membros/tabela');
@@ -10,6 +11,7 @@ const HelpCommand = require('../commands/membros/help');
 const PlayCommand = require('../commands/membros/play')
 
 //comandos para dono
+const AddPagamento = require('../commands/dono/addPagamento');
 const MeInfoCommand = require('../commands/dono/me');
 const AddCoinCommand = require('../commands/dono/addcoin');
 const FotoGpCommand = require('../commands/dono/fotogp');
@@ -141,11 +143,25 @@ class MessageHandler {
         console.log("✅ Eventos configurados com sucesso!");
     }
 
+	async isGroupAdmin(groupJid, sender) {
+    try {
+        const metadata = await this.sock.groupMetadata(groupJid);
+        const participant = metadata.participants.find(p => p.id === sender);
+        return participant?.admin === 'admin' || participant?.admin === 'superadmin';
+    } catch (err) {
+        console.error("Erro ao verificar admin:", err);
+        return false;
+    }
+}
+
     async handle(msg) {
         const from = msg.key.remoteJid;
         const messageText = this.getMessageText(msg);
+	const senderName = msg.pushName || "Usuário";
         const isGroup = from.endsWith('@g.us');
-
+	const text = messageText.trim();          // remove espaços extras
+	const args = text.split(/ +/);            // divide por espaço
+        const command = args.shift().replace(/^!/, '').toLowerCase(); // remove o '!' e deixa minúscula
         // 📌 Pega o número do remetente
         let sender = isGroup ? msg.key.participant : from;
         if (!sender) sender = from; // fallback se participant for null
@@ -154,8 +170,15 @@ class MessageHandler {
             .replace(/(@s\.whatsapp\.net|@lid|@c\.us)/g, '')
             .split('@')[0];
 
-        const senderName = msg.pushName || "Usuário";
+     
+// Atualiza lista de grupos permitidos do DataManager
+const allowedGroups = this.dataManager.getAllowedGroups();
 
+// Verifica se o grupo não está na lista
+if (isGroup && !allowedGroups.includes(from)) {
+    console.log(`⚠️ Mensagem ignorada de grupo não permitido: ${from}`);
+    return;
+}
         // 📌 Atualizar/armazenar pushName para ranking e exibição
         try {
             const usersData = this.dataManager.getUsersData();
@@ -216,6 +239,99 @@ class MessageHandler {
 
         // 📌 Sistema de pagamento corrigido (sem botões)
         await this.handlePaymentSystem(messageText, from, isGroup);
+
+if (messageText === '!renovar' && isGroup) {
+    const groupId = msg.key.remoteJid;
+    const sender = msg.key.participant || msg.key.remoteJid;
+    const senderNumber = sender.split('@')[0]; // número puro sem @s.whatsapp.net
+    const donoData = this.dataManager.getDonoData();
+
+    if (!msg.key.remoteJid.endsWith('@g.us')) {
+        return this.sock.sendMessage(sender, { text: '❌ Este comando só pode ser usado em grupos.' });
+    }
+
+    // 🔐 Verifica se o usuário é o dono
+    if (senderNumber !== donoData.NumeroDono.replace(/\D/g, '')) {
+        return this.sock.sendMessage(groupId, {
+            text: '⚠️ Apenas o dono da Tina pode renovar assinaturas de grupos.'
+        });
+    }
+
+    const days = parseInt(args[0]) || 30;
+    const renovado = this.dataManager.renewGroupSubscription(groupId, days);
+
+    if (renovado) {
+        await this.sock.sendMessage(groupId, {
+            text: `✅ Assinatura renovada por ${days} dias!\nNova data de expiração: ${(new Date(Date.now() + days * 86400000)).toLocaleDateString()}`
+        });
+    } else {
+        await this.sock.sendMessage(groupId, {
+            text: '❌ Este grupo não possui assinatura ativa. Adicione a Tina novamente para registrar uma nova.'
+        });
+    }
+}
+
+// dentro do handle(msg)
+if (messageText.toLowerCase().startsWith('!addpagamento')) {
+    const args = messageText.split(' ').slice(1); // pega os argumentos
+    await AddPagamento.execute(this.sock, msg, args, this.dataManager);
+    return; // evita continuar processando
+}
+
+
+if (command  === 'addtabela') {
+    const sender = msg.key.participant || msg.key.remoteJid;
+    const senderNumber = sender.split('@')[0];
+    const donoData = this.dataManager.getDonoData();
+
+    // 🔒 Apenas dono pode usar
+    if (senderNumber !== donoData.NumeroDono.replace(/\D/g, '')) {
+        return this.sock.sendMessage(sender, {
+            text: '⚠️ Apenas o dono da Tina pode registrar tabelas.'
+        });
+    }
+
+    const chatId = msg.key.remoteJid;
+
+    // Só em grupos
+    if (!chatId.endsWith('@g.us')) {
+        return this.sock.sendMessage(sender, {
+            text: '❌ Este comando só pode ser usado dentro de um grupo.'
+        });
+    }
+
+    // Captura o texto completo da tabela
+    let tabelaTexto = args.join(' ').trim();
+
+    // Remove aspas caso o usuário use
+    if (tabelaTexto.startsWith('"') && tabelaTexto.endsWith('"')) {
+        tabelaTexto = tabelaTexto.slice(1, -1);
+    }
+
+    // Caso o texto venha em extendedTextMessage (mensagem longa)
+    if (!tabelaTexto && msg.message.conversation) {
+        tabelaTexto = msg.message.conversation;
+    } else if (!tabelaTexto && msg.message.extendedTextMessage?.text) {
+        tabelaTexto = msg.message.extendedTextMessage.text;
+    }
+
+    // Verifica se o texto existe
+    if (!tabelaTexto) {
+        return this.sock.sendMessage(sender, {
+            text: '❌ Use o comando assim:\n!addTabela "cole aqui toda a tabela"\n\nOu envie o comando seguido do texto completo da tabela.'
+        });
+    }
+
+    // Salva no banco (DataManager)
+    this.dataManager.saveTabelaByGroup(chatId, {
+        tabela: tabelaTexto,
+        criadoEm: new Date().toISOString()
+    });
+
+    await this.sock.sendMessage(chatId, {
+        text: `✅ *Tabela registrada com sucesso!* 🗂️\nAgora qualquer pessoa pode usar o comando *!tabela* para ver a tabela deste grupo.`
+    });
+}
 
         // 📌 Comando /grupoId
         if (messageText === '/grupoId' && isGroup) {
@@ -336,101 +452,108 @@ class MessageHandler {
         }
     }
 
+
+
     // 📌 Sistema de pagamento sem botões
     async handlePaymentSystem(messageText, from, isGroup) {
-        if (!isGroup) return; // Só funciona em grupos
+    if (!isGroup) return false; // Só funciona em grupos
 
-        const text = messageText.toLowerCase();
+    const text = messageText.toLowerCase();
 
-        // Comando principal de pagamento
-        if (text === "pagamento") {
-            const paymentMessage = `
-🏦 *FORMAS DE PAGAMENTO DISPONÍVEIS* 💸
+    // 🔹 Carregar pagamentos do JSON
+    const fs = require("fs");
+    const path = require("path");
+    const filePath = path.join(__dirname, "..", "data", "pagamentos.json");
+    let pagamentosData = {};
+    if (fs.existsSync(filePath)) {
+        pagamentosData = JSON.parse(fs.readFileSync(filePath, "utf8"));
+    }
 
-━━━━━━━━━━━━━━━━━━━━━━━
+    const pagamentos = pagamentosData[from] || [];
 
-*📱 OPÇÃO 1 - Habibo*
-Digite: \`pagamento1\`
+    // Se não houver pagamentos registrados
+    if (pagamentos.length === 0) return false;
 
-*📱 OPÇÃO 2 - Aida & Paulo*  
-Digite: \`pagamento2\`
-
-━━━━━━━━━━━━━━━━━━━━━━━
-
-💡 *Como usar:*
-• Digite \`pagamento1\` ou \`pagamento2\`
-• Escolha a forma de pagamento desejada
-• Após pagar, envie o comprovativo no grupo
-
-🤖 *Tina Bot* 💎
-            `;
-
-            await this.sock.sendMessage(from, { text: paymentMessage });
-            return true;
-        }
-
-        // Pagamento 1 (Habibo)
-        if (text === "pagamento1") {
-            const payment1Message = `
-🏦 *PAGAMENTO OPÇÃO 1* 💳
+    // 🔹 Comando principal "pagamento"
+    if (text === "pagamento") {
+        if (pagamentos.length === 1) {
+            const p = pagamentos[0];
+            const msgText = `
+🏦 *PAGAMENTO DISPONÍVEL* 💳
 
 ━━━━━━━━━━━━━━━━━━━━━━━
-
-*👤 ADM:* Zëüs Lykraios 💎
-*📞 Chamadas e SMS:* 862840075
+*👤 ADM:* ${p.nome}
+*📞 Número:* ${p.numero}
 
 *💳 FORMAS DE PAGAMENTO:*
-
-🔹 *M-PESA:* 841617651
-   📝 Nome: Habibo Julio
-
-🔹 *E-MOLA:* 862840075  
-   📝 Nome: Habibo Julio
+🔹 M-PESA: ${p.mpesa || "N/A"}
+🔹 E-MOLA: ${p.emola || "N/A"}
 
 ━━━━━━━━━━━━━━━━━━━━━━━
-
 📋 *INSTRUÇÕES:*
 1️⃣ Faça o pagamento usando os dados acima
 2️⃣ Envie o comprovativo neste grupo
 3️⃣ Inclua o número que vai receber o pacote
 
-⚠️ *Importante:* Guarde seu comprovativo até a confirmação!
-
+⚠️ Guarde seu comprovativo até a confirmação!
 🤖 *Tina Bot* 💎
             `;
+            await this.sock.sendMessage(from, { text: msgText });
+        } else {
+            let menu = `🏦 *FORMAS DE PAGAMENTO DISPONÍVEIS* 💸\n\n━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
+            pagamentos.forEach((p, i) => {
+                menu += `📱 *OPÇÃO ${i + 1} - ${p.nome}*\nDigite: pagamento${i + 1}\n\n`;
+            });
+            menu += `━━━━━━━━━━━━━━━━━━━━━━━\n💡 *Como usar:*\n• Digite pagamento1, pagamento2, etc.\n• Escolha a forma de pagamento\n• Envie o comprovativo no grupo\n\n🤖 Tina Bot 💎`;
 
-            await this.sock.sendMessage(from, { text: payment1Message });
-            return true;
+            await this.sock.sendMessage(from, { text: menu });
         }
-
-        // Pagamento 2 (Aida & Paulo)
-        if (text === "pagamento2") {
-            const payment2Message = `
-🚨🌐 *MEGABYTE
-
-*FORMAS DE PAGAMENTO*
-Call, sms & WhatsApp* *856496229*
-
-*FORMAS/ PAGAMENTOS :*
-- 💵 *𝗘-𝗠𝗢𝗟𝗔: 870745174 💎Emilio Sigauque*
-- 💵 *𝗠-𝗣𝗘𝗦𝗔: 848300881💎Paulo cuana.*
-
-NB:*DEPOIS DE ENVIAR O VALOR, ENVIE O COMPROVANTE E O NR PARA RECEBER OS MEGAS NO GRUPO OU NO MEU PRIVADO*
-            `;
-
-            await this.sock.sendMessage(from, { text: payment2Message });
-            return true;
-        }
-
-        return false; // Não foi comando de pagamento
+        return true;
     }
+
+    // 🔹 Comandos dinâmicos pagamento1, pagamento2, etc.
+    const match = text.match(/^pagamento(\d+)$/);
+    if (match) {
+        const index = parseInt(match[1], 10) - 1;
+        const p = pagamentos[index];
+        if (!p) {
+            await this.sock.sendMessage(from, { text: "⚠️ Esta opção não existe neste grupo." });
+            return true;
+        }
+
+        const msgText = `
+🏦 *PAGAMENTO OPÇÃO ${index + 1}* 💳
+
+━━━━━━━━━━━━━━━━━━━━━━━
+*👤 ADM:* ${p.nome}
+*📞 Número:* ${p.numero}
+
+*💳 FORMAS DE PAGAMENTO:*
+🔹 M-PESA: ${p.mpesa || "N/A"}
+🔹 E-MOLA: ${p.emola || "N/A"}
+
+━━━━━━━━━━━━━━━━━━━━━━━
+📋 *INSTRUÇÕES:*
+1️⃣ Faça o pagamento usando os dados acima
+2️⃣ Envie o comprovativo neste grupo
+3️⃣ Inclua o número que vai receber o pacote
+
+⚠️ Guarde seu comprovativo até a confirmação!
+🤖 *Tina Bot* 💎
+        `;
+        await this.sock.sendMessage(from, { text: msgText });
+        return true;
+    }
+
+    return false; // Não foi comando de pagamento
+}
     
     async handleDonoCommand(msg, messageText, from, sender) {
         const donoData = this.dataManager.getDonoData();
         const comando = messageText.replace(donoData.prefixo, '').trim();
         const args = comando.split(' ');
         const cmd = args[0].toLowerCase();
-        
+	const senderNumber = sender.split('@')[0]; // Extrai só o número        
         // 🔧 CORREÇÃO: Remover o comando dos args para passar apenas os parâmetros
         const commandArgs = args.slice(1); // Remove o primeiro elemento (comando)
         
@@ -471,8 +594,42 @@ NB:*DEPOIS DE ENVIAR O VALOR, ENVIE O COMPROVANTE E O NR PARA RECEBER OS MEGAS N
                 break;
 
             case 'grupo':
-                await this.grupoCommand.execute(commandArgs, from);
-                break;
+    const isDono = this.dataManager.isDono(senderNumber);
+    const isAdmin = await this.isGroupAdmin(from, sender);
+    
+    if (!isDono && !isAdmin) {
+        await this.sendMessage(from, '❌ Apenas administradores podem usar este comando!');
+        return;
+    }
+    
+    const groupJid = msg.key.remoteJid;
+    const senderObj = msg.key.participant || sender;
+
+    let senderName = "Desconhecido";
+    try {
+        // ✅ TENTA PEGAR O NOME EM VÁRIAS FONTES
+        // 1. pushName (nome que a pessoa usa)
+        senderName = msg.pushName;
+        
+        // 2. Se não tiver, busca no metadata do grupo
+        if (!senderName || senderName === "Desconhecido") {
+            const metadata = await this.sock.groupMetadata(groupJid);
+            const participant = metadata.participants.find(p => p.id === senderObj);
+            senderName = participant?.notify || participant?.verifiedName;
+        }
+        
+        // 3. Se ainda não tiver, pega só o número sem @s.whatsapp.net
+        if (!senderName) {
+            senderName = senderObj.split('@')[0];
+        }
+    } catch (err) {
+        console.error("Erro ao pegar senderName:", err);
+        // Fallback: só o número
+        senderName = senderObj.split('@')[0];
+    }
+
+    await this.grupoCommand.execute(commandArgs, groupJid, senderObj, senderName);
+    break;
 
             case 'ban':
             case 'b':
