@@ -6,8 +6,7 @@ class ComprovanteHandler {
     constructor(sock, dataManager) {
         this.sock = sock;
         this.dataManager = dataManager;
-        // API Key gratuita do OCR.space - você pode criar sua própria em https://ocr.space/ocrapi
-        this.OCR_API_KEY = process.env.OCR_API_KEY || 'K87899142388957'; // API Key free
+        this.OCR_API_KEY = process.env.OCR_API_KEY || 'K87899142388957';
     }
 
     /**
@@ -17,9 +16,8 @@ class ComprovanteHandler {
         try {
             console.log('📸 Processando imagem para detectar comprovante...');
 
-            // Download da imagem
             const buffer = await downloadMediaMessage(msg, 'buffer', {});
-            
+
             if (!buffer) {
                 console.log('❌ Erro ao baixar imagem');
                 return;
@@ -27,8 +25,7 @@ class ComprovanteHandler {
 
             console.log('✅ Imagem baixada, tamanho:', buffer.length, 'bytes');
 
-            // Envia para OCR
-            await this.sendMessage(groupJid, '🔍 Analisando imagem...\n⏳ Aguarde alguns segundos...');
+            await this.sendMessage(groupJid, '🔍 Analisando imagem...\n ⏳ Aguarde alguns segundos...');
 
             const textoExtraido = await this.extrairTextoDeImagem(buffer);
 
@@ -40,7 +37,6 @@ class ComprovanteHandler {
             console.log('📝 Texto extraído da imagem:');
             console.log(textoExtraido);
 
-            // Processar o texto extraído como se fosse uma mensagem normal
             await this.processar(textoExtraido, groupJid, senderJid);
 
         } catch (error) {
@@ -56,11 +52,11 @@ class ComprovanteHandler {
         try {
             const formData = new FormData();
             formData.append('base64Image', `data:image/png;base64,${imageBuffer.toString('base64')}`);
-            formData.append('language', 'por'); // Português
+            formData.append('language', 'por');
             formData.append('isOverlayRequired', 'false');
             formData.append('detectOrientation', 'true');
             formData.append('scale', 'true');
-            formData.append('OCREngine', '2'); // Engine 2 é melhor para português
+            formData.append('OCREngine', '2');
 
             const response = await axios.post(
                 'https://api.ocr.space/parse/image',
@@ -80,7 +76,7 @@ class ComprovanteHandler {
             }
 
             const textoExtraido = response.data.ParsedResults?.[0]?.ParsedText;
-            
+
             if (!textoExtraido) {
                 console.log('⚠️ Nenhum texto foi detectado na imagem');
                 return null;
@@ -112,7 +108,7 @@ class ComprovanteHandler {
         const tipoComprovante = this.isComprovante(texto);
 
         if (tipoComprovante === 'mpesa') {
-            const dadosMpesa = this.extrairDadosMpesa(texto);
+            const dadosMpesa = this.extrairDadosMpesa(texto, groupJid);
             if (dadosMpesa) {
                 // Verificar se não é duplicata
                 const isDuplicata = this.verificarDuplicata(dadosMpesa.chave, 'mpesa');
@@ -127,7 +123,7 @@ class ComprovanteHandler {
                 await this.enviarConfirmacaoMpesa(groupJid, senderJid, dadosMpesa);
             }
         } else if (tipoComprovante === 'emola') {
-            const dadosEmola = this.extrairDadosEmola(texto);
+            const dadosEmola = this.extrairDadosEmola(texto, groupJid);
             if (dadosEmola) {
                 // Verificar se não é duplicata
                 const isDuplicata = this.verificarDuplicata(dadosEmola.chave, 'emola');
@@ -144,15 +140,66 @@ class ComprovanteHandler {
         }
     }
 
+    // ===== MUDANÇA: Buscar números válidos por grupo =====
+    getNumerosValidosGrupo(groupJid, tipo) {
+        const usersData = this.dataManager.getUsersData();
+        
+        // Inicializar estrutura se não existir
+        if (!usersData.configuracoes_grupos) {
+            usersData.configuracoes_grupos = {};
+        }
+
+        // Se o grupo não tem configuração, retornar números padrão
+        if (!usersData.configuracoes_grupos[groupJid]) {
+            console.log(`⚠️ Grupo ${groupJid} não tem números configurados, usando padrão`);
+            // Fallback para números do dono.json (compatibilidade)
+            const donoData = this.dataManager.getDonoData();
+            const cfg = donoData.numeros_pagamento?.[tipo];
+            return {
+                numeros: Array.isArray(cfg) ? cfg : (cfg ? [cfg] : []),
+                nomes: {}
+            };
+        }
+
+        const grupoConfig = usersData.configuracoes_grupos[groupJid];
+        const numerosConfig = grupoConfig.numeros_pagamento?.[tipo];
+
+        if (!numerosConfig) {
+            return { numeros: [], nomes: {} };
+        }
+
+        // Se for array simples de números
+        if (Array.isArray(numerosConfig)) {
+            return { numeros: numerosConfig, nomes: {} };
+        }
+
+        // Se for objeto com números e nomes
+        if (numerosConfig.numeros) {
+            return {
+                numeros: numerosConfig.numeros || [],
+                nomes: numerosConfig.nomes || {}
+            };
+        }
+
+        return { numeros: [], nomes: {} };
+    }
+
     verificarDuplicata(chave, tipo) {
         const usersData = this.dataManager.getUsersData();
-        return usersData.comprovantes_utilizados.some(comp => 
+        if (!usersData.comprovantes_utilizados) {
+            usersData.comprovantes_utilizados = [];
+        }
+        return usersData.comprovantes_utilizados.some(comp =>
             comp.chave === chave && comp.tipo === tipo
         );
     }
 
     registrarComprovante(chave, tipo, usuario, valor) {
         const usersData = this.dataManager.getUsersData();
+        if (!usersData.comprovantes_utilizados) {
+            usersData.comprovantes_utilizados = [];
+        }
+
         const registro = {
             chave: chave,
             tipo: tipo,
@@ -173,7 +220,8 @@ class ComprovanteHandler {
         this.dataManager.saveUsersData();
     }
 
-    extrairDadosMpesa(texto) {
+    // ===== MUDANÇA: Validar por grupo =====
+    extrairDadosMpesa(texto, groupJid) {
         try {
             // Extrair chave da transação
             const chaveMatch = texto.match(/Confirmado ([A-Z0-9]+)\./);
@@ -193,22 +241,22 @@ class ComprovanteHandler {
             const data = dataHoraMatch ? dataHoraMatch[1] : null;
             const hora = dataHoraMatch ? dataHoraMatch[2] : null;
 
-            // Validar se é para os números corretos
-            const donoData = this.dataManager.getDonoData();
-            const mpesaCfg = donoData.numeros_pagamento?.mpesa;
-            const numerosValidos = Array.isArray(mpesaCfg)
-                ? mpesaCfg
-                : (mpesaCfg ? [mpesaCfg] : ['853341114']);
+            // ===== VALIDAR USANDO NÚMEROS DO GRUPO =====
+            const { numeros: numerosValidos, nomes } = this.getNumerosValidosGrupo(groupJid, 'mpesa');
             const isDestinoValido = numerosValidos.includes(numeroDestino);
+
+            // Buscar nome amigável configurado para este número
+            const nomeAmigavel = nomes[numeroDestino] || nomeDestino;
 
             return {
                 chave,
                 valor,
                 numeroDestino,
-                nomeDestino,
+                nomeDestino: nomeAmigavel,
                 data,
                 hora,
                 isDestinoValido,
+                numerosValidosGrupo: numerosValidos,
                 tipo: 'M-Pesa'
             };
         } catch (error) {
@@ -217,7 +265,8 @@ class ComprovanteHandler {
         }
     }
 
-    extrairDadosEmola(texto) {
+    // ===== MUDANÇA: Validar por grupo =====
+    extrairDadosEmola(texto, groupJid) {
         try {
             // Extrair ID da transação
             const chaveMatch = texto.match(/ID da transacao ([A-Z0-9.]+)\./);
@@ -240,22 +289,22 @@ class ComprovanteHandler {
             const dataMatch = texto.match(/de ([\d\/]+)\./);
             const data = dataMatch ? dataMatch[1] : null;
 
-            // Validar se é para os números corretos
-            const donoData = this.dataManager.getDonoData();
-            const emolaCfg = donoData.numeros_pagamento?.emola;
-            const numerosValidos = Array.isArray(emolaCfg)
-                ? emolaCfg
-                : (emolaCfg ? [emolaCfg] : ['865325439']);
+            // ===== VALIDAR USANDO NÚMEROS DO GRUPO =====
+            const { numeros: numerosValidos, nomes } = this.getNumerosValidosGrupo(groupJid, 'emola');
             const isDestinoValido = numerosValidos.includes(numeroDestino);
+
+            // Buscar nome amigável configurado para este número
+            const nomeAmigavel = nomes[numeroDestino] || nomeDestino;
 
             return {
                 chave,
                 valor,
                 numeroDestino,
-                nomeDestino,
+                nomeDestino: nomeAmigavel,
                 data,
                 hora,
                 isDestinoValido,
+                numerosValidosGrupo: numerosValidos,
                 tipo: 'E-Mola'
             };
         } catch (error) {
@@ -271,16 +320,7 @@ class ComprovanteHandler {
         mensagem += `🔑 *Chave:* ${dados.chave}\n`;
 
         if (dados.isDestinoValido) {
-            const mpesaCfg = donoData.numeros_pagamento?.mpesa;
-            const numerosValidos = Array.isArray(mpesaCfg)
-                ? mpesaCfg
-                : (mpesaCfg ? [mpesaCfg] : ['853341114']);
-            const friendlyMap = {
-                '841617651': 'Habibo',
-                '848300881': 'Paulo'
-            };
-            const friendly = friendlyMap[dados.numeroDestino] || dados.nomeDestino || 'Destino válido';
-            mensagem += `🏦 *Destino validado:* ${friendly}\n`;
+            mensagem += `🏦 *Destino validado:* ${dados.nomeDestino}\n`;
         } else {
             mensagem += `❌ *Destino inválido:* ${dados.nomeDestino}\n`;
         }
@@ -303,10 +343,7 @@ class ComprovanteHandler {
             mensagem += `📝 Aguarde o processamento do seu pedido.\n`;
             mensagem += `👨‍💼 Em caso de dúvidas, contacte o ${donoData.NickDono}`;
         } else {
-            const mpesaCfg = donoData.numeros_pagamento?.mpesa;
-            const numerosMpesa = Array.isArray(mpesaCfg)
-                ? mpesaCfg.join(', ')
-                : (mpesaCfg || '853341114');
+            const numerosMpesa = dados.numerosValidosGrupo.join(', ') || 'número configurado';
             mensagem += `\n\n❌ *Atenção!* Este comprovativo não é válido.\n`;
             mensagem += `💰 Certifique-se de enviar para o(s) número(s) correto(s): ${numerosMpesa}`;
         }
@@ -344,10 +381,7 @@ class ComprovanteHandler {
             mensagem += `📝 Aguarde o processamento do seu pedido.\n`;
             mensagem += `👨‍💼 Em caso de dúvidas, contacte o ${donoData.NickDono}`;
         } else {
-            const emolaCfg = donoData.numeros_pagamento?.emola;
-            const numerosEmola = Array.isArray(emolaCfg)
-                ? emolaCfg.join(', ')
-                : (emolaCfg || '865325439');
+            const numerosEmola = dados.numerosValidosGrupo.join(', ') || 'número configurado';
             mensagem += `\n\n❌ *Atenção!* Este comprovativo não é válido.\n`;
             mensagem += `💰 Certifique-se de enviar para o(s) número(s) correto(s): ${numerosEmola}`;
         }

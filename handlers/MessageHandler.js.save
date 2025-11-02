@@ -17,11 +17,11 @@ const whatsappValidator = require('../handlers/WhatsAppValidator');
 const AtivarCommand = require('../commands/dono/ativar');
 const LimparCommand = require('../commands/dono/limpar');
 const SemCompraCommand = require('../commands/dono/semcompra');
+const ConfigNumerosCommand = require('..comm
 const MarcarCommand = require('../commands/dono/marcar');
 const AddPagamento = require('../commands/dono/addPagamento');
 const MeInfoCommand = require('../commands/dono/me');
 const AddCoinCommand = require('../commands/dono/addcoin');
-const ConfigNumerosCommand = require('../commands/dono/confignumeros');
 const FotoGpCommand = require('../commands/dono/fotogp');
 const ClientesCommand = require('../commands/dono/clientes');
 const DescGpCommand = require('../commands/dono/descgp');
@@ -81,7 +81,6 @@ class MessageHandler {
         this.grupoCommand = new GrupoCommand(sock, dataManager);
         this.banCommand = new BanCommand(sock, dataManager);
         this.hidetagCommand = new AdminCommand(sock, dataManager);
-	this.configNumerosCommand = new ConfigNumerosCommand(sock, dataManager);
         this.promoteCommand = new PromoverCommand(sock, dataManager);
         this.rebaixarCommand = new RebaixarCommand(sock, dataManager);
         this.bemvindoCommand = new AdminCommand(sock, dataManager);
@@ -855,11 +854,6 @@ ${from}
             case 'adv':
                 await this.adminCommands.advertir(msg, commandArgs, from, sender);
                 break;
-
-	    case 'registrar':
-	    case 'config':
-    		await this.configNumerosCommand.execute(msg, commandArgs, from, sender);
-    		break;
 
             case 'msgbv':
                 await this.adminCommands.msgbv(msg, commandArgs, from, sender);

@@ -1,0 +1,22 @@
+{
+  "grupos": {
+    "120363401341705925@g.us": {
+      "usuarios": {},
+      "estatisticas": {
+        "total_usuarios": 0,
+        "total_compras_realizadas": 0,
+        "ultima_atualizacao": "2025-11-02",
+        "maior_comprador": null
+      }
+    },
+    "120363426190939337@g.us": {
+      "usuarios": {},
+      "estatisticas": {
+        "total_usuarios": 0,
+        "total_compras_realizadas": 0,
+        "ultima_atualizacao": "2025-11-02",
+        "maior_comprador": null
+      }
+    }
+  }
+}

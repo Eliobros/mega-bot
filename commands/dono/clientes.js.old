@@ -26,19 +26,10 @@ class ClientesCommand {
         }
 
         try {
-            // ===== MUDANÇA: Obter dados do GRUPO específico =====
+            // Obter dados dos usuários
             const usersData = this.dataManager.getUsersData();
-
-            // Verificar se o grupo tem dados
-            if (!usersData.grupos || !usersData.grupos[from]) {
-                await this.sendMessage(from, '📊 *Ranking de Clientes*\n\n❌ Ainda não há compradores neste grupo.\n\n💡 Faça sua primeira compra usando o comando `' + prefixo + 'comprar`!');
-                return;
-            }
-
-            const grupoData = usersData.grupos[from];
-            const usuarios = grupoData.usuarios || {};
-
-            if (Object.keys(usuarios).length === 0) {
+            
+            if (!usersData.usuarios || Object.keys(usersData.usuarios).length === 0) {
                 await this.sendMessage(from, '📊 *Ranking de Clientes*\n\n❌ Ainda não há compradores neste grupo.\n\n💡 Faça sua primeira compra usando o comando `' + prefixo + 'comprar`!');
                 return;
             }
@@ -64,11 +55,11 @@ class ClientesCommand {
 
             // Criar ranking baseado no tipo solicitado
             if (tipoRanking === 'hoje') {
-                ranking = this.getRankingHoje(usuarios, hoje);
+                ranking = this.getRankingHoje(usersData, hoje);
             } else if (tipoRanking === 'mes') {
-                ranking = this.getRankingMes(usuarios, inicioMes);
+                ranking = this.getRankingMes(usersData, inicioMes);
             } else {
-                ranking = this.getRankingGeral(usuarios);
+                ranking = this.getRankingGeral(usersData);
             }
 
             // Limitar resultados
@@ -88,7 +79,7 @@ class ClientesCommand {
             }
 
             // Montar mensagem do ranking
-            const mensagem = this.montarMensagemRanking(ranking, tipoRanking, limite, grupoData.estatisticas, prefixo);
+            const mensagem = this.montarMensagemRanking(ranking, tipoRanking, limite, usersData.estatisticas_grupo, prefixo);
             await this.sendMessage(from, mensagem);
 
             console.log(`📊 Ranking solicitado: ${tipoRanking} (top ${limite}) - ${ranking.length} resultados`);
@@ -99,13 +90,12 @@ class ClientesCommand {
         }
     }
 
-    // ===== MUDANÇA: Recebe usuarios ao invés de usersData =====
-    getRankingGeral(usuarios) {
-        return Object.entries(usuarios)
+    getRankingGeral(usersData) {
+        return Object.entries(usersData.usuarios)
             .map(([jid, userData]) => {
-                // Tentar obter o nome real do usuário
+                // CORREÇÃO: Tentar obter o nome real do usuário
                 let nomeExibir = userData.nome || userData.numero;
-
+                
                 // Se o nome é igual ao número, tentar buscar nome real
                 if (nomeExibir === userData.numero || !isNaN(nomeExibir)) {
                     // Tentar usar pushName se disponível
@@ -131,18 +121,18 @@ class ClientesCommand {
             .sort((a, b) => b.totalGB - a.totalGB);
     }
 
-    getRankingHoje(usuarios, hoje) {
-        return Object.entries(usuarios)
+    getRankingHoje(usersData, hoje) {
+        return Object.entries(usersData.usuarios)
             .map(([jid, userData]) => {
-                const comprasHoje = userData.historico_compras?.filter(compra =>
+                const comprasHoje = userData.historico_compras?.filter(compra => 
                     compra.data === hoje
                 ) || [];
 
-                const gbHoje = comprasHoje.reduce((total, compra) =>
+                const gbHoje = comprasHoje.reduce((total, compra) => 
                     total + (compra.gb || 0), 0
                 );
 
-                // Usar mesmo sistema para obter nome
+                // CORREÇÃO: Usar mesmo sistema para obter nome
                 let nomeExibir = userData.nome || userData.numero;
                 if (nomeExibir === userData.numero || !isNaN(nomeExibir)) {
                     if (userData.pushName && userData.pushName !== userData.numero) {
@@ -166,18 +156,18 @@ class ClientesCommand {
             .sort((a, b) => b.totalGB - a.totalGB);
     }
 
-    getRankingMes(usuarios, inicioMes) {
-        return Object.entries(usuarios)
+    getRankingMes(usersData, inicioMes) {
+        return Object.entries(usersData.usuarios)
             .map(([jid, userData]) => {
-                const comprasMes = userData.historico_compras?.filter(compra =>
+                const comprasMes = userData.historico_compras?.filter(compra => 
                     compra.data.startsWith(inicioMes)
                 ) || [];
 
-                const gbMes = comprasMes.reduce((total, compra) =>
+                const gbMes = comprasMes.reduce((total, compra) => 
                     total + (compra.gb || 0), 0
                 );
 
-                // Usar mesmo sistema para obter nome
+                // CORREÇÃO: Usar mesmo sistema para obter nome
                 let nomeExibir = userData.nome || userData.numero;
                 if (nomeExibir === userData.numero || !isNaN(nomeExibir)) {
                     if (userData.pushName && userData.pushName !== userData.numero) {
@@ -250,11 +240,11 @@ class ClientesCommand {
             mensagem += `📈 *ESTATÍSTICAS DO GRUPO*\n\n`;
             mensagem += `👥 Total de clientes: ${estatisticas.total_usuarios || 0}\n`;
             mensagem += `🛒 Compras realizadas: ${estatisticas.total_compras_realizadas || 0}\n`;
-
+            
             if (estatisticas.maior_comprador) {
-                mensagem += `👑 Maior comprador: ${estatisticas.maior_comprador.nome} (${estatisticas.maior_comprador.total_gb.toFixed(2)}GB)\n`;
+                mensagem += `👑 Maior comprador: ${estatisticas.maior_comprador.nome} (${estatisticas.maior_comprador.total_gb}GB)\n`;
             }
-
+            
             mensagem += `📅 Última atualização: ${estatisticas.ultima_atualizacao || 'N/A'}\n\n`;
         }
 

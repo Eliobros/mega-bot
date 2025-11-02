@@ -18,7 +18,7 @@ class CompraHandler {
             const clienteNumero = clienteJid.replace(/@.*/, '');
             const hoje = new Date().toISOString().split('T')[0];
 
-            // Buscar informações do pacote (opcionalmente por tipo preferido: d/s/m)
+            // Buscar informações do pacote
             const pacoteInfo = this.encontrarPacote(pacote, tipoPreferido);
             if (!pacoteInfo) {
                 await this.sendMessage(groupJid, `❌ Pacote "${pacote}" não encontrado na tabela!`);
@@ -27,24 +27,35 @@ class CompraHandler {
 
             // Obter dados dos usuários
             const usersData = this.dataManager.getUsersData();
-            
-            // Inicializar estrutura se não existir
-            if (!usersData.usuarios) {
-                usersData.usuarios = {};
+
+            // ===== MUDANÇA PRINCIPAL: Estrutura por grupo =====
+            // Inicializar estrutura geral se não existir
+            if (!usersData.grupos) {
+                usersData.grupos = {};
             }
-            if (!usersData.estatisticas_grupo) {
-                usersData.estatisticas_grupo = {
-                    total_usuarios: 0,
-                    total_compras_realizadas: 0,
-                    ultima_atualizacao: hoje,
-                    maior_comprador: null
+
+            // Inicializar estrutura do grupo específico se não existir
+            if (!usersData.grupos[groupJid]) {
+                usersData.grupos[groupJid] = {
+                    usuarios: {},
+                    estatisticas: {
+                        total_usuarios: 0,
+                        total_compras_realizadas: 0,
+                        ultima_atualizacao: hoje,
+                        maior_comprador: null
+                    }
                 };
             }
 
-            // Verificar se é cliente novo
-            const isClienteNovo = !usersData.usuarios[clienteJid];
+            // Referenciar o grupo atual
+            const grupoAtual = usersData.grupos[groupJid];
+            const usuarios = grupoAtual.usuarios;
+            const estatisticas = grupoAtual.estatisticas;
 
-            // Inicializar usuário se não existir
+            // Verificar se é cliente novo NO GRUPO
+            const isClienteNovo = !usuarios[clienteJid];
+
+            // Inicializar usuário se não existir NO GRUPO
             if (isClienteNovo) {
                 // Tentar obter nome real do usuário
                 let nomeUsuario = clienteNumero;
@@ -57,7 +68,7 @@ class CompraHandler {
                     console.log('Não foi possível obter nome do contato');
                 }
 
-                usersData.usuarios[clienteJid] = {
+                usuarios[clienteJid] = {
                     nome: nomeUsuario,
                     numero: clienteNumero,
                     total_compras: 0,
@@ -67,17 +78,17 @@ class CompraHandler {
                     compras_hoje: 0,
                     historico_compras: []
                 };
-                usersData.estatisticas_grupo.total_usuarios++;
+                estatisticas.total_usuarios++;
             }
 
-            const usuario = usersData.usuarios[clienteJid];
+            const usuario = usuarios[clienteJid];
 
             // Resetar compras do dia se mudou o dia
             if (usuario.ultima_compra !== hoje) {
                 usuario.compras_hoje = 0;
             }
 
-            // Calcular GB do pacote usando valor_numerico
+            // Calcular GB do pacote
             const gbPacote = this.calcularGB(pacoteInfo.valor_numerico, pacoteInfo.tipo_dados);
 
             // Verificar tipos de compra
@@ -108,12 +119,12 @@ class CompraHandler {
                 tipo: pacoteInfo.tipo
             });
 
-            // Atualizar estatísticas do grupo
-            usersData.estatisticas_grupo.total_compras_realizadas++;
-            usersData.estatisticas_grupo.ultima_atualizacao = hoje;
+            // Atualizar estatísticas DO GRUPO
+            estatisticas.total_compras_realizadas++;
+            estatisticas.ultima_atualizacao = hoje;
 
-            // Calcular ranking
-            const ranking = this.calcularRanking(clienteJid, usersData);
+            // Calcular ranking DO GRUPO
+            const ranking = this.calcularRanking(clienteJid, groupJid, usersData);
 
             // Salvar dados
             this.dataManager.saveUsersData();
@@ -130,7 +141,7 @@ class CompraHandler {
             // Enviar mensagem de confirmação
             await this.enviarMensagemCompra(groupJid, clienteJid, pacoteInfo, dadosCompra, ranking, usuario);
 
-            console.log(`✅ Compra processada: ${usuario.nome} (${clienteNumero}) comprou ${pacoteInfo.nome} - ${pacoteInfo.quantidade}`);
+            console.log(`✅ Compra processada no grupo ${groupJid}: ${usuario.nome} (${clienteNumero}) comprou ${pacoteInfo.nome} - ${pacoteInfo.quantidade}`);
 
         } catch (err) {
             console.error('Erro ao processar compra:', err);
@@ -183,15 +194,12 @@ class CompraHandler {
         // Buscar em megas diários
         if (tabelaData.megas_diarios?.pacotes) {
             for (const pacote of tabelaData.megas_diarios.pacotes) {
-                // Buscar por nome (ex: "20MT")
                 if (pacote.nome.toLowerCase() === nomePacote.toLowerCase()) {
                     return { ...pacote, tipo: 'diario' };
                 }
-                // Buscar por quantidade (ex: "1100MB")
                 if (pacote.quantidade.toLowerCase().replace(/\s+/g, '') === pacoteNormalizado) {
                     return { ...pacote, tipo: 'diario' };
                 }
-                // Buscar por valor numérico (ex: 1100)
                 const inputNum = parseInt(nomePacote.replace(/\D/g, ''));
                 if (!isNaN(inputNum) && pacote.valor_numerico === inputNum) {
                     return { ...pacote, tipo: 'diario' };
@@ -238,7 +246,7 @@ class CompraHandler {
         if (tipoDados === 'GB') {
             return valorNumerico;
         } else if (tipoDados === 'MB') {
-            return valorNumerico / 1024; // Converter MB para GB
+            return valorNumerico / 1024;
         }
         return 0;
     }
@@ -250,17 +258,29 @@ class CompraHandler {
         return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
     }
 
-    calcularRanking(clienteJid, usersData) {
-        const usuarios = Object.entries(usersData.usuarios)
+    // ===== MUDANÇA: Calcular ranking por grupo =====
+    calcularRanking(clienteJid, groupJid, usersData) {
+        // Pegar apenas usuários DESTE GRUPO
+        const grupoAtual = usersData.grupos[groupJid];
+        if (!grupoAtual || !grupoAtual.usuarios) {
+            return {
+                posicao: 1,
+                totalUsuarios: 1,
+                maiorCompradorGB: 0,
+                clienteGB: 0
+            };
+        }
+
+        const usuarios = Object.entries(grupoAtual.usuarios)
             .map(([jid, userData]) => ({ jid, ...userData }))
             .sort((a, b) => b.total_gb_acumulado - a.total_gb_acumulado);
 
         const posicao = usuarios.findIndex(u => u.jid === clienteJid) + 1;
         const maiorComprador = usuarios[0];
 
-        // Atualizar maior comprador nas estatísticas
+        // Atualizar maior comprador nas estatísticas DO GRUPO
         if (maiorComprador) {
-            usersData.estatisticas_grupo.maior_comprador = {
+            grupoAtual.estatisticas.maior_comprador = {
                 numero: maiorComprador.numero,
                 nome: maiorComprador.nome,
                 total_gb: maiorComprador.total_gb_acumulado
@@ -271,7 +291,7 @@ class CompraHandler {
             posicao,
             totalUsuarios: usuarios.length,
             maiorCompradorGB: maiorComprador ? maiorComprador.total_gb_acumulado : 0,
-            clienteGB: usersData.usuarios[clienteJid].total_gb_acumulado
+            clienteGB: grupoAtual.usuarios[clienteJid].total_gb_acumulado
         };
     }
 
@@ -332,7 +352,7 @@ class CompraHandler {
         }
 
         // Informação sobre o tipo e validade do pacote
-        const tipoTexto = pacoteInfo.tipo === 'diario' ? 'Diário (24h)' : 
+        const tipoTexto = pacoteInfo.tipo === 'diario' ? 'Diário (24h)' :
                         pacoteInfo.tipo === 'semanal' ? 'Semanal (7 dias)' : 'Mensal (30 dias)';
         mensagem += `\n📋 *Tipo do Pacote:* ${tipoTexto}`;
 
@@ -347,17 +367,22 @@ class CompraHandler {
         }
     }
 
-    // Métodos auxiliares para estatísticas
-    async getEstatisticasGrupo() {
+    // ===== MUDANÇA: Métodos para estatísticas por grupo =====
+    async getEstatisticasGrupo(groupJid) {
         const usersData = this.dataManager.getUsersData();
-        return usersData.estatisticas_grupo || {};
+        if (!usersData.grupos || !usersData.grupos[groupJid]) {
+            return {};
+        }
+        return usersData.grupos[groupJid].estatisticas || {};
     }
 
-    async getRankingCompleto(limite = 10) {
+    async getRankingCompleto(groupJid, limite = 10) {
         const usersData = this.dataManager.getUsersData();
-        if (!usersData.usuarios) return [];
+        if (!usersData.grupos || !usersData.grupos[groupJid] || !usersData.grupos[groupJid].usuarios) {
+            return [];
+        }
 
-        return Object.entries(usersData.usuarios)
+        return Object.entries(usersData.grupos[groupJid].usuarios)
             .map(([jid, userData]) => ({
                 jid,
                 nome: userData.nome,
