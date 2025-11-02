@@ -3,7 +3,7 @@ const {
     DisconnectReason, 
     useMultiFileAuthState,
     Browsers
-} = require('@whiskeysockets/baileys');
+} = require('baileys');
 const { Boom } = require('@hapi/boom');
 const pino = require('pino');
 const qrcode = require('qrcode-terminal');

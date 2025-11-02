@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const { jidNormalizedUser } = require('@whiskeysockets/baileys');
+const { jidNormalizedUser } = require('baileys');
 
 
 class AdminCommands {

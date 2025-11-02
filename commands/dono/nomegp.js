@@ -1,5 +1,5 @@
 //comado pra mudar nome do grupo
-const { jidNormalizedUser } = require('@whiskeysockets/baileys');
+const { jidNormalizedUser } = require('baileys');
 const fs = require('fs');
 const path = require('path');
 const donoData = require('../../database/dono.json');

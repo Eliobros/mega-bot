@@ -128,5 +128,29 @@
     ],
     "userNum": "202641388920888@lid",
     "groupName": "MEGAS DA VODACOM 24/24🌐💸"
+  },
+  "120363401341705925@g.us_16742201962506@lid": {
+    "count": 1,
+    "warnings": [
+      {
+        "motivo": "Comportamento inadequado",
+        "admin": "38560870695150@lid",
+        "data": "2025-10-27T17:02:16.203Z"
+      }
+    ],
+    "userNum": "16742201962506@lid",
+    "groupName": "MEGAS DA VODACOM 24/24🌐💸"
+  },
+  "120363401341705925@g.us_192131721339051@lid": {
+    "count": 1,
+    "warnings": [
+      {
+        "motivo": "Comportamento inadequado",
+        "admin": "38560870695150@lid",
+        "data": "2025-10-28T15:26:26.038Z"
+      }
+    ],
+    "userNum": "192131721339051@lid",
+    "groupName": "MEGAS DA VODACOM 24/24🌐💸"
   }
 }

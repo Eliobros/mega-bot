@@ -17,15 +17,20 @@
   "license": "MIT",
   "dependencies": {
     "@hapi/boom": "^10.0.1",
-    "@whiskeysockets/baileys": "^6.7.8",
+    "@whiskeysockets/baileys": "^7.0.0-rc.6",
+    "axios": "^1.12.2",
+    "baileys": "github:WhiskeySockets/Baileys",
     "child_process": "^1.0.2",
+    "dotenv": "^17.2.3",
     "ffmpeg-static": "^5.2.0",
     "fluent-ffmpeg": "^2.1.2",
+    "form-data": "^4.0.4",
     "node-fetch": "^3.3.2",
     "pino": "^8.17.2",
     "play-dl": "^1.9.7",
     "qrcode-terminal": "^0.12.0",
-    "util": "^0.12.5"
+    "util": "^0.12.5",
+    "ws": "^8.18.3"
   },
   "devDependencies": {
     "nodemon": "^3.0.2"

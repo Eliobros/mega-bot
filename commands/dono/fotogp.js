@@ -1,4 +1,4 @@
-const { jidNormalizedUser, MessageType } = require('@whiskeysockets/baileys');
+const { jidNormalizedUser, MessageType } = require('baileys');
 const fs = require('fs');
 
 class FotoGpCommand {

@@ -31,15 +31,41 @@ class DeleteCommand {
         };
     }
 
-    // Verificar permissões do usuário
+    // 🔧 NOVO: Normalizar número (só dígitos)
+    normalizarNumero(jid) {
+        return jid.replace(/\D/g, '');
+    }
+
+    // Verificar permissões do usuário - ATUALIZADO COM LOGS
     async checkUserPermissions(groupJid, senderJid) {
         const dono = this.getDonoInfo();
-        const isDono = senderJid === dono.jid;
+        
+        // Extrai apenas números para comparação
+        const senderNumber = this.normalizarNumero(senderJid.split('@')[0]);
+        const donoNumber = this.normalizarNumero(dono.number);
+        
+        // Verifica se é dono (múltiplas formas de comparação)
+        const isDono = senderNumber === donoNumber || 
+                       senderNumber.includes(donoNumber) ||
+                       donoNumber.includes(senderNumber);
+        
+        // 🐛 LOGS DETALHADOS
+        console.log('\n============ VERIFICAÇÃO DE PERMISSÕES ============');
+        console.log('📱 Sender JID completo:', senderJid);
+        console.log('🔢 Sender Number (extraído):', senderNumber);
+        console.log('👑 Dono JID completo:', dono.jid);
+        console.log('🔢 Dono Number (config):', donoNumber);
+        console.log('✅ É Dono?:', isDono ? '✅ SIM' : '❌ NÃO');
+        console.log('🏪 Grupo JID:', groupJid);
         
         try {
             const groupMetadata = await this.sock.groupMetadata(groupJid);
             const participant = groupMetadata.participants.find(p => p.id === senderJid);
             const isAdmin = participant?.admin === 'admin' || participant?.admin === 'superadmin';
+            
+            console.log('👮 É Admin?:', isAdmin ? '✅ SIM' : '❌ NÃO');
+            console.log('🔐 Permissão Final:', (isDono || isAdmin) ? '✅ AUTORIZADO' : '❌ NEGADO');
+            console.log('===================================================\n');
             
             return {
                 isDono,
@@ -48,7 +74,8 @@ class DeleteCommand {
                 participant
             };
         } catch (error) {
-            console.error("Erro ao verificar permissões:", error);
+            console.error("❌ Erro ao verificar permissões:", error);
+            console.log('===================================================\n');
             return { isDono, isAdmin: false, groupMetadata: null, participant: null };
         }
     }
@@ -60,11 +87,15 @@ class DeleteCommand {
     }
 
     async execute(msg, args, groupJid, senderJid) {
-        console.log(`🔍 DEBUG DELETE COMMAND:
-        - GroupJid: ${groupJid}
-        - SenderJid: ${senderJid}
-        - Args: ${JSON.stringify(args)}
-        - Mensagem citada existe: ${!!msg.message?.extendedTextMessage?.contextInfo?.quotedMessage}`);
+        console.log('\n========== DELETE COMMAND INICIADO ==========');
+        console.log('🔍 DEBUG DELETE COMMAND:');
+        console.log('- GroupJid:', groupJid);
+        console.log('- SenderJid:', senderJid);
+        console.log('- Args:', JSON.stringify(args));
+        console.log('- Mensagem citada existe:', !!msg.message?.extendedTextMessage?.contextInfo?.quotedMessage);
+        console.log('- StanzaId:', msg.message?.extendedTextMessage?.contextInfo?.stanzaId);
+        console.log('- Participant:', msg.message?.extendedTextMessage?.contextInfo?.participant);
+        console.log('=============================================\n');
 
         const prefix = this.getPrefix();
 
@@ -83,9 +114,12 @@ class DeleteCommand {
         }
 
         if (!permissions.isAdmin && !permissions.isDono) {
+            console.log('⛔ ACESSO NEGADO: Usuário não é admin nem dono');
             await this.sendMessage(groupJid, '❌ Apenas admins podem usar este comando!');
             return;
         }
+
+        console.log('✅ PERMISSÃO CONCEDIDA: Prosseguindo com delete...\n');
 
         // Verificar se há uma mensagem citada/marcada
         const quotedMessage = msg.message?.extendedTextMessage?.contextInfo?.quotedMessage;
@@ -93,6 +127,7 @@ class DeleteCommand {
         const participant = msg.message?.extendedTextMessage?.contextInfo?.participant;
 
         if (!quotedMessage || !stanzaId) {
+            console.log('⚠️ Nenhuma mensagem marcada para deletar');
             await this.sendMessage(groupJid, `❌ *Nenhuma mensagem marcada!*\n\n💡 *Como usar:*\n• Responda/marque a mensagem que quer apagar\n• Digite \`${prefix}delete\` ou \`${prefix}del\``);
             return;
         }
@@ -104,6 +139,11 @@ class DeleteCommand {
             const targetUser = participant || senderJid;
             const targetUserNumber = targetUser.replace('@s.whatsapp.net', '');
 
+            console.log('🗑️ Tentando deletar mensagem:');
+            console.log('- ID da mensagem:', stanzaId);
+            console.log('- Autor da mensagem:', targetUserNumber);
+            console.log('- Grupo:', groupName);
+
             // Apagar a mensagem marcada
             await this.sock.sendMessage(groupJid, {
                 delete: {
@@ -113,12 +153,15 @@ class DeleteCommand {
                 }
             });
 
+            console.log('✅ Mensagem deletada com sucesso!');
+
             // Pequena pausa para garantir que a mensagem foi deletada
             await new Promise(resolve => setTimeout(resolve, 500));
 
             // Opcional: Apagar também o comando delete (para deixar mais limpo)
             if (args[0] !== 'keep' && args[0] !== 'manter') {
                 try {
+                    console.log('🧹 Tentando apagar o comando delete também...');
                     await this.sock.sendMessage(groupJid, {
                         delete: {
                             remoteJid: groupJid,
@@ -126,8 +169,9 @@ class DeleteCommand {
                             participant: msg.key.participant || senderJid
                         }
                     });
+                    console.log('✅ Comando delete também foi apagado');
                 } catch (e) {
-                    console.log("Não foi possível apagar o comando delete");
+                    console.log('⚠️ Não foi possível apagar o comando delete:', e.message);
                 }
             }
 
@@ -141,13 +185,19 @@ class DeleteCommand {
                 log += `📅 *Data/Hora:* ${new Date().toLocaleString('pt-BR')}\n`;
                 log += `🆔 *ID do Grupo:* ${groupJid}`;
                 
+                console.log('📤 Enviando log para o dono...');
                 await this.sendLogToDono(log);
+                console.log('✅ Log enviado para o dono');
             }
 
-            console.log(`🗑️ Mensagem deletada por ${senderJid} no grupo ${groupName}`);
+            console.log('🎉 Operação de delete concluída com sucesso!\n');
 
         } catch (error) {
-            console.error("❌ Erro ao deletar mensagem:", error);
+            console.error('\n❌ ========== ERRO AO DELETAR MENSAGEM ==========');
+            console.error('Erro completo:', error);
+            console.error('Status Code:', error.output?.statusCode);
+            console.error('Mensagem de erro:', error.message);
+            console.error('================================================\n');
             
             if (error.output?.statusCode === 403) {
                 await this.sendMessage(groupJid, '❌ Bot não tem permissão para deletar mensagens!\n💡 Verifique se o bot é admin do grupo.');
@@ -161,19 +211,25 @@ class DeleteCommand {
 
     // Método alternativo para deletar múltiplas mensagens (para uso futuro)
     async deleteMultiple(messageIds, groupJid, senderJid) {
+        console.log('\n🗑️ Iniciando deleção múltipla de mensagens...');
+        console.log('Quantidade de mensagens:', messageIds.length);
+        
         const permissions = await this.checkUserPermissions(groupJid, senderJid);
         
         if (!permissions.isAdmin && !permissions.isDono) {
+            console.log('⛔ Permissão negada para deleção múltipla');
             return false;
         }
 
         try {
-            for (const msgId of messageIds) {
+            for (let i = 0; i < messageIds.length; i++) {
+                console.log(`Deletando mensagem ${i + 1}/${messageIds.length}...`);
+                
                 await this.sock.sendMessage(groupJid, {
                     delete: {
                         remoteJid: groupJid,
-                        id: msgId.id,
-                        participant: msgId.participant
+                        id: messageIds[i].id,
+                        participant: messageIds[i].participant
                     }
                 });
                 
@@ -181,9 +237,10 @@ class DeleteCommand {
                 await new Promise(resolve => setTimeout(resolve, 200));
             }
             
+            console.log('✅ Todas as mensagens foram deletadas com sucesso!\n');
             return true;
         } catch (error) {
-            console.error("Erro ao deletar múltiplas mensagens:", error);
+            console.error("❌ Erro ao deletar múltiplas mensagens:", error);
             return false;
         }
     }

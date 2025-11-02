@@ -4,18 +4,21 @@ const path = require('path');
 class DataManager {
     constructor() {
         this.basePath = path.join(__dirname, '..', 'database');
-
+	
         // ---------- Arquivos ----------
         this.donoPath = path.join(this.basePath, 'dono.json');
         this.groupsPath = path.join(this.basePath, 'groupsAllowed.json');
         this.usersPath = path.join(this.basePath, 'users.json');
-        this.tabelasPath = path.join(this.basePath, 'tabelas.json'); // arquivo único de tabelas
-
+        this.tabelasPath = path.join(this.basePath, 'tabelas.json');
+        this.membersEntryPath = path.join(this.basePath, 'membersEntry.json'); // 🆕
+	this.statusWarningsPath = path.join(this.basePath, 'statusWarnings.json'); // ✅ adicionado
         // ---------- Dados em memória ----------
         this.donoData = null;
         this.groupsData = { grupos: [] };
         this.usersData = { users: [], comprovantes_utilizados: [] };
         this.tabelasData = {};
+        this.membersEntryData = {}; // 🆕
+	statusMentionWarnings: {};
     }
 
     // ---------- Helpers ----------
@@ -49,6 +52,9 @@ class DataManager {
         this.groupsData = this.loadJSON(this.groupsPath, { grupos: [] });
         this.usersData = this.loadJSON(this.usersPath, { users: [], comprovantes_utilizados: [] });
         this.tabelasData = this.loadJSON(this.tabelasPath, {});
+        this.membersEntryData = this.loadJSON(this.membersEntryPath, {}); // 🆕
+	this.statusWarningsData = this.loadJSON(this.statusWarningsPath, {}); // 🆕
+
     }
 
     // ---------- Dono ----------
@@ -166,15 +172,15 @@ class DataManager {
     }
 
     getTabelaByGroup(groupId) {
-    if (!this.tabelasData) this.loadAll(); // garante que os dados estão carregados
-    return this.tabelasData[groupId] || null; // retorna a tabela do grupo ou null
-}
+        if (!this.tabelasData) this.loadAll();
+        return this.tabelasData[groupId] || null;
+    }
 
-   saveTabelaByGroup(groupId, tabelaObj) {
-    if (!this.tabelasData) this.loadAll();
-    this.tabelasData[groupId] = tabelaObj;
-    this.saveJSON(this.tabelasPath, this.tabelasData);
-}
+    saveTabelaByGroup(groupId, tabelaObj) {
+        if (!this.tabelasData) this.loadAll();
+        this.tabelasData[groupId] = tabelaObj;
+        this.saveJSON(this.tabelasPath, this.tabelasData);
+    }
 
     // ---------- Assinaturas de Grupos ----------
     getGroupSubscriptionsData() {
@@ -240,6 +246,131 @@ class DataManager {
         if (!group) return false;
         const now = new Date();
         return group.active && now <= new Date(group.endDate);
+    }
+
+
+	// ===== ADICIONE ESSES MÉTODOS NO SEU DataManager.js =====
+
+// 📌 Obter número de avisos de um membro por marcar grupo no status
+getStatusMentionWarnings(groupJid, participantJid) {
+    if (!this.statusWarningsData[groupJid]) {
+        this.statusWarningsData[groupJid] = {};
+    }
+    
+    return this.statusWarningsData[groupJid][participantJid] || 0;
+}
+
+// 📌 Adicionar aviso de menção no status
+addStatusMentionWarning(groupJid, participantJid) {
+    if (!this.statusWarningsData[groupJid]) {
+        this.statusWarningsData[groupJid] = {};
+    }
+    
+    const currentWarnings = this.statusWarningsData[groupJid][participantJid] || 0;
+    this.statusWarningsData[groupJid][participantJid] = currentWarnings + 1;
+    
+    this.saveJSON(this.statusWarningsPath, this.statusWarningsData);
+    
+    return this.statusWarningsData[groupJid][participantJid];
+}
+
+// 📌 Resetar avisos de um membro (caso admin queira dar segunda chance)
+resetStatusMentionWarnings(groupJid, participantJid) {
+    if (this.statusWarningsData[groupJid]?.[participantJid]) {
+        delete this.statusWarningsData[groupJid][participantJid];
+        this.saveJSON(this.statusWarningsPath, this.statusWarningsData);
+        return true;
+    }
+    return false;
+}
+
+// 📌 Ver todos os avisos de um grupo
+getGroupStatusMentionWarnings(groupJid) {
+    return this.statusWarningsData[groupJid] || {};
+}
+
+    // 🆕 ---------- Entradas de Membros ----------
+    getMembersEntryData() {
+        if (!this.membersEntryData) this.loadAll();
+        return this.membersEntryData;
+    }
+
+    saveMembersEntryData() {
+        this.saveJSON(this.membersEntryPath, this.membersEntryData);
+    }
+
+    /**
+     * Adiciona ou atualiza a data de entrada de um membro
+     * @param {string} groupJid - JID do grupo
+     * @param {string} memberJid - JID do membro
+     * @param {string} entryDate - Data de entrada em ISO format
+     */
+    addMemberEntry(groupJid, memberJid, entryDate) {
+        if (!this.membersEntryData[groupJid]) {
+            this.membersEntryData[groupJid] = {};
+        }
+        
+        // Só atualiza se o membro ainda não tiver registro (primeira entrada)
+        if (!this.membersEntryData[groupJid][memberJid]) {
+            this.membersEntryData[groupJid][memberJid] = {
+                entryDate,
+                registered: entryDate
+            };
+            this.saveMembersEntryData();
+        }
+    }
+
+    /**
+     * Remove o registro de entrada de um membro
+     * @param {string} groupJid - JID do grupo
+     * @param {string} memberJid - JID do membro
+     */
+    removeMemberEntry(groupJid, memberJid) {
+        if (this.membersEntryData[groupJid] && this.membersEntryData[groupJid][memberJid]) {
+            delete this.membersEntryData[groupJid][memberJid];
+            this.saveMembersEntryData();
+        }
+    }
+
+    /**
+     * Retorna a data de entrada de um membro
+     * @param {string} groupJid - JID do grupo
+     * @param {string} memberJid - JID do membro
+     * @returns {string|null} - Data de entrada ou null
+     */
+    getMemberEntryDate(groupJid, memberJid) {
+        if (this.membersEntryData[groupJid] && this.membersEntryData[groupJid][memberJid]) {
+            return this.membersEntryData[groupJid][memberJid].entryDate;
+        }
+        return null;
+    }
+
+    /**
+     * Verifica se um membro entrou nos últimos X dias
+     * @param {string} groupJid - JID do grupo
+     * @param {string} memberJid - JID do membro
+     * @param {number} days - Número de dias
+     * @returns {boolean}
+     */
+    memberEnteredInLastDays(groupJid, memberJid, days) {
+        const entryDate = this.getMemberEntryDate(groupJid, memberJid);
+        if (!entryDate) return false;
+
+        const entry = new Date(entryDate);
+        const now = new Date();
+        const diffTime = Math.abs(now - entry);
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+        return diffDays <= days;
+    }
+
+    /**
+     * Retorna todos os membros de um grupo com suas datas de entrada
+     * @param {string} groupJid - JID do grupo
+     * @returns {Object}
+     */
+    getAllMembersEntry(groupJid) {
+        return this.membersEntryData[groupJid] || {};
     }
 }
 

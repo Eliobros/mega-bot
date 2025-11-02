@@ -1,4 +1,4 @@
-const { jidNormalizedUser } = require('@whiskeysockets/baileys');
+const { jidNormalizedUser } = require('baileys');
 
 class DescGpCommand {
     constructor(sock) {

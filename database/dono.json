@@ -2,7 +2,7 @@
   "prefixo": "!",
   "NomeDoBot": "Tina Bot",
   "NickDono": "Zëüs Lykraios",
-  "NumeroDono": "258841617651",
+  "NumeroDono": "38560870695150",
   "MozhostPassword": "Cadeira33@",
   "numeros_pagamento": {
     "mpesa": [
@@ -46,6 +46,17 @@
     "86952166576371@s.whatsapp.net": {
       "antipv": false,
       "anticall": false
+    },
+    "120363403636113476@g.us": {
+      "antilink": true,
+      "groupName": "Vededora de megas da vodacom moz",
+      "enabledAt": "2025-11-01T03:45:07.537Z"
+    },
+    "120363426190939337@g.us": {
+      "antilink": true,
+      "groupName": "MEGAS SUPER BARATOS 📶🇲🇿",
+      "enabledAt": "2025-11-01T03:55:55.238Z",
+      "bemvindo_ativo": true
     }
   },
   "Prefixo": "/"
