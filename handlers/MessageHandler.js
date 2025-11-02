@@ -13,6 +13,8 @@ const HelpCommand = require('../commands/membros/help');
 const PlayCommand = require('../commands/membros/play')
 
 //comandos para dono
+const LicencaCommand = require('../commands/dono/licensa');
+const LicencasCommand = require('../commands/dono/licensas');
 const whatsappValidator = require('../handlers/WhatsAppValidator');
 const AtivarCommand = require('../commands/dono/ativar');
 const LimparCommand = require('../commands/dono/limpar');
@@ -85,6 +87,8 @@ class MessageHandler {
         this.promoteCommand = new PromoverCommand(sock, dataManager);
         this.rebaixarCommand = new RebaixarCommand(sock, dataManager);
         this.bemvindoCommand = new AdminCommand(sock, dataManager);
+	this.licencaCommand = new LicencaCommand(sock, dataManager);
+this.licencasCommand = new LicencasCommand(sock, dataManager);
         this.saiuCommand = new AdminCommand(sock, dataManager);
         this.msgbvCommand = new AdminCommand(sock, dataManager);
         this.msgsaiuCommand = new AdminCommand(sock, dataManager);
@@ -752,6 +756,21 @@ if (hasImage) {
             case 'setprefix':
                 await this.setprefixCommand.execute(msg, commandArgs, from, sender);
                 break;
+
+	    case 'licenca':
+case 'licença':
+case 'license':
+case 'renovar':
+case 'assinatura':
+    await this.licencaCommand.execute(msg, commandArgs, from, sender);
+    break;
+
+case 'licencas':
+case 'licenças':
+case 'licenses':
+case 'assinaturas':
+    await this.licencasCommand.execute(msg, commandArgs, from, sender);
+    break;
 
 	   case 'tina':
 	   case 'ai':

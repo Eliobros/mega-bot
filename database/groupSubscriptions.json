@@ -33,8 +33,16 @@
     {
       "groupId": "120363294031651231@g.us",
       "startDate": "2025-10-12T08:47:35.275Z",
-      "endDate": "2025-11-11T08:47:35.275Z",
-      "active": true
+      "endDate": "2025-12-11T08:47:35.275Z",
+      "active": true,
+      "history": [
+        {
+          "date": "2025-11-02T19:27:28.723Z",
+          "days": 30,
+          "action": "renewed",
+          "previousEndDate": "2025-11-11T08:47:35.275Z"
+        }
+      ]
     },
     {
       "groupId": "120363421189875513@g.us",
@@ -100,6 +108,12 @@
       "groupId": "120363419587014412@g.us",
       "startDate": "2025-11-02T11:03:05.120Z",
       "endDate": "2025-12-02T11:03:05.120Z",
+      "active": true
+    },
+    {
+      "groupId": "120363421386815160@g.us",
+      "startDate": "2025-11-02T16:41:17.655Z",
+      "endDate": "2025-12-02T16:41:17.655Z",
       "active": true
     }
   ]

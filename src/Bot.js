@@ -44,11 +44,11 @@ class Bot {
             console.log('Tipo da mensagem:', messageType);
             console.log('messageStubType:', msg.messageStubType);
             console.log('De:', from);
-	    console.log('Estrutura completa',JSON.stringify(m, null, 2))            
+            console.log('Estrutura completa', JSON.stringify(m, null, 2));
             // Log completo (descomente se precisar ver tudo)
             // console.log('Estrutura completa:', JSON.stringify(msg, null, 2));
             console.log('===================================');
-            
+
             // ===== 🚨 DETECTAR MENÇÃO NO STATUS =====
             if (msg.messageStubType) {
                 console.log('🔔 Possível notificação de sistema!');
@@ -58,32 +58,50 @@ class Bot {
             // ======================================
 
             if (from.endsWith('@g.us')) {
-                // Atualiza grupos e assinaturas
                 this.allowedGroups = this.dataManager.getAllowedGroups();
                 const assinatura = this.dataManager.getGroupSubscription(from);
 
+                // ❌ NÃO cria assinatura automaticamente!
+                // Só verifica se existe e se tá ativa
                 if (!assinatura) {
-                    const nova = this.dataManager.addGroupSubscription(from, 30);
-                    await this.sock.sendMessage(from, {
-                        text: `✅ *Tina ativada neste grupo!*\nAssinatura válida até: ${nova.endDate.toLocaleDateString()}`,
-                    });
-                } else {
-                    const agora = new Date();
-                    const expira = new Date(assinatura.endDate);
+                    // Ignora mensagens de grupos sem licença
+                    return;
+                }
 
-                    if (agora > expira) {
-                        if (assinatura.active) {
-                            this.dataManager.deactivateGroupSubscription(from);
-                            await this.sock.sendMessage(from, {
-                                text: `⚠️ *A assinatura deste grupo expirou!*\nO dono deve renovar para continuar usando a Tina.`,
-                            });
-                        }
-                        return; // ❌ para de responder
+                const agora = new Date();
+                const expira = new Date(assinatura.endDate);
+                const diasRestantes = Math.ceil((expira - agora) / (1000 * 60 * 60 * 24));
+
+                // ⚠️ Aviso 3 dias antes de expirar (só 1x por dia)
+                if (diasRestantes === 3 && assinatura.active) {
+                    const hoje = new Date().toDateString();
+                    if (assinatura.lastWarning !== hoje) {
+                        assinatura.lastWarning = hoje;
+                        this.dataManager.saveGroupSubscriptionsData();
+
+                        await this.sock.sendMessage(from, {
+                            text: `⚠️ *ATENÇÃO!*\n\nA assinatura deste grupo expira em *3 dias*!\nRenove para continuar usando a Tina.`
+                        });
                     }
                 }
 
-                // ignora se o grupo não está na lista de permitidos
-                if (!this.allowedGroups.includes(from)) return;
+                // ❌ Expirou
+                if (agora > expira) {
+                    if (assinatura.active) {
+                        this.dataManager.deactivateGroupSubscription(from);
+                        await this.sock.sendMessage(from, {
+                            text: `❌ *A assinatura deste grupo expirou!*\n\n` +
+                                  `Data de expiração: ${expira.toLocaleDateString('pt-BR')}\n\n` +
+                                  `Entre em contato com o dono para renovar: ${this.dataManager.getDonoData().NumeroDono}`
+                        });
+                    }
+                    return; // Para de responder
+                }
+
+                // 🔍 Verifica se o grupo tá na lista de permitidos
+                if (!this.allowedGroups.includes(from)) {
+                    return;
+                }
             }
 
             await this.messageHandler.handle(msg);
