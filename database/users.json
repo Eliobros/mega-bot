@@ -1383,6 +1383,22 @@
       "valor": "18.00",
       "data_uso": "2025-11-04T15:56:14.434Z",
       "timestamp": 1762271774436
+    },
+    {
+      "chave": "CK50HXUEDUS",
+      "tipo": "mpesa",
+      "usuario": "261967772135637@lid",
+      "valor": null,
+      "data_uso": "2025-11-05T03:48:51.983Z",
+      "timestamp": 1762314531983
+    },
+    {
+      "chave": "CK49HXR8W7Z",
+      "tipo": "mpesa",
+      "usuario": "38560870695150@lid",
+      "valor": "25.00",
+      "data_uso": "2025-11-05T04:12:44.715Z",
+      "timestamp": 1762315964715
     }
   ],
   "grupos": {
@@ -11173,15 +11189,24 @@
           "nome": "Dok🫥😈",
           "pushName": "Dok🫥😈",
           "numero": "261967772135637",
-          "total_compras": 1,
-          "total_gb_acumulado": 0.791015625,
+          "total_compras": 2,
+          "total_gb_acumulado": 1.58203125,
           "primeira_compra": "",
-          "ultima_compra": "2025-11-04",
+          "ultima_compra": "2025-11-05",
           "compras_hoje": 1,
           "historico_compras": [
             {
               "data": "2025-11-04",
               "hora": "05:26:01",
+              "pacote": "15MT",
+              "quantidade": "810MB",
+              "preco": "15 MT",
+              "gb": 0.791015625,
+              "tipo": "diario"
+            },
+            {
+              "data": "2025-11-05",
+              "hora": "04:10:33",
               "pacote": "15MT",
               "quantidade": "810MB",
               "preco": "15 MT",
@@ -11490,8 +11515,8 @@
       },
       "estatisticas": {
         "total_usuarios": 737,
-        "total_compras_realizadas": 207,
-        "ultima_atualizacao": "2025-11-04",
+        "total_compras_realizadas": 208,
+        "ultima_atualizacao": "2025-11-05",
         "maior_comprador": {
           "numero": "160786479595732",
           "nome": "160786479595732",
@@ -12109,7 +12134,7 @@
     },
     "95438854201513@lid": {
       "nome": "Didy",
-      "pushName": "Usuário",
+      "pushName": "Didy",
       "numero": "95438854201513",
       "total_compras": 0,
       "total_gb_acumulado": 0,
@@ -16231,6 +16256,50 @@
       "ultima_compra": "",
       "compras_hoje": 0,
       "historico_compras": []
+    },
+    "208680196804631@lid": {
+      "nome": "Lora Sambula",
+      "pushName": "Lora Sambula",
+      "numero": "208680196804631",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "238684888682527@lid": {
+      "nome": "Usuário",
+      "pushName": "Usuário",
+      "numero": "238684888682527",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "153764342304779@lid": {
+      "nome": "Arkam",
+      "pushName": "Arkam",
+      "numero": "153764342304779",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "27849104859349@lid": {
+      "nome": "Yumina❤️🇲🇿🥹🫦",
+      "pushName": "Yumina❤️🇲🇿🥹🫦",
+      "numero": "27849104859349",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
     }
   },
   "configuracoes_grupos": {
@@ -16255,19 +16324,23 @@
         "mpesa": {
           "numeros": [
             "848300881",
-            "841617651"
+            "841617651",
+            "845960003"
           ],
           "nomes": {
             "841617651": "Habibo",
+            "845960003": "ESTEVAO",
             "848300881": "Paulo"
           }
         },
         "emola": {
           "numeros": [
-            "862840075"
+            "862840075",
+            "873255276"
           ],
           "nomes": {
-            "862840075": "Habibo"
+            "862840075": "Habibo",
+            "873255276": "ESTEVAO"
           }
         }
       }
