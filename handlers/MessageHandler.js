@@ -275,127 +275,6 @@ this.licencasCommand = new LicencasCommand(sock, dataManager);
         return; // Para aqui
     }
 
-/*    // ===== 🚨 DETECTAR MENÇÃO DO GRUPO NO STATUS (COM VALIDAÇÃO ALAUDA) =====
-    if (msg.message?.groupStatusMentionMessage && isGroup) {
-        const participant = msg.key.participant;
-        const participantName = msg.pushName || participant?.split('@')[0] || 'Usuário';
-        
-        console.log('🎯 DETECTADO: Alguém marcou o grupo no status!');
-        console.log('Quem marcou:', participant);
-        console.log('Nome:', participantName);
-
-        // ===== 🔐 VALIDAÇÃO COM ALAUDA API =====
-        console.log(`\n🔐 ========== VALIDAÇÃO ALAUDA API ==========`);
-        console.log(`📱 Validando número: ${senderNumber}`);
-        
-        const validation = await whatsappValidator.validate(senderNumber);
-
-        if (!validation.valid) {
-            console.log(`❌ Número ${senderNumber} NÃO autorizado ou sem créditos`);
-            console.log(`Motivo: ${validation.message}`);
-            console.log(`============================================\n`);
-            
-            // Envia mensagem informando que precisa ativar
-            await this.sock.sendMessage(from, {
-                text: validation.message || 
-                      `⚠️ *BOT NÃO ATIVADO*\n\n` +
-                      `O bot precisa ser ativado com uma chave da Alauda API.\n\n` +
-                      `📝 *Como ativar:*\n` +
-                      `${PREFIX}ativar <sua_chave>\n\n` +
-                      `💡 *Exemplo:*\n` +
-                      `${PREFIX}ativar alauda_live_abc123\n\n` +
-                      `🔗 Obtenha sua chave em:\n` +
-                      `https://alauda-api.com`
-            });
-            
-            return; // ❌ NÃO processa a ação
-        }
-
-        console.log(`✅ Número AUTORIZADO!`);
-        console.log(`💰 Créditos disponíveis: ${validation.credits}`);
-        console.log(`💵 Custo desta operação: ${validation.cost || 50} créditos`);
-        console.log(`📊 Cache: ${validation.fromCache ? 'SIM' : 'NÃO'}`);
-        console.log(`============================================\n`);
-
-        // ===== 💰 CONSOME CRÉDITOS =====
-        console.log(`💳 Consumindo créditos...`);
-        const consumption = await whatsappValidator.consume(senderNumber);
-
-        if (!consumption.success) {
-            console.log(`❌ ERRO ao consumir créditos: ${consumption.message}`);
-            
-            if (consumption.no_credits) {
-                // ❌ SEM CRÉDITOS - Avisa no grupo
-                await this.sock.sendMessage(from, {
-                    text: `⚠️ *CRÉDITOS INSUFICIENTES*\n\n` +
-                          `O bot não pode processar esta ação porque os créditos acabaram.\n\n` +
-                          `💰 *Recarregue sua conta para continuar!*\n\n` +
-                          `📊 *Informações:*\n` +
-                          `• Cada operação: 50 créditos\n` +
-                          `• Créditos atuais: 0\n\n` +
-                          `🔗 *Recarregar em:*\n` +
-                          `https://alauda-api.com/recarregar`
-                });
-            }
-            
-            return; // ❌ NÃO processa a ação
-        }
-
-        console.log(`✅ Créditos consumidos com sucesso!`);
-        console.log(`💸 Consumidos: ${consumption.credits_consumed} créditos`);
-        console.log(`💳 Restantes: ${consumption.credits_remaining} créditos\n`);
-
-        // ===== ✅ AGORA SIM, PROCESSA A AÇÃO =====
-        console.log(`🚀 Processando ação de status mention...\n`);
-        
-        // Obter ou criar registro de avisos
-        let warnings = this.dataManager.getStatusMentionWarnings(from, participant);
-        
-        if (warnings === 0) {
-            // ⚠️ PRIMEIRO AVISO
-            warnings = this.dataManager.addStatusMentionWarning(from, participant);
-            
-            await this.sock.sendMessage(from, {
-                text: `⚠️ *AVISO* ⚠️\n\n` +
-                      `@${participant.split('@')[0]}, evite marcar o grupo nos seus status.\n\n` +
-                      `⚠️ *Próxima vez você será removido do grupo!*\n\n` +
-                      `ℹ️ Créditos restantes: ${consumption.credits_remaining}`,
-                mentions: [participant]
-            });
-            
-            console.log(`✅ Primeiro aviso dado para ${participantName}`);
-            console.log(`📊 Total de avisos: ${warnings}/2\n`);
-            
-        } else if (warnings === 1) {
-            // ❌ SEGUNDO AVISO = BAN
-            this.dataManager.addStatusMentionWarning(from, participant);
-            
-            // Remove do grupo
-            await this.sock.groupParticipantsUpdate(from, [participant], 'remove');
-            
-            await this.sock.sendMessage(from, {
-                text: `❌ @${participant.split('@')[0]} foi removido por marcar o grupo no status repetidamente.\n\n` +
-                      `ℹ️ Créditos restantes: ${consumption.credits_remaining}`,
-                mentions: [participant]
-            });
-            
-            console.log(`🚫 ${participantName} foi BANIDO por marcar o grupo novamente`);
-            console.log(`📊 Total de avisos: 2/2 - REMOVIDO\n`);
-            
-        } else {
-            // Já foi banido antes, bane de novo (caso tenha voltado)
-            await this.sock.groupParticipantsUpdate(from, [participant], 'remove');
-            console.log(`🚫 ${participantName} foi BANIDO novamente (reincidente)\n`);
-        }
-
-        // Log final
-        console.log(`🎉 Operação concluída com sucesso!`);
-        console.log(`💰 Sistema de créditos funcionando corretamente\n`);
-        
-        return; // Para aqui, não processa como mensagem normal
-    }
-
-*/
 
 // ===== 🚨 DETECTAR MENÇÃO DO GRUPO NO STATUS (COM VALIDAÇÃO ALAUDA) =====
 if (msg.message?.groupStatusMentionMessage && isGroup) {
@@ -408,18 +287,86 @@ if (msg.message?.groupStatusMentionMessage && isGroup) {
     console.log('Nome:', participantName);
     console.log('Grupo ID:', groupId);
 
+    // ===== 🛡️ VERIFICAR PROTEÇÕES =====
+    console.log('\n🛡️ Verificando permissões...');
+    
+    try {
+        // 1️⃣ CARREGAR DONO DO BOT do JSON
+        const donoData = JSON.parse(fs.readFileSync('./database/dono.json', 'utf-8'));
+        const donoBotNumber = donoData.NumeroDono + '@s.whatsapp.net';
+        
+        // 2️⃣ VERIFICAR SE É O DONO DO BOT
+        const isDonoBOT = participant === donoBotNumber;
+        
+        // 3️⃣ PEGAR METADADOS DO GRUPO
+        const groupMetadata = await this.sock.groupMetadata(groupId);
+        
+        // 4️⃣ VERIFICAR SE É ADMIN/DONO DO GRUPO
+        const isAdminGrupo = groupMetadata.participants.some(
+            p => p.id === participant && (p.admin === 'admin' || p.admin === 'superadmin')
+        );
+        
+        // 5️⃣ VERIFICAR SE É O PRÓPRIO BOT
+        const botNumber = this.sock.user.id.split(':')[0] + '@s.whatsapp.net';
+        const isBot = participant === botNumber;
+        
+        // ===== 🔍 LOGS DE DEBUG =====
+        console.log('👤 Participante:', participant);
+        console.log('👑 Dono do BOT:', donoBotNumber);
+        console.log('🤖 Número do BOT:', botNumber);
+        console.log('');
+        console.log('🔐 Status de Proteção:');
+        console.log(`   • Dono do BOT: ${isDonoBOT ? '✅ SIM' : '❌ NÃO'}`);
+        console.log(`   • Admin do Grupo: ${isAdminGrupo ? '✅ SIM' : '❌ NÃO'}`);
+        console.log(`   • É o BOT: ${isBot ? '✅ SIM' : '❌ NÃO'}`);
+        
+        // ===== ⛔ SE FOR PROTEGIDO, PARA AQUI =====
+        if (isDonoBOT || isAdminGrupo || isBot) {
+            console.log('\n✅ USUÁRIO PROTEGIDO - Não será banido!\n');
+            
+            // Mensagem personalizada dependendo do tipo
+            let mensagemProtecao = '';
+            
+            if (isDonoBOT) {
+                mensagemProtecao = `👑 *DONO DO BOT PROTEGIDO*\n\n` +
+                                  `@${participant.split('@')[0]}, você é o dono do bot!\n\n` +
+                                  `Tem permissão total, mas evite marcar o grupo para dar o exemplo! 😊`;
+            } else if (isAdminGrupo) {
+                mensagemProtecao = `🛡️ *ADMIN DO GRUPO PROTEGIDO*\n\n` +
+                                  `@${participant.split('@')[0]}, você é admin deste grupo!\n\n` +
+                                  `Está protegido, mas evite marcar o grupo no status! 😊`;
+            } else if (isBot) {
+                // Se for o bot, não envia nada
+                return;
+            }
+            
+            await this.sock.sendMessage(from, {
+                text: mensagemProtecao,
+                mentions: [participant]
+            });
+            
+            return; // ⛔ PARA AQUI - NÃO PROCESSA AVISOS/BAN
+        }
+        
+        console.log('\n❌ Usuário COMUM - Sujeito às regras\n');
+        
+    } catch (error) {
+        console.error('⚠️ Erro ao verificar permissões:', error);
+        console.error('Stack:', error.stack);
+        // Se der erro, continua normal (melhor processar que falhar)
+    }
+
     // ===== 🔐 VALIDAÇÃO COM ALAUDA API =====
-    console.log(`\n🔐 ========== VALIDAÇÃO ALAUDA API ==========`);
+    console.log(`🔐 ========== VALIDAÇÃO ALAUDA API ==========`);
     console.log(`🆔 Validando grupo: ${groupId}`);
 
-    const validation = await whatsappValidator.validate(groupId); // ← Valida o GRUPO
+    const validation = await whatsappValidator.validate(groupId);
 
     if (!validation.valid) {
         console.log(`❌ Grupo ${groupId} NÃO autorizado ou sem créditos`);
         console.log(`Motivo: ${validation.message}`);
         console.log(`============================================\n`);
 
-        // Envia mensagem informando que precisa ativar
         await this.sock.sendMessage(from, {
             text: validation.message ||
                   `⚠️ *BOT NÃO ATIVADO NESTE GRUPO*\n\n` +
@@ -434,7 +381,7 @@ if (msg.message?.groupStatusMentionMessage && isGroup) {
                   `https://alauda-api.com`
         });
 
-        return; // ❌ NÃO processa a ação
+        return;
     }
 
     console.log(`✅ Grupo AUTORIZADO!`);
@@ -446,13 +393,12 @@ if (msg.message?.groupStatusMentionMessage && isGroup) {
 
     // ===== 💰 CONSOME CRÉDITOS =====
     console.log(`💳 Consumindo créditos do grupo...`);
-    const consumption = await whatsappValidator.consume(groupId); // ← Consome do GRUPO
+    const consumption = await whatsappValidator.consume(groupId);
 
     if (!consumption.success) {
         console.log(`❌ ERRO ao consumir créditos: ${consumption.message}`);
 
         if (consumption.no_credits) {
-            // ❌ SEM CRÉDITOS - Avisa no grupo
             await this.sock.sendMessage(from, {
                 text: `⚠️ *CRÉDITOS INSUFICIENTES*\n\n` +
                       `O bot não pode processar esta ação porque os créditos deste grupo acabaram.\n\n` +
@@ -466,7 +412,7 @@ if (msg.message?.groupStatusMentionMessage && isGroup) {
             });
         }
 
-        return; // ❌ NÃO processa a ação
+        return;
     }
 
     console.log(`✅ Créditos consumidos com sucesso!`);
@@ -477,7 +423,6 @@ if (msg.message?.groupStatusMentionMessage && isGroup) {
     // ===== ✅ AGORA SIM, PROCESSA A AÇÃO =====
     console.log(`🚀 Processando ação de status mention...\n`);
 
-    // Obter ou criar registro de avisos
     let warnings = this.dataManager.getStatusMentionWarnings(from, participant);
 
     if (warnings === 0) {
@@ -500,7 +445,6 @@ if (msg.message?.groupStatusMentionMessage && isGroup) {
         // ❌ SEGUNDO AVISO = BAN
         this.dataManager.addStatusMentionWarning(from, participant);
 
-        // Remove do grupo
         await this.sock.groupParticipantsUpdate(from, [participant], 'remove');
 
         await this.sock.sendMessage(from, {
@@ -514,7 +458,6 @@ if (msg.message?.groupStatusMentionMessage && isGroup) {
         console.log(`📊 Total de avisos: 2/2 - REMOVIDO\n`);
 
     } else {
-        // Já foi banido antes, bane de novo (caso tenha voltado)
         await this.sock.groupParticipantsUpdate(from, [participant], 'remove');
         
         await this.sock.sendMessage(from, {
@@ -527,12 +470,11 @@ if (msg.message?.groupStatusMentionMessage && isGroup) {
         console.log(`🚫 ${participantName} foi BANIDO novamente (reincidente)\n`);
     }
 
-    // Log final
     console.log(`🎉 Operação concluída com sucesso!`);
     console.log(`💰 Sistema de créditos funcionando corretamente`);
     console.log(`🏪 Grupo ${groupId} protegido com sucesso!\n`);
 
-    return; // Para aqui, não processa como mensagem normal
+    return;
 }
 
 
