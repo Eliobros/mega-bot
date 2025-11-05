@@ -57,6 +57,14 @@
       "groupName": "MEGAS SUPER BARATOS 📶🇲🇿",
       "enabledAt": "2025-11-01T03:55:55.238Z",
       "bemvindo_ativo": true
+    },
+    "120363421386815160@g.us": {
+      "antilink": true,
+      "groupName": "🌐NET-FRIDAY🇲🇿",
+      "enabledAt": "2025-11-03T11:43:25.634Z",
+      "bemvindo_ativo": true,
+      "msgbv": "*Ola @user Bem vindo ao grupo {grupo} voce é o usuário numero: [ {membros} ]* ⚠ Atenção Leia sempre as regras do grupo pra nao ser removido",
+      "msgbv_ativa": true
     }
   },
   "Prefixo": "/"

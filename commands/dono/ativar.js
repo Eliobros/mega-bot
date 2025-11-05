@@ -20,7 +20,6 @@ class AtivarCommand {
         }
     }
 
-    // Pegar prefixo do dono.json
     getPrefix() {
         const config = this.getConfig();
         return config.Prefixo || '!';
@@ -32,31 +31,54 @@ class AtivarCommand {
         console.log('- GroupJid:', groupJid);
         console.log('- SenderJid:', senderJid);
         console.log('- Args:', JSON.stringify(args));
+        console.log('- msg.key:', JSON.stringify(msg.key, null, 2));
         console.log('=============================================\n');
 
         const prefix = this.getPrefix();
         const isGroup = groupJid.endsWith('@g.us');
 
-        // Extrai o número do remetente
-let senderNumber = null;
+        // ✅ EXTRAÇÃO CORRETA DO NÚMERO COM BAILEYS NOVO
+        let senderNumber = null;
 
-if (Array.isArray(senderJid)) {
-    senderJid = senderJid[0]; // Pega o primeiro item do array
-}
+        // 1. Tenta pegar do participantAlt (número real)
+        if (msg.key.participantAlt) {
+            senderNumber = msg.key.participantAlt
+                .replace(/(@s\.whatsapp\.net|@lid|@c\.us)/g, '')
+                .split('@')[0];
+            console.log('✅ Número extraído de participantAlt:', senderNumber);
+        }
+        // 2. Fallback: tenta do participant (pode ser LID)
+        else if (msg.key.participant) {
+            const participant = msg.key.participant;
+            senderNumber = participant
+                .replace(/(@s\.whatsapp\.net|@lid|@c\.us)/g, '')
+                .split('@')[0];
+            console.log('⚠️ Número extraído de participant:', senderNumber);
+        }
+        // 3. Fallback: tenta do senderJid passado
+        else if (senderJid) {
+            if (Array.isArray(senderJid)) {
+                senderJid = senderJid[0];
+            }
+            if (typeof senderJid === 'string') {
+                senderNumber = senderJid
+                    .replace(/(@s\.whatsapp\.net|@lid|@c\.us)/g, '')
+                    .split('@')[0];
+                console.log('⚠️ Número extraído de senderJid:', senderNumber);
+            }
+        }
 
-if (typeof senderJid === 'string') {
-    senderNumber = senderJid
-        .replace(/(@s\.whatsapp\.net|@lid|@c\.us)/g, '')
-        .split('@')[0];
-} else {
-    console.error('❌ senderJid inválido:', senderJid);
-    await this.sendMessage(groupJid, '⚠️ Erro interno ao processar o número do remetente.');
-    return;
-}
+        if (!senderNumber) {
+            console.error('❌ Não foi possível extrair o número do remetente');
+            await this.sendMessage(groupJid, '⚠️ Erro ao processar o número do remetente.');
+            return;
+        }
+
+        console.log('📱 Número final para ativação:', senderNumber);
 
         // Verifica se a chave foi fornecida
         if (args.length === 0) {
-            await this.sendMessage(groupJid, 
+            await this.sendMessage(groupJid,
                 `❌ *Uso incorreto*\n\n` +
                 `📝 *Como usar:*\n` +
                 `${prefix}ativar <sua_chave>\n\n` +
@@ -72,7 +94,7 @@ if (typeof senderJid === 'string') {
 
         // Valida formato da chave
         if (!apiKey.startsWith('alauda_live_') && !apiKey.startsWith('alauda_test_')) {
-            await this.sendMessage(groupJid, 
+            await this.sendMessage(groupJid,
                 `❌ *Chave inválida*\n\n` +
                 `A chave deve começar com:\n` +
                 `• alauda_live_... (produção)\n` +
@@ -82,14 +104,14 @@ if (typeof senderJid === 'string') {
         }
 
         // Envia mensagem de processamento
-        await this.sendMessage(groupJid, 
+        await this.sendMessage(groupJid,
             `⏳ *Ativando...*\n\n` +
             `Aguarde enquanto validamos sua chave...`
         );
 
         // Pega informações do grupo (se for grupo)
         let groupName = null;
-        
+
         if (isGroup) {
             try {
                 const groupMetadata = await this.sock.groupMetadata(groupJid);
@@ -117,14 +139,14 @@ if (typeof senderJid === 'string') {
             console.log('- Créditos disponíveis:', result.credits);
 
             let successMsg = `✅ *BOT ATIVADO COM SUCESSO!*\n\n`;
-            successMsg += `📱 *Número:* ${senderNumber}\n`;
+            successMsg += `📱 *Número:* +${senderNumber}\n`;
             successMsg += `💰 *Créditos disponíveis:* ${result.credits}\n`;
             successMsg += `💵 *Custo por operação:* 50 créditos\n\n`;
-            
+
             if (isGroup) {
                 successMsg += `🛡️ *Grupo protegido:* ${groupName}\n\n`;
             }
-            
+
             successMsg += `🤖 *O bot agora está ativo!*\n\n`;
             successMsg += `ℹ️ *Funcionalidades:*\n`;
             successMsg += `• Detecção de menções no status\n`;
@@ -140,7 +162,7 @@ if (typeof senderJid === 'string') {
             try {
                 const donoData = this.dataManager.getDonoData();
                 const donoJid = donoData.NumeroDono + '@s.whatsapp.net';
-                
+
                 let logMsg = `🔔 *NOVA ATIVAÇÃO*\n\n`;
                 logMsg += `📱 *Número:* +${senderNumber}\n`;
                 logMsg += `🆔 *API Key:* ${apiKey}\n`;
@@ -173,7 +195,6 @@ if (typeof senderJid === 'string') {
         console.log('🎉 Comando !ativar finalizado\n');
     }
 
-    // Mostrar ajuda do comando
     async showHelp(groupJid) {
         const prefix = this.getPrefix();
 

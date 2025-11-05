@@ -113,8 +113,16 @@
     {
       "groupId": "120363421386815160@g.us",
       "startDate": "2025-11-02T16:41:17.655Z",
-      "endDate": "2025-12-02T16:41:17.655Z",
-      "active": true
+      "endDate": "2026-01-01T16:41:17.655Z",
+      "active": true,
+      "history": [
+        {
+          "date": "2025-11-03T11:44:41.461Z",
+          "days": 30,
+          "action": "renewed",
+          "previousEndDate": "2025-12-02T16:41:17.655Z"
+        }
+      ]
     }
   ]
 }
