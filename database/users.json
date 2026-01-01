@@ -1,22 +1,6 @@
 {
   "comprovantes_utilizados": [
     {
-      "chave": "CID4HD1K59O",
-      "tipo": "mpesa",
-      "usuario": "31083282350305@lid",
-      "valor": "10.00",
-      "data_uso": "2025-09-13T12:10:57.093Z",
-      "timestamp": 1757765457093
-    },
-    {
-      "chave": "PP250913.0839",
-      "tipo": "emola",
-      "usuario": "86952166576371@lid",
-      "valor": "20.00",
-      "data_uso": "2025-09-13T12:53:09.741Z",
-      "timestamp": 1757767989741
-    },
-    {
       "chave": "CII5HEWSUZT",
       "tipo": "mpesa",
       "usuario": "86952166576371@lid",
@@ -1399,6 +1383,254 @@
       "valor": "25.00",
       "data_uso": "2025-11-05T04:12:44.715Z",
       "timestamp": 1762315964715
+    },
+    {
+      "chave": "PP251105.1604",
+      "tipo": "emola",
+      "usuario": "95438854201513@lid",
+      "valor": "20.00",
+      "data_uso": "2025-11-05T14:05:54.644Z",
+      "timestamp": 1762351554644
+    },
+    {
+      "chave": "PP251105.1818.D27509",
+      "tipo": "emola",
+      "usuario": "162522015477974@lid",
+      "valor": null,
+      "data_uso": "2025-11-05T16:19:46.663Z",
+      "timestamp": 1762359586663
+    },
+    {
+      "chave": "CK57HY8133C9",
+      "tipo": "mpesa",
+      "usuario": "261967772135637@lid",
+      "valor": null,
+      "data_uso": "2025-11-05T20:04:47.343Z",
+      "timestamp": 1762373087343
+    },
+    {
+      "chave": "CK55HY6A1YN",
+      "tipo": "mpesa",
+      "usuario": "100425126703284@lid",
+      "valor": "18.00",
+      "data_uso": "2025-11-05T20:13:16.134Z",
+      "timestamp": 1762373596134
+    },
+    {
+      "chave": "PP251105.2218.G81738",
+      "tipo": "emola",
+      "usuario": "194579802398747@lid",
+      "valor": "10.00",
+      "data_uso": "2025-11-05T20:20:18.766Z",
+      "timestamp": 1762374018766
+    },
+    {
+      "chave": "CK61HYA6QRL",
+      "tipo": "mpesa",
+      "usuario": "122518891458677@lid",
+      "valor": "30.00",
+      "data_uso": "2025-11-06T05:55:34.244Z",
+      "timestamp": 1762408534244
+    },
+    {
+      "chave": "CK67HYEF633",
+      "tipo": "mpesa",
+      "usuario": "130782374977654@lid",
+      "valor": "10.00",
+      "data_uso": "2025-11-06T10:48:25.909Z",
+      "timestamp": 1762426105909
+    },
+    {
+      "chave": "CK64HYF8E2Y",
+      "tipo": "mpesa",
+      "usuario": "12434668548158@lid",
+      "valor": "7.00",
+      "data_uso": "2025-11-06T11:47:39.949Z",
+      "timestamp": 1762429659949
+    },
+    {
+      "chave": "CK65HYFXV91",
+      "tipo": "mpesa",
+      "usuario": "261967772135637@lid",
+      "valor": "10.00",
+      "data_uso": "2025-11-06T12:37:22.675Z",
+      "timestamp": 1762432642675
+    },
+    {
+      "chave": "CK66HYLND0S",
+      "tipo": "mpesa",
+      "usuario": "26668123054117@lid",
+      "valor": "10.00",
+      "data_uso": "2025-11-06T18:07:53.152Z",
+      "timestamp": 1762452473152
+    },
+    {
+      "chave": "CK64HYMK1CI",
+      "tipo": "mpesa",
+      "usuario": "12434668548158@lid",
+      "valor": "7.00",
+      "data_uso": "2025-11-06T19:09:27.258Z",
+      "timestamp": 1762456167258
+    },
+    {
+      "chave": "PP251107.0824",
+      "tipo": "emola",
+      "usuario": "204093222047808@lid",
+      "valor": "10.00",
+      "data_uso": "2025-11-07T06:24:49.556Z",
+      "timestamp": 1762496689556
+    },
+    {
+      "chave": "CK71HYT3215",
+      "tipo": "mpesa",
+      "usuario": "3724374216847@lid",
+      "valor": null,
+      "data_uso": "2025-11-07T10:23:38.014Z",
+      "timestamp": 1762511018015
+    },
+    {
+      "chave": "CK72HYTCL3Q",
+      "tipo": "mpesa",
+      "usuario": "12434668548158@lid",
+      "valor": "10.00",
+      "data_uso": "2025-11-07T10:40:53.210Z",
+      "timestamp": 1762512053219
+    },
+    {
+      "chave": "CK74HYTHXKE",
+      "tipo": "mpesa",
+      "usuario": "240913691467850@lid",
+      "valor": "10.00",
+      "data_uso": "2025-11-07T10:49:49.187Z",
+      "timestamp": 1762512589191
+    },
+    {
+      "chave": "CK74HYUUFB2",
+      "tipo": "mpesa",
+      "usuario": "132620117655677@lid",
+      "valor": "10.00",
+      "data_uso": "2025-11-07T12:22:19.838Z",
+      "timestamp": 1762518139850
+    },
+    {
+      "chave": "PP251107.1450.B29724",
+      "tipo": "emola",
+      "usuario": "29296659832914@lid",
+      "valor": "10.00",
+      "data_uso": "2025-11-07T12:51:27.487Z",
+      "timestamp": 1762519887490
+    },
+    {
+      "chave": "PP251107.1808.H41508",
+      "tipo": "emola",
+      "usuario": "162522015477974@lid",
+      "valor": null,
+      "data_uso": "2025-11-07T16:10:16.627Z",
+      "timestamp": 1762531816650
+    },
+    {
+      "chave": "CK84HZ5JG84",
+      "tipo": "mpesa",
+      "usuario": "153966675517442@lid",
+      "valor": "10.00",
+      "data_uso": "2025-11-08T07:28:55.915Z",
+      "timestamp": 1762586935921
+    },
+    {
+      "chave": "CK84HZ60WFU",
+      "tipo": "mpesa",
+      "usuario": "183146364563674@lid",
+      "valor": "10.00",
+      "data_uso": "2025-11-08T08:43:30.930Z",
+      "timestamp": 1762591410930
+    },
+    {
+      "chave": "PP251108.1156",
+      "tipo": "emola",
+      "usuario": "100425126703284@lid",
+      "valor": "25.00",
+      "data_uso": "2025-11-08T09:57:34.462Z",
+      "timestamp": 1762595854462
+    },
+    {
+      "chave": "CK88HZCPSRE",
+      "tipo": "mpesa",
+      "usuario": "100425126703284@lid",
+      "valor": "15.00",
+      "data_uso": "2025-11-08T15:25:01.576Z",
+      "timestamp": 1762615501576
+    },
+    {
+      "chave": "CK84HZE9KHC",
+      "tipo": "mpesa",
+      "usuario": "261967772135637@lid",
+      "valor": "20.00",
+      "data_uso": "2025-11-08T16:53:35.660Z",
+      "timestamp": 1762620815660
+    },
+    {
+      "chave": "PP251108.2131",
+      "tipo": "emola",
+      "usuario": "95438854201513@lid",
+      "valor": "20.00",
+      "data_uso": "2025-11-08T19:32:15.415Z",
+      "timestamp": 1762630335415
+    },
+    {
+      "chave": "PP251109.0855",
+      "tipo": "emola",
+      "usuario": "100425126703284@lid",
+      "valor": "25.00",
+      "data_uso": "2025-11-09T06:55:30.490Z",
+      "timestamp": 1762671330490
+    },
+    {
+      "chave": "PP251109.1057.T50730",
+      "tipo": "emola",
+      "usuario": "100425126703284@lid",
+      "valor": "25.00",
+      "data_uso": "2025-11-09T08:58:04.656Z",
+      "timestamp": 1762678684656
+    },
+    {
+      "chave": "CK95HZL93KZ",
+      "tipo": "mpesa",
+      "usuario": "240913691467850@lid",
+      "valor": "7.00",
+      "data_uso": "2025-11-09T09:21:15.016Z",
+      "timestamp": 1762680075017
+    },
+    {
+      "chave": "CK99HZR7AHB",
+      "tipo": "mpesa",
+      "usuario": "236344014041145@lid",
+      "valor": "5.00",
+      "data_uso": "2025-11-09T16:40:03.011Z",
+      "timestamp": 1762706403012
+    },
+    {
+      "chave": "CK96HZRCREY",
+      "tipo": "mpesa",
+      "usuario": "261967772135637@lid",
+      "valor": "20.00",
+      "data_uso": "2025-11-09T16:49:16.945Z",
+      "timestamp": 1762706956945
+    },
+    {
+      "chave": "CK99HZRI589",
+      "tipo": "mpesa",
+      "usuario": "3724374216847@lid",
+      "valor": null,
+      "data_uso": "2025-11-09T16:56:35.229Z",
+      "timestamp": 1762707395229
+    },
+    {
+      "chave": "CLE4IDTTR3A",
+      "tipo": "mpesa",
+      "usuario": "184267552374833@lid",
+      "valor": "20.00",
+      "data_uso": "2025-12-14T10:50:53.838Z",
+      "timestamp": 1765709453838
     }
   ],
   "grupos": {
@@ -1490,10 +1722,10 @@
         "204093222047808@lid": {
           "nome": "204093222047808",
           "numero": "204093222047808",
-          "total_compras": 8,
-          "total_gb_acumulado": 3.2890625,
+          "total_compras": 9,
+          "total_gb_acumulado": 3.826171875,
           "primeira_compra": "2025-11-02",
-          "ultima_compra": "2025-11-02",
+          "ultima_compra": "2025-11-07",
           "compras_hoje": 1,
           "historico_compras": [
             {
@@ -1567,6 +1799,15 @@
               "preco": "7 MT",
               "gb": 0.369140625,
               "tipo": "diario"
+            },
+            {
+              "data": "2025-11-07",
+              "hora": "06:25:55",
+              "pacote": "10MT",
+              "quantidade": "550MB",
+              "preco": "10 MT",
+              "gb": 0.537109375,
+              "tipo": "diario"
             }
           ]
         },
@@ -1593,10 +1834,10 @@
         "160786479595732@lid": {
           "nome": "160786479595732",
           "numero": "160786479595732",
-          "total_compras": 28,
-          "total_gb_acumulado": 41.1975,
+          "total_compras": 31,
+          "total_gb_acumulado": 45.211171875,
           "primeira_compra": "2025-09-20",
-          "ultima_compra": "2025-11-04",
+          "ultima_compra": "2025-11-09",
           "compras_hoje": 1,
           "historico_compras": [
             {
@@ -1854,6 +2095,33 @@
             {
               "data": "2025-11-04",
               "hora": "09:00:04",
+              "pacote": "25MT",
+              "quantidade": "1370MB",
+              "preco": "25 MT",
+              "gb": 1.337890625,
+              "tipo": "diario"
+            },
+            {
+              "data": "2025-11-05",
+              "hora": "04:49:13",
+              "pacote": "25MT",
+              "quantidade": "1370MB",
+              "preco": "25 MT",
+              "gb": 1.337890625,
+              "tipo": "diario"
+            },
+            {
+              "data": "2025-11-06",
+              "hora": "17:48:37",
+              "pacote": "25MT",
+              "quantidade": "1370MB",
+              "preco": "25 MT",
+              "gb": 1.337890625,
+              "tipo": "diario"
+            },
+            {
+              "data": "2025-11-09",
+              "hora": "13:43:47",
               "pacote": "25MT",
               "quantidade": "1370MB",
               "preco": "25 MT",
@@ -4472,10 +4740,10 @@
           "nome": "ivinha",
           "pushName": "ivinha",
           "numero": "26668123054117",
-          "total_compras": 6,
-          "total_gb_acumulado": 6.38671875,
+          "total_compras": 7,
+          "total_gb_acumulado": 6.923828125,
           "primeira_compra": "",
-          "ultima_compra": "2025-11-01",
+          "ultima_compra": "2025-11-06",
           "compras_hoje": 1,
           "historico_compras": [
             {
@@ -4526,6 +4794,15 @@
             {
               "data": "2025-11-01",
               "hora": "20:07:00",
+              "pacote": "10MT",
+              "quantidade": "550MB",
+              "preco": "10 MT",
+              "gb": 0.537109375,
+              "tipo": "diario"
+            },
+            {
+              "data": "2025-11-06",
+              "hora": "18:32:01",
               "pacote": "10MT",
               "quantidade": "550MB",
               "preco": "10 MT",
@@ -5438,10 +5715,10 @@
           "nome": "Yakimim JM",
           "pushName": "Yakimim JM",
           "numero": "130782374977654",
-          "total_compras": 4,
-          "total_gb_acumulado": 1.5390625,
+          "total_compras": 5,
+          "total_gb_acumulado": 2.076171875,
           "primeira_compra": "",
-          "ultima_compra": "2025-11-04",
+          "ultima_compra": "2025-11-06",
           "compras_hoje": 1,
           "historico_compras": [
             {
@@ -5478,6 +5755,15 @@
               "quantidade": "378MB",
               "preco": "7 MT",
               "gb": 0.369140625,
+              "tipo": "diario"
+            },
+            {
+              "data": "2025-11-06",
+              "hora": "10:52:21",
+              "pacote": "10MT",
+              "quantidade": "550MB",
+              "preco": "10 MT",
+              "gb": 0.537109375,
               "tipo": "diario"
             }
           ]
@@ -5552,10 +5838,10 @@
           "nome": "Mateus",
           "pushName": "Mateus",
           "numero": "100425126703284",
-          "total_compras": 12,
-          "total_gb_acumulado": 14.6484375,
+          "total_compras": 16,
+          "total_gb_acumulado": 19.115234375,
           "primeira_compra": "",
-          "ultima_compra": "2025-11-04",
+          "ultima_compra": "2025-11-09",
           "compras_hoje": 1,
           "historico_compras": [
             {
@@ -5664,6 +5950,42 @@
               "quantidade": "550MB",
               "preco": "10 MT",
               "gb": 0.537109375,
+              "tipo": "diario"
+            },
+            {
+              "data": "2025-11-05",
+              "hora": "20:27:15",
+              "pacote": "18MT",
+              "quantidade": "1024MB",
+              "preco": "18 MT",
+              "gb": 1,
+              "tipo": "diario"
+            },
+            {
+              "data": "2025-11-08",
+              "hora": "12:07:37",
+              "pacote": "25MT",
+              "quantidade": "1370MB",
+              "preco": "25 MT",
+              "gb": 1.337890625,
+              "tipo": "diario"
+            },
+            {
+              "data": "2025-11-08",
+              "hora": "16:48:20",
+              "pacote": "15MT",
+              "quantidade": "810MB",
+              "preco": "15 MT",
+              "gb": 0.791015625,
+              "tipo": "diario"
+            },
+            {
+              "data": "2025-11-09",
+              "hora": "07:33:59",
+              "pacote": "25MT",
+              "quantidade": "1370MB",
+              "preco": "25 MT",
+              "gb": 1.337890625,
               "tipo": "diario"
             }
           ]
@@ -6033,10 +6355,10 @@
           "nome": "NEGÃO 🥶☠️👺",
           "pushName": "NEGÃO 🥶☠️👺",
           "numero": "12434668548158",
-          "total_compras": 6,
-          "total_gb_acumulado": 2.234375,
+          "total_compras": 7,
+          "total_gb_acumulado": 2.603515625,
           "primeira_compra": "",
-          "ultima_compra": "2025-11-03",
+          "ultima_compra": "2025-11-06",
           "compras_hoje": 1,
           "historico_compras": [
             {
@@ -6091,6 +6413,15 @@
               "quantidade": "550MB",
               "preco": "10 MT",
               "gb": 0.537109375,
+              "tipo": "diario"
+            },
+            {
+              "data": "2025-11-06",
+              "hora": "12:20:01",
+              "pacote": "7MT",
+              "quantidade": "378MB",
+              "preco": "7 MT",
+              "gb": 0.369140625,
               "tipo": "diario"
             }
           ]
@@ -11307,12 +11638,22 @@
           "nome": "Didy",
           "pushName": "Didy",
           "numero": "95438854201513",
-          "total_compras": 0,
-          "total_gb_acumulado": 0,
+          "total_compras": 1,
+          "total_gb_acumulado": 1.07421875,
           "primeira_compra": "",
-          "ultima_compra": "",
-          "compras_hoje": 0,
-          "historico_compras": []
+          "ultima_compra": "2025-11-06",
+          "compras_hoje": 1,
+          "historico_compras": [
+            {
+              "data": "2025-11-06",
+              "hora": "19:46:24",
+              "pacote": "20MT",
+              "quantidade": "1100MB",
+              "preco": "20 MT",
+              "gb": 1.07421875,
+              "tipo": "diario"
+            }
+          ]
         },
         "67929857126433@lid": {
           "nome": "Ludimila",
@@ -11511,16 +11852,253 @@
           "ultima_compra": "",
           "compras_hoje": 0,
           "historico_compras": []
+        },
+        "138092426072091@lid": {
+          "nome": "138092426072091",
+          "numero": "138092426072091",
+          "total_compras": 1,
+          "total_gb_acumulado": 0.369140625,
+          "primeira_compra": "2025-11-05",
+          "ultima_compra": "2025-11-05",
+          "compras_hoje": 1,
+          "historico_compras": [
+            {
+              "data": "2025-11-05",
+              "hora": "16:30:09",
+              "pacote": "7MT",
+              "quantidade": "378MB",
+              "preco": "7 MT",
+              "gb": 0.369140625,
+              "tipo": "diario"
+            }
+          ]
         }
       },
       "estatisticas": {
-        "total_usuarios": 737,
-        "total_compras_realizadas": 208,
-        "ultima_atualizacao": "2025-11-05",
+        "total_usuarios": 738,
+        "total_compras_realizadas": 221,
+        "ultima_atualizacao": "2025-11-09",
         "maior_comprador": {
           "numero": "160786479595732",
           "nome": "160786479595732",
-          "total_gb": 41.1975
+          "total_gb": 45.211171875
+        }
+      }
+    },
+    "120363402495483214@g.us": {
+      "usuarios": {
+        "47751865868421@lid": {
+          "nome": "47751865868421",
+          "numero": "47751865868421",
+          "total_compras": 1,
+          "total_gb_acumulado": 0.537109375,
+          "primeira_compra": "2025-11-05",
+          "ultima_compra": "2025-11-05",
+          "compras_hoje": 1,
+          "historico_compras": [
+            {
+              "data": "2025-11-05",
+              "hora": "16:21:38",
+              "pacote": "10MT",
+              "quantidade": "550MB",
+              "preco": "10 MT",
+              "gb": 0.537109375,
+              "tipo": "diario"
+            }
+          ]
+        },
+        "194579802398747@lid": {
+          "nome": "194579802398747",
+          "numero": "194579802398747",
+          "total_compras": 1,
+          "total_gb_acumulado": 0.537109375,
+          "primeira_compra": "2025-11-05",
+          "ultima_compra": "2025-11-05",
+          "compras_hoje": 1,
+          "historico_compras": [
+            {
+              "data": "2025-11-05",
+              "hora": "20:37:47",
+              "pacote": "10MT",
+              "quantidade": "550MB",
+              "preco": "10 MT",
+              "gb": 0.537109375,
+              "tipo": "diario"
+            }
+          ]
+        },
+        "160786479595732@lid": {
+          "nome": "160786479595732",
+          "numero": "160786479595732",
+          "total_compras": 1,
+          "total_gb_acumulado": 1.337890625,
+          "primeira_compra": "2025-11-17",
+          "ultima_compra": "2025-11-17",
+          "compras_hoje": 1,
+          "historico_compras": [
+            {
+              "data": "2025-11-17",
+              "hora": "06:05:31",
+              "pacote": "25MT",
+              "quantidade": "1370MB",
+              "preco": "25 MT",
+              "gb": 1.337890625,
+              "tipo": "diario"
+            }
+          ]
+        },
+        "12434668548158@lid": {
+          "nome": "12434668548158",
+          "numero": "12434668548158",
+          "total_compras": 1,
+          "total_gb_acumulado": 0.537109375,
+          "primeira_compra": "2025-11-18",
+          "ultima_compra": "2025-11-18",
+          "compras_hoje": 1,
+          "historico_compras": [
+            {
+              "data": "2025-11-18",
+              "hora": "18:18:46",
+              "pacote": "10MT",
+              "quantidade": "550MB",
+              "preco": "10 MT",
+              "gb": 0.537109375,
+              "tipo": "diario"
+            }
+          ]
+        }
+      },
+      "estatisticas": {
+        "total_usuarios": 4,
+        "total_compras_realizadas": 4,
+        "ultima_atualizacao": "2025-11-18",
+        "maior_comprador": {
+          "numero": "160786479595732",
+          "nome": "160786479595732",
+          "total_gb": 1.337890625
+        }
+      }
+    },
+    "120363421386815160@g.us": {
+      "usuarios": {
+        "162522015477974@lid": {
+          "nome": "162522015477974",
+          "numero": "162522015477974",
+          "total_compras": 2,
+          "total_gb_acumulado": 1.611328125,
+          "primeira_compra": "2025-11-05",
+          "ultima_compra": "2025-11-07",
+          "compras_hoje": 1,
+          "historico_compras": [
+            {
+              "data": "2025-11-05",
+              "hora": "16:23:42",
+              "pacote": "20MT",
+              "quantidade": "1100MB",
+              "preco": "20 MT",
+              "gb": 1.07421875,
+              "tipo": "diario"
+            },
+            {
+              "data": "2025-11-07",
+              "hora": "16:11:22",
+              "pacote": "10MT",
+              "quantidade": "550MB",
+              "preco": "10 MT",
+              "gb": 0.537109375,
+              "tipo": "diario"
+            }
+          ]
+        },
+        "95438854201513@lid": {
+          "nome": "95438854201513",
+          "numero": "95438854201513",
+          "total_compras": 1,
+          "total_gb_acumulado": 1.07421875,
+          "primeira_compra": "2025-11-05",
+          "ultima_compra": "2025-11-05",
+          "compras_hoje": 1,
+          "historico_compras": [
+            {
+              "data": "2025-11-05",
+              "hora": "16:24:30",
+              "pacote": "20MT",
+              "quantidade": "1100MB",
+              "preco": "20 MT",
+              "gb": 1.07421875,
+              "tipo": "diario"
+            }
+          ]
+        },
+        "58218701176945@lid": {
+          "nome": "58218701176945",
+          "numero": "58218701176945",
+          "total_compras": 1,
+          "total_gb_acumulado": 0.537109375,
+          "primeira_compra": "2025-11-05",
+          "ultima_compra": "2025-11-05",
+          "compras_hoje": 1,
+          "historico_compras": [
+            {
+              "data": "2025-11-05",
+              "hora": "16:24:54",
+              "pacote": "10MT",
+              "quantidade": "550MB",
+              "preco": "10 MT",
+              "gb": 0.537109375,
+              "tipo": "diario"
+            }
+          ]
+        },
+        "132620117655677@lid": {
+          "nome": "132620117655677",
+          "numero": "132620117655677",
+          "total_compras": 1,
+          "total_gb_acumulado": 0.537109375,
+          "primeira_compra": "2025-11-07",
+          "ultima_compra": "2025-11-07",
+          "compras_hoje": 1,
+          "historico_compras": [
+            {
+              "data": "2025-11-07",
+              "hora": "12:44:59",
+              "pacote": "10MT",
+              "quantidade": "550MB",
+              "preco": "10 MT",
+              "gb": 0.537109375,
+              "tipo": "diario"
+            }
+          ]
+        },
+        "18322900947057@lid": {
+          "nome": "18322900947057",
+          "numero": "18322900947057",
+          "total_compras": 1,
+          "total_gb_acumulado": 1,
+          "primeira_compra": "2025-11-07",
+          "ultima_compra": "2025-11-07",
+          "compras_hoje": 1,
+          "historico_compras": [
+            {
+              "data": "2025-11-07",
+              "hora": "16:14:10",
+              "pacote": "18MT",
+              "quantidade": "1024MB",
+              "preco": "18 MT",
+              "gb": 1,
+              "tipo": "diario"
+            }
+          ]
+        }
+      },
+      "estatisticas": {
+        "total_usuarios": 5,
+        "total_compras_realizadas": 6,
+        "ultima_atualizacao": "2025-11-07",
+        "maior_comprador": {
+          "numero": "162522015477974",
+          "nome": "162522015477974",
+          "total_gb": 1.611328125
         }
       }
     }
@@ -11540,7 +12118,7 @@
     },
     "31409699840002@lid": {
       "nome": "NET 🌔 NEO",
-      "pushName": "NET 🌔 NEO",
+      "pushName": "Usuário",
       "numero": "31409699840002",
       "total_compras": 0,
       "total_gb_acumulado": 0,
@@ -11551,7 +12129,7 @@
     },
     "status@broadcast": {
       "nome": "tay india",
-      "pushName": "Fabricia",
+      "pushName": "Agnaldo Steidel",
       "numero": "status",
       "total_compras": 0,
       "total_gb_acumulado": 0,
@@ -11573,7 +12151,7 @@
     },
     "117983405957350@lid": {
       "nome": "Kelvin🔥🔥💝",
-      "pushName": "Kelvin🔥🔥💝",
+      "pushName": "Kelvin",
       "numero": "117983405957350",
       "total_compras": 0,
       "total_gb_acumulado": 0,
@@ -11661,7 +12239,7 @@
     },
     "270738078609556@lid": {
       "nome": "☆Edilson♡💦(Adm)",
-      "pushName": "☆Edilson♡💦(Adm)",
+      "pushName": "Usuário",
       "numero": "270738078609556",
       "total_compras": 0,
       "total_gb_acumulado": 0,
@@ -11672,7 +12250,7 @@
     },
     "124914946322610@lid": {
       "nome": "Usuário",
-      "pushName": "Usuário",
+      "pushName": "Alice BOT",
       "numero": "124914946322610",
       "total_compras": 0,
       "total_gb_acumulado": 0,
@@ -11705,7 +12283,7 @@
     },
     "268345882492998@lid": {
       "nome": "Orla💙",
-      "pushName": "Orla💙",
+      "pushName": "Usuário",
       "numero": "268345882492998",
       "total_compras": 0,
       "total_gb_acumulado": 0,
@@ -11749,7 +12327,7 @@
     },
     "33273564672101@lid": {
       "nome": "Sheila Isabel  😍🥰",
-      "pushName": "Sheila Isabel  😍🥰",
+      "pushName": "Usuário",
       "numero": "33273564672101",
       "total_compras": 0,
       "total_gb_acumulado": 0,
@@ -11771,7 +12349,7 @@
     },
     "134840783515759@lid": {
       "nome": "NS.INNOCENTE",
-      "pushName": "NS.INNOCENTE",
+      "pushName": "Innocente",
       "numero": "134840783515759",
       "total_compras": 0,
       "total_gb_acumulado": 0,
@@ -11782,7 +12360,7 @@
     },
     "113645371584627@lid": {
       "nome": "ph Haissam",
-      "pushName": "ph Haissam",
+      "pushName": "Haissam",
       "numero": "113645371584627",
       "total_compras": 0,
       "total_gb_acumulado": 0,
@@ -11848,7 +12426,7 @@
     },
     "6812338237617@lid": {
       "nome": "dafini🥰😘😍😚",
-      "pushName": "dafini🥰😘😍😚",
+      "pushName": "dafini . linda d💋❤️❤️❤️",
       "numero": "6812338237617",
       "total_compras": 0,
       "total_gb_acumulado": 0,
@@ -11980,7 +12558,7 @@
     },
     "205535693529219@lid": {
       "nome": "ASFA SERVICES",
-      "pushName": "ASFA SERVICES",
+      "pushName": "~ASFA SERVICES~",
       "numero": "205535693529219",
       "total_compras": 0,
       "total_gb_acumulado": 0,
@@ -11991,7 +12569,7 @@
     },
     "162522015477974@lid": {
       "nome": "Edson Citro",
-      "pushName": "Edson Citro",
+      "pushName": "Usuário",
       "numero": "162522015477974",
       "total_compras": 0,
       "total_gb_acumulado": 0,
@@ -12046,7 +12624,7 @@
     },
     "195094695141630@lid": {
       "nome": "Devil",
-      "pushName": "Devil Nomada",
+      "pushName": "Usuário",
       "numero": "195094695141630",
       "total_compras": 0,
       "total_gb_acumulado": 0,
@@ -12068,7 +12646,7 @@
     },
     "258877676912@s.whatsapp.net": {
       "nome": "Amarildo 😱",
-      "pushName": "Amarildo 😱",
+      "pushName": "ALICE BOT",
       "numero": "258877676912",
       "total_compras": 0,
       "total_gb_acumulado": 0,
@@ -12189,7 +12767,7 @@
     },
     "130782374977654@lid": {
       "nome": "Yakimim JM",
-      "pushName": "Yakimim JM",
+      "pushName": "Yaky Jorge",
       "numero": "130782374977654",
       "total_compras": 0,
       "total_gb_acumulado": 0,
@@ -12200,7 +12778,7 @@
     },
     "46905589530823@lid": {
       "nome": "Charllote D. Xebek",
-      "pushName": "Charllote D. Xebek",
+      "pushName": "llote D.Xebec",
       "numero": "46905589530823",
       "total_compras": 0,
       "total_gb_acumulado": 0,
@@ -12222,7 +12800,7 @@
     },
     "178233257504823@lid": {
       "nome": "Isidro Pale👌👉👆",
-      "pushName": "Isidro Pale👌👉👆",
+      "pushName": "Isidro Pale😙😙😘",
       "numero": "178233257504823",
       "total_compras": 0,
       "total_gb_acumulado": 0,
@@ -12266,7 +12844,7 @@
     },
     "88146117177563@lid": {
       "nome": "hEnRy🤗🍀",
-      "pushName": "hEnRy🤗🍀",
+      "pushName": "Usuário",
       "numero": "88146117177563",
       "total_compras": 0,
       "total_gb_acumulado": 0,
@@ -12288,7 +12866,7 @@
     },
     "21685927420025@lid": {
       "nome": "Daniel Manuel",
-      "pushName": "Daniel Manuel",
+      "pushName": "Daniel Manuel😇😇",
       "numero": "21685927420025",
       "total_compras": 0,
       "total_gb_acumulado": 0,
@@ -12321,7 +12899,7 @@
     },
     "183146364563674@lid": {
       "nome": "~",
-      "pushName": "~",
+      "pushName": "~𝗠𝗔𝗚𝗡𝗔𝗧𝗔",
       "numero": "183146364563674",
       "total_compras": 0,
       "total_gb_acumulado": 0,
@@ -12409,7 +12987,7 @@
     },
     "180487997898772@lid": {
       "nome": "Só sei que nada sei",
-      "pushName": "Só sei que nada sei",
+      "pushName": "Bøy Shëltïzz 🥰❤️",
       "numero": "180487997898772",
       "total_compras": 0,
       "total_gb_acumulado": 0,
@@ -12464,7 +13042,7 @@
     },
     "258848766613@s.whatsapp.net": {
       "nome": "Filipeconstantinofiosse F",
-      "pushName": "Filipeconstantinofiosse F",
+      "pushName": "ALICE BOT",
       "numero": "258848766613",
       "total_compras": 0,
       "total_gb_acumulado": 0,
@@ -12552,7 +13130,7 @@
     },
     "100425126703284@lid": {
       "nome": "Mateus",
-      "pushName": "Mateus🏌🏾",
+      "pushName": "Usuário",
       "numero": "100425126703284",
       "total_compras": 0,
       "total_gb_acumulado": 0,
@@ -12596,7 +13174,7 @@
     },
     "202332218388617@lid": {
       "nome": "LUCAS 🕊️",
-      "pushName": "LUCAS 🕊️",
+      "pushName": "MODERADO 🫥🤤🤤",
       "numero": "202332218388617",
       "total_compras": 0,
       "total_gb_acumulado": 0,
@@ -12629,7 +13207,7 @@
     },
     "74599773519914@lid": {
       "nome": "Jose Macone bango",
-      "pushName": "Jose Macone bango",
+      "pushName": "Usuário",
       "numero": "74599773519914",
       "total_compras": 0,
       "total_gb_acumulado": 0,
@@ -12651,7 +13229,7 @@
     },
     "161564489420887@lid": {
       "nome": "Usuário",
-      "pushName": "Usuário",
+      "pushName": "Milton Weyvado",
       "numero": "161564489420887",
       "total_compras": 0,
       "total_gb_acumulado": 0,
@@ -12772,7 +13350,7 @@
     },
     "47751865868421@lid": {
       "nome": "belucha",
-      "pushName": "belucha",
+      "pushName": "Usuário",
       "numero": "47751865868421",
       "total_compras": 0,
       "total_gb_acumulado": 0,
@@ -12783,7 +13361,7 @@
     },
     "255830331015189@lid": {
       "nome": "Victor Francisco😍💔",
-      "pushName": "Victor Francisco😍💔",
+      "pushName": "Victor Francisco 💝💤",
       "numero": "255830331015189",
       "total_compras": 0,
       "total_gb_acumulado": 0,
@@ -12805,7 +13383,7 @@
     },
     "106730423844973@lid": {
       "nome": "ivo96770",
-      "pushName": "ivo96770",
+      "pushName": "ivo",
       "numero": "106730423844973",
       "total_compras": 0,
       "total_gb_acumulado": 0,
@@ -12838,7 +13416,7 @@
     },
     "56719908565203@lid": {
       "nome": "kellyverdadeiro7",
-      "pushName": "kellyverdadeiro7",
+      "pushName": "kelly 🥶❤️",
       "numero": "56719908565203",
       "total_compras": 0,
       "total_gb_acumulado": 0,
@@ -12860,7 +13438,7 @@
     },
     "114401269022720@lid": {
       "nome": "Celso dripp",
-      "pushName": "Usuário",
+      "pushName": "Celso dripp",
       "numero": "114401269022720",
       "total_compras": 0,
       "total_gb_acumulado": 0,
@@ -12970,7 +13548,7 @@
     },
     "274590395797508@lid": {
       "nome": "cabelinho",
-      "pushName": "cabelinho",
+      "pushName": "Usuário",
       "numero": "274590395797508",
       "total_compras": 0,
       "total_gb_acumulado": 0,
@@ -13124,7 +13702,7 @@
     },
     "2380066197600@lid": {
       "nome": "Ssmu",
-      "pushName": "Ssmu",
+      "pushName": "Samu",
       "numero": "2380066197600",
       "total_compras": 0,
       "total_gb_acumulado": 0,
@@ -13179,7 +13757,7 @@
     },
     "94030356607107@lid": {
       "nome": "Jacinta Uamir",
-      "pushName": "Jacinta Uamir",
+      "pushName": "Usuário",
       "numero": "94030356607107",
       "total_compras": 0,
       "total_gb_acumulado": 0,
@@ -13212,7 +13790,7 @@
     },
     "258878943876@s.whatsapp.net": {
       "nome": "NEL SON II😈🥷",
-      "pushName": "NEL SON II😈🥷",
+      "pushName": "ALICE BOT",
       "numero": "258878943876",
       "total_compras": 0,
       "total_gb_acumulado": 0,
@@ -13366,7 +13944,7 @@
     },
     "177180688535654@lid": {
       "nome": "Leila💗",
-      "pushName": "Leila💗",
+      "pushName": "Usuário",
       "numero": "177180688535654",
       "total_compras": 0,
       "total_gb_acumulado": 0,
@@ -13377,7 +13955,7 @@
     },
     "175415792529554@lid": {
       "nome": "kelven",
-      "pushName": "kelven",
+      "pushName": "R",
       "numero": "175415792529554",
       "total_compras": 0,
       "total_gb_acumulado": 0,
@@ -13476,7 +14054,7 @@
     },
     "3724374216847@lid": {
       "nome": "Pequeno Jonas",
-      "pushName": "Pequeno Jonas",
+      "pushName": "Pequeno jonas",
       "numero": "3724374216847",
       "total_compras": 0,
       "total_gb_acumulado": 0,
@@ -13487,7 +14065,7 @@
     },
     "58536679735382@lid": {
       "nome": "Zita Boaventura",
-      "pushName": "Zita Boaventura",
+      "pushName": "Usuário",
       "numero": "58536679735382",
       "total_compras": 0,
       "total_gb_acumulado": 0,
@@ -13509,7 +14087,7 @@
     },
     "123863149051935@lid": {
       "nome": "Francisco",
-      "pushName": "Francisco",
+      "pushName": "Franklin",
       "numero": "123863149051935",
       "total_compras": 0,
       "total_gb_acumulado": 0,
@@ -13542,7 +14120,7 @@
     },
     "196606540382430@lid": {
       "nome": "Maria João",
-      "pushName": "Maria João",
+      "pushName": "maria joaojanane",
       "numero": "196606540382430",
       "total_compras": 0,
       "total_gb_acumulado": 0,
@@ -13553,7 +14131,7 @@
     },
     "87446020731063@lid": {
       "nome": "Fernanda♡",
-      "pushName": "Fernanda♡",
+      "pushName": "Veighzin_77",
       "numero": "87446020731063",
       "total_compras": 0,
       "total_gb_acumulado": 0,
@@ -13619,7 +14197,7 @@
     },
     "115694087741486@lid": {
       "nome": "Estevão⚽🚀",
-      "pushName": "Estevão⚽🚀",
+      "pushName": "Usuário",
       "numero": "115694087741486",
       "total_compras": 0,
       "total_gb_acumulado": 0,
@@ -13663,7 +14241,7 @@
     },
     "261920561074394@lid": {
       "nome": "A",
-      "pushName": "A",
+      "pushName": "🅲🅷🅴🅻🆃🅾🅽 Ảv̉ẻn̉t̉",
       "numero": "261920561074394",
       "total_compras": 0,
       "total_gb_acumulado": 0,
@@ -13674,7 +14252,7 @@
     },
     "196336326582475@lid": {
       "nome": "†kid Sk†",
-      "pushName": "†kid Sk†",
+      "pushName": "†kïd Sk†",
       "numero": "196336326582475",
       "total_compras": 0,
       "total_gb_acumulado": 0,
@@ -13718,7 +14296,7 @@
     },
     "230880782078115@lid": {
       "nome": "Bïllöx034",
-      "pushName": "Bïllöx034",
+      "pushName": "Usuário",
       "numero": "230880782078115",
       "total_compras": 0,
       "total_gb_acumulado": 0,
@@ -13795,7 +14373,7 @@
     },
     "151840566071472@lid": {
       "nome": "🤗",
-      "pushName": "🤗",
+      "pushName": "Rachel",
       "numero": "151840566071472",
       "total_compras": 0,
       "total_gb_acumulado": 0,
@@ -13982,7 +14560,7 @@
     },
     "239754369065121@lid": {
       "nome": "Denny",
-      "pushName": "Denny",
+      "pushName": "Usuário",
       "numero": "239754369065121",
       "total_compras": 0,
       "total_gb_acumulado": 0,
@@ -14114,7 +14692,7 @@
     },
     "230142148399189@lid": {
       "nome": "Sandinha",
-      "pushName": "Usuário",
+      "pushName": "Sandinha",
       "numero": "230142148399189",
       "total_compras": 0,
       "total_gb_acumulado": 0,
@@ -14125,7 +14703,7 @@
     },
     "121870384894031@lid": {
       "nome": "Txboyzinho🤕",
-      "pushName": "Txboyzinho🤕",
+      "pushName": "Usuário",
       "numero": "121870384894031",
       "total_compras": 0,
       "total_gb_acumulado": 0,
@@ -14180,7 +14758,7 @@
     },
     "238130737238045@lid": {
       "nome": "Mändråkë",
-      "pushName": "Mändråkë",
+      "pushName": "Usuário",
       "numero": "238130737238045",
       "total_compras": 0,
       "total_gb_acumulado": 0,
@@ -14202,7 +14780,7 @@
     },
     "167324090904640@lid": {
       "nome": "Nene☺️",
-      "pushName": "Nene☺️",
+      "pushName": "Usuário",
       "numero": "167324090904640",
       "total_compras": 0,
       "total_gb_acumulado": 0,
@@ -14312,7 +14890,7 @@
     },
     "254000305827887@lid": {
       "nome": "Adeley ❣️أديلايد.",
-      "pushName": "Adeley ❣️أديلايد.",
+      "pushName": "Usuário",
       "numero": "254000305827887",
       "total_compras": 0,
       "total_gb_acumulado": 0,
@@ -14378,7 +14956,7 @@
     },
     "203332878614732@lid": {
       "nome": "~😛",
-      "pushName": "~😛",
+      "pushName": "🤓",
       "numero": "203332878614732",
       "total_compras": 0,
       "total_gb_acumulado": 0,
@@ -14422,7 +15000,7 @@
     },
     "72443800604842@lid": {
       "nome": "Exeee",
-      "pushName": "Exeee",
+      "pushName": "Usuário",
       "numero": "72443800604842",
       "total_compras": 0,
       "total_gb_acumulado": 0,
@@ -14444,7 +15022,7 @@
     },
     "175467097260104@lid": {
       "nome": "mae das duas coroas👑",
-      "pushName": "mae das duas coroas👑",
+      "pushName": "maviearsenia53",
       "numero": "175467097260104",
       "total_compras": 0,
       "total_gb_acumulado": 0,
@@ -14510,7 +15088,7 @@
     },
     "139539645517887@lid": {
       "nome": "N@ N DZª❤️‍🩹🦜🫳🤡🙂‍↕️",
-      "pushName": "N@ N DZª❤️‍🩹🦜🫳🤡🙂‍↕️",
+      "pushName": "ALICE BOT",
       "numero": "139539645517887",
       "total_compras": 0,
       "total_gb_acumulado": 0,
@@ -14609,7 +15187,7 @@
     },
     "69050608672816@lid": {
       "nome": "Yuni blessed 🙌",
-      "pushName": "Yuni blessed 🙌",
+      "pushName": "Usuário",
       "numero": "69050608672816",
       "total_compras": 0,
       "total_gb_acumulado": 0,
@@ -14620,7 +15198,7 @@
     },
     "167633060118536@lid": {
       "nome": "Pele",
-      "pushName": "Pele",
+      "pushName": "Usuário",
       "numero": "167633060118536",
       "total_compras": 0,
       "total_gb_acumulado": 0,
@@ -14675,7 +15253,7 @@
     },
     "92728964702387@lid": {
       "nome": "~Riley<3",
-      "pushName": "~Riley<3",
+      "pushName": "~Rihanna🤎✨",
       "numero": "92728964702387",
       "total_compras": 0,
       "total_gb_acumulado": 0,
@@ -15412,7 +15990,7 @@
     },
     "166997035843594@lid": {
       "nome": "acaciorabia🌚💫",
-      "pushName": "acaciorabia🌚💫",
+      "pushName": "Fé🙏🤍",
       "numero": "166997035843594",
       "total_compras": 0,
       "total_gb_acumulado": 0,
@@ -15434,7 +16012,7 @@
     },
     "16802465747176@lid": {
       "nome": "Yogueta ✌🏾",
-      "pushName": "Yogueta ✌🏾",
+      "pushName": "Usuário",
       "numero": "16802465747176",
       "total_compras": 0,
       "total_gb_acumulado": 0,
@@ -15544,7 +16122,7 @@
     },
     "1271813669097@lid": {
       "nome": "manoalone💋",
-      "pushName": "manoalone💋",
+      "pushName": "Usuário",
       "numero": "1271813669097",
       "total_compras": 0,
       "total_gb_acumulado": 0,
@@ -15643,7 +16221,7 @@
     },
     "259571230748877@lid": {
       "nome": "Filha amanda da Mãe",
-      "pushName": "Filha amanda da Mãe",
+      "pushName": "Dilària Aivi Das Muchanga",
       "numero": "259571230748877",
       "total_compras": 0,
       "total_gb_acumulado": 0,
@@ -15720,7 +16298,7 @@
     },
     "281359465623585@lid": {
       "nome": "Laerson Jossias 󱢏",
-      "pushName": "Laerson Jossias 󱢏",
+      "pushName": "Laerson Jossias",
       "numero": "281359465623585",
       "total_compras": 0,
       "total_gb_acumulado": 0,
@@ -15775,7 +16353,7 @@
     },
     "192131721339051@lid": {
       "nome": "Č=JĂÝ+248😎",
-      "pushName": "Č=JĂÝ+248😎",
+      "pushName": "Helder",
       "numero": "192131721339051",
       "total_compras": 0,
       "total_gb_acumulado": 0,
@@ -15995,7 +16573,7 @@
     },
     "146368760938507@lid": {
       "nome": "Momedy",
-      "pushName": "Momedy",
+      "pushName": "Usuário",
       "numero": "146368760938507",
       "total_compras": 0,
       "total_gb_acumulado": 0,
@@ -16039,7 +16617,7 @@
     },
     "556791116172@s.whatsapp.net": {
       "nome": "Yue",
-      "pushName": "Yue",
+      "pushName": "ALICE BOT",
       "numero": "556791116172",
       "total_compras": 0,
       "total_gb_acumulado": 0,
@@ -16061,7 +16639,7 @@
     },
     "182167229489257@lid": {
       "nome": "Branquinho",
-      "pushName": "Branquinho",
+      "pushName": "Usuário",
       "numero": "182167229489257",
       "total_compras": 0,
       "total_gb_acumulado": 0,
@@ -16072,7 +16650,7 @@
     },
     "258841617651@s.whatsapp.net": {
       "nome": "Tina IA",
-      "pushName": "Tina IA",
+      "pushName": "Usuário",
       "numero": "258841617651",
       "total_compras": 0,
       "total_gb_acumulado": 0,
@@ -16127,7 +16705,7 @@
     },
     "242992606646393@lid": {
       "nome": "Michael",
-      "pushName": "Michael",
+      "pushName": "Usuário",
       "numero": "242992606646393",
       "total_compras": 0,
       "total_gb_acumulado": 0,
@@ -16138,7 +16716,7 @@
     },
     "35739127525608@lid": {
       "nome": "leonardo",
-      "pushName": "leonardo",
+      "pushName": "leo",
       "numero": "35739127525608",
       "total_compras": 0,
       "total_gb_acumulado": 0,
@@ -16149,7 +16727,7 @@
     },
     "81355941642274@lid": {
       "nome": "Mirian Alves",
-      "pushName": "Mirian Alves",
+      "pushName": "mirianalvesjosemanuel299",
       "numero": "81355941642274",
       "total_compras": 0,
       "total_gb_acumulado": 0,
@@ -16226,7 +16804,7 @@
     },
     "125405008781316@lid": {
       "nome": "Nia ♥️💍",
-      "pushName": "Nia ♥️💍",
+      "pushName": "Usuário",
       "numero": "125405008781316",
       "total_compras": 0,
       "total_gb_acumulado": 0,
@@ -16237,7 +16815,7 @@
     },
     "173414186787016@lid": {
       "nome": "liosapel",
-      "pushName": "liosapel",
+      "pushName": "Eduardo🤪",
       "numero": "173414186787016",
       "total_compras": 0,
       "total_gb_acumulado": 0,
@@ -16292,8 +16870,2153 @@
     },
     "27849104859349@lid": {
       "nome": "Yumina❤️🇲🇿🥹🫦",
-      "pushName": "Yumina❤️🇲🇿🥹🫦",
+      "pushName": "Yumina❤️🥹🫦🤎",
       "numero": "27849104859349",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "158519139516594@lid": {
+      "nome": "Cátia Matusse",
+      "pushName": "Cátia Matusse  🔥",
+      "numero": "158519139516594",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "23846329532537@lid": {
+      "nome": "Alguinerinho Alfredo",
+      "pushName": "Alguinerinho Alfredo",
+      "numero": "23846329532537",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "229978939642111@lid": {
+      "nome": "Samantha Nazaré",
+      "pushName": "..🎀",
+      "numero": "229978939642111",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "39784298840138@lid": {
+      "nome": "Rodrigues",
+      "pushName": "Rodrigues",
+      "numero": "39784298840138",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "40850155393186@lid": {
+      "nome": "Sr\\a Licussa 🖤👩‍🎓",
+      "pushName": "Sr\\a Licussa 🖤👩‍🎓",
+      "numero": "40850155393186",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "175136518983865@lid": {
+      "nome": "C'S",
+      "pushName": "Usuário",
+      "numero": "175136518983865",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "214585927827504@lid": {
+      "nome": "Pricess Merry  🫶📍💋",
+      "pushName": "Usuário",
+      "numero": "214585927827504",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "252441383702633@lid": {
+      "nome": "Cíntia",
+      "pushName": "Usuário",
+      "numero": "252441383702633",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "17421008109573@lid": {
+      "nome": "Eugenio",
+      "pushName": "Eugenio",
+      "numero": "17421008109573",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "59880887054494@lid": {
+      "nome": "Chume",
+      "pushName": "Chume",
+      "numero": "59880887054494",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "266838265073766@lid": {
+      "nome": "Ayla  ernesto  ❤‍🩹💘🥹",
+      "pushName": "Ayla  ernesto  ❤‍🩹💘🥹",
+      "numero": "266838265073766",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "120521630941419@lid": {
+      "nome": "Brunizzy 😝😜",
+      "pushName": "Brunizzy 😝😜",
+      "numero": "120521630941419",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "154468951810190@lid": {
+      "nome": "Betty",
+      "pushName": "Betty",
+      "numero": "154468951810190",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "196388067532874@lid": {
+      "nome": "Yussura💗",
+      "pushName": "Yussura💗",
+      "numero": "196388067532874",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "260782445039864@lid": {
+      "nome": "HORTENCIO3D",
+      "pushName": "HORTÊNCIO😎",
+      "numero": "260782445039864",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "238792095096893@lid": {
+      "nome": "EXBOY PAULO",
+      "pushName": "EXBOY PAULO",
+      "numero": "238792095096893",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "131551073419330@lid": {
+      "nome": "Usuário",
+      "pushName": "Usuário",
+      "numero": "131551073419330",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "182768591962270@lid": {
+      "nome": "Ivan Muneme",
+      "pushName": "Ivan Muneme",
+      "numero": "182768591962270",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "256989670195351@lid": {
+      "nome": "langaildaabilio",
+      "pushName": "langaildaabilio",
+      "numero": "256989670195351",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "120363402495483214@g.us": {
+      "nome": "Usuário",
+      "pushName": "Usuário",
+      "numero": "120363402495483214",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "194579802398747@lid": {
+      "nome": "OMAR...",
+      "pushName": "OMAR...",
+      "numero": "194579802398747",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "258862796723@s.whatsapp.net": {
+      "nome": "OMAR...",
+      "pushName": "ALICE BOT",
+      "numero": "258862796723",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "105879785492575@lid": {
+      "nome": "Alberto Macie",
+      "pushName": "Alberto Macie",
+      "numero": "105879785492575",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "109161341829296@lid": {
+      "nome": "Vaston♣ Puto Do Mundinho",
+      "pushName": "Vaston♣ Puto Do Mundinho",
+      "numero": "109161341829296",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "230906736418909@lid": {
+      "nome": "Sinda da ruth",
+      "pushName": "Sinda da ruth",
+      "numero": "230906736418909",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "268685218427128@lid": {
+      "nome": "ÄGATXiNHA 🥹🩷",
+      "pushName": "ÄGATXiNHA 🥹🩷",
+      "numero": "268685218427128",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "127574017585247@lid": {
+      "nome": "Michael🔞🚭💯💥🖤🧠🤌",
+      "pushName": "cossamichael55",
+      "numero": "127574017585247",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "38972952731795@lid": {
+      "nome": "♡~Zeferino~♡",
+      "pushName": "♡~Zeferino~♡",
+      "numero": "38972952731795",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "56719891812366@lid": {
+      "nome": "lidiamacamo590",
+      "pushName": "lidiamacamo590",
+      "numero": "56719891812366",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "110922379038856@lid": {
+      "nome": "Manilson",
+      "pushName": "Manilson",
+      "numero": "110922379038856",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "211871256866843@lid": {
+      "nome": "Amaral Antonio",
+      "pushName": "Amaral Antonio",
+      "numero": "211871256866843",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "230494268563703@lid": {
+      "nome": "Usuário",
+      "pushName": "Usuário",
+      "numero": "230494268563703",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "251522495574185@lid": {
+      "nome": "Priscila B.M😘",
+      "pushName": "Priscila B.M😘",
+      "numero": "251522495574185",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "19740290502844@lid": {
+      "nome": "nunesmussicasimiliana",
+      "pushName": "nunesmussicasimiliana",
+      "numero": "19740290502844",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "26599453917379@lid": {
+      "nome": "Quem que te conhece não",
+      "pushName": "Quem que te conhece não",
+      "numero": "26599453917379",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "59971316236296@lid": {
+      "nome": "Usuário",
+      "pushName": "Usuário",
+      "numero": "59971316236296",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "94051646844932@lid": {
+      "nome": "magombeinacio9",
+      "pushName": "magombeinacio9",
+      "numero": "94051646844932",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "146948178845796@lid": {
+      "nome": "Usuário",
+      "pushName": "Usuário",
+      "numero": "146948178845796",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "117334932992001@lid": {
+      "nome": "Ana",
+      "pushName": "Ana",
+      "numero": "117334932992001",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "42159935910011@lid": {
+      "nome": "Usuário",
+      "pushName": "Usuário",
+      "numero": "42159935910011",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "553497274297@s.whatsapp.net": {
+      "nome": "Raiane",
+      "pushName": "Raiane",
+      "numero": "553497274297",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "243765683990673@lid": {
+      "nome": "Usuário",
+      "pushName": "Usuário",
+      "numero": "243765683990673",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "270922829275204@lid": {
+      "nome": "Usuário",
+      "pushName": "Usuário",
+      "numero": "270922829275204",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "251582457319542@lid": {
+      "nome": "Usuário",
+      "pushName": "Usuário",
+      "numero": "251582457319542",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "185306850586818@lid": {
+      "nome": "Sammy🤓",
+      "pushName": "Usuário",
+      "numero": "185306850586818",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "184336355741905@lid": {
+      "nome": "Exeee",
+      "pushName": "ROBERTO 🫩",
+      "numero": "184336355741905",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "28072543789075@lid": {
+      "nome": "PEDRO🧠💭",
+      "pushName": "PEDRO🧠💭",
+      "numero": "28072543789075",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "21763035549751@lid": {
+      "nome": "azfashionmozambique",
+      "pushName": "azfashionmozambique",
+      "numero": "21763035549751",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "196533962170394@lid": {
+      "nome": "Felisberth Francisco 😎",
+      "pushName": "Felisberth Francisco 😎",
+      "numero": "196533962170394",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "159412677288130@lid": {
+      "nome": "Miria😭❤️‍🔥",
+      "pushName": "Usuário",
+      "numero": "159412677288130",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "96160240939073@lid": {
+      "nome": "Usuário",
+      "pushName": "Usuário",
+      "numero": "96160240939073",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "182777131601981@lid": {
+      "nome": "Kelvin",
+      "pushName": "Kelvin",
+      "numero": "182777131601981",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "206386348716077@lid": {
+      "nome": "Usuário",
+      "pushName": "Usuário",
+      "numero": "206386348716077",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "82824853983480@lid": {
+      "nome": "Max ❤️",
+      "pushName": "Max ❤️",
+      "numero": "82824853983480",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "71399771238541@lid": {
+      "nome": "Usuário",
+      "pushName": "Usuário",
+      "numero": "71399771238541",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "107022599061714@lid": {
+      "nome": "Newilton💙Larcia💖",
+      "pushName": "Newilton💙Larcia💖",
+      "numero": "107022599061714",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "29296659832914@lid": {
+      "nome": "vasco jorge semente",
+      "pushName": "vasco jorge semente",
+      "numero": "29296659832914",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "266717972418768@lid": {
+      "nome": "YC",
+      "pushName": "YC",
+      "numero": "266717972418768",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "99454531141791@lid": {
+      "nome": "kepa arrizabalaga",
+      "pushName": "kepa arrizabalaga",
+      "numero": "99454531141791",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "97539260948481@lid": {
+      "nome": "📍Rungo❤️",
+      "pushName": "Rungo📍",
+      "numero": "97539260948481",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "5511978506319@s.whatsapp.net": {
+      "nome": "5511978506319",
+      "pushName": "5511978506319",
+      "numero": "5511978506319",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "258859307550@s.whatsapp.net": {
+      "nome": "†kid Sk†",
+      "pushName": "†kïd Sk 🎮",
+      "numero": "258859307550",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "258856221268@s.whatsapp.net": {
+      "nome": "BACAR - Explicador",
+      "pushName": "ALICE BOT",
+      "numero": "258856221268",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "154713915945025@lid": {
+      "nome": "Usuário",
+      "pushName": "Usuário",
+      "numero": "154713915945025",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "238908126310571@lid": {
+      "nome": "Cecília Mahaie",
+      "pushName": "Cecília Mahaie",
+      "numero": "238908126310571",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "23567022456979@lid": {
+      "nome": "Proof Ndhim@",
+      "pushName": "Proof Ndhim@",
+      "numero": "23567022456979",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "201038946664499@lid": {
+      "nome": "EL THINKER FOREVER",
+      "pushName": "EL THINKER FOREVER",
+      "numero": "201038946664499",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "228694710837303@lid": {
+      "nome": "vascotivane34",
+      "pushName": "vascotivane34",
+      "numero": "228694710837303",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "61577566937235@lid": {
+      "nome": "Carvalho Domingos",
+      "pushName": "Carvalho Domingos",
+      "numero": "61577566937235",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "199205247258722@lid": {
+      "nome": "Jesus",
+      "pushName": "Jesus",
+      "numero": "199205247258722",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "138439999647753@lid": {
+      "nome": "Álvaro-técnico",
+      "pushName": "Álvaro-técnico",
+      "numero": "138439999647753",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "265884295819273@lid": {
+      "nome": "lonewolf",
+      "pushName": "lonewolf",
+      "numero": "265884295819273",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "69677908775138@lid": {
+      "nome": "shalton Maria",
+      "pushName": "Usuário",
+      "numero": "69677908775138",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "180127254241298@lid": {
+      "nome": "Bom moço ❤️‍🩹🫶🥹",
+      "pushName": "Usuário",
+      "numero": "180127254241298",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "172039243595956@lid": {
+      "nome": "ddebroowndxi",
+      "pushName": "ddebroowndxi",
+      "numero": "172039243595956",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "184667084996770@lid": {
+      "nome": "Petra Peter",
+      "pushName": "Petra Peter",
+      "numero": "184667084996770",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "104183122383048@lid": {
+      "nome": "Yurchade André Machava",
+      "pushName": "Yurchade André Machava",
+      "numero": "104183122383048",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "197410135474364@lid": {
+      "nome": "sundeabsalone",
+      "pushName": "sundeabsalone",
+      "numero": "197410135474364",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "174088278515872@lid": {
+      "nome": "𝕂𝕒𝕝𝕓𝕖 𝕃𝕒𝕟𝕘𝕒",
+      "pushName": "𝕂𝕒𝕝𝕓𝕖 𝕃𝕒𝕟𝕘𝕒",
+      "numero": "174088278515872",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "252814945189909@lid": {
+      "nome": "Chemane",
+      "pushName": "Chemane",
+      "numero": "252814945189909",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "217347591827626@lid": {
+      "nome": "Toyota",
+      "pushName": "Usuário",
+      "numero": "217347591827626",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "4815077818412@lid": {
+      "nome": "MBL",
+      "pushName": "MBL",
+      "numero": "4815077818412",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "236301232152595@lid": {
+      "nome": "Usuário",
+      "pushName": "Usuário",
+      "numero": "236301232152595",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "57376803672088@lid": {
+      "nome": "Elcilio José",
+      "pushName": "Elcilio José",
+      "numero": "57376803672088",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "83240811556921@lid": {
+      "nome": "edgarwamosse",
+      "pushName": "edgarwamosse",
+      "numero": "83240811556921",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "60503858618396@lid": {
+      "nome": "RkSse Lendário😎",
+      "pushName": "RkSse Lendário😎",
+      "numero": "60503858618396",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "88592911212653@lid": {
+      "nome": "Cidade",
+      "pushName": "Cidade",
+      "numero": "88592911212653",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "62775913119870@lid": {
+      "nome": "Hidjadrissa 🫂",
+      "pushName": "Hidjadrissa 🫂",
+      "numero": "62775913119870",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "39565976932543@lid": {
+      "nome": "Lurdes",
+      "pushName": "Lurdes",
+      "numero": "39565976932543",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "117807362658441@lid": {
+      "nome": "Nayara",
+      "pushName": "Nayara",
+      "numero": "117807362658441",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "116789186941109@lid": {
+      "nome": "Alberto Verniz",
+      "pushName": "Alberto Verniz",
+      "numero": "116789186941109",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "61946867015827@lid": {
+      "nome": "Ya Charafe",
+      "pushName": "Ya Charafe",
+      "numero": "61946867015827",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "13229203939381@lid": {
+      "nome": "❦𝓜𝓲𝓼𝓼⋆̶S̶A̶T̶O̶R̶U̶ ̶",
+      "pushName": "❦𝓜𝓲𝓼𝓼⋆̶S̶A̶T̶O̶R̶U̶ ̶",
+      "numero": "13229203939381",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "201683728646326@lid": {
+      "nome": "roqueklesio",
+      "pushName": "roqueklesio",
+      "numero": "201683728646326",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "258840795490@s.whatsapp.net": {
+      "nome": "Bruno Angelo",
+      "pushName": "ALICE BOT",
+      "numero": "258840795490",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "104355206283312@lid": {
+      "nome": "Usuário",
+      "pushName": "Usuário",
+      "numero": "104355206283312",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "127393326968915@lid": {
+      "nome": "Usuário",
+      "pushName": "Usuário",
+      "numero": "127393326968915",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "203393041694811@lid": {
+      "nome": "Usuário",
+      "pushName": "Usuário",
+      "numero": "203393041694811",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "551123301914@s.whatsapp.net": {
+      "nome": "ALICE BOT",
+      "pushName": "551123301914",
+      "numero": "551123301914",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "258857170314@s.whatsapp.net": {
+      "nome": "ALICE BOT",
+      "pushName": "N@ N DZª❤️‍🩹🦜🫳🤡🙂‍↕️",
+      "numero": "258857170314",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "5511945507928@s.whatsapp.net": {
+      "nome": "5511945507928",
+      "pushName": "5511945507928",
+      "numero": "5511945507928",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "5515997483567@s.whatsapp.net": {
+      "nome": "ALICE BOT",
+      "pushName": "ALICE BOT",
+      "numero": "5515997483567",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "5511920135389@s.whatsapp.net": {
+      "nome": "5511920135389",
+      "pushName": "5511920135389",
+      "numero": "5511920135389",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "32345851711490@lid": {
+      "nome": "Yue",
+      "pushName": "Yue",
+      "numero": "32345851711490",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "3625640292424@lid": {
+      "nome": "Tay India",
+      "pushName": "Tay India",
+      "numero": "3625640292424",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "555381037880@s.whatsapp.net": {
+      "nome": "Bruno",
+      "pushName": "Usuário",
+      "numero": "555381037880",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "99828528869487@lid": {
+      "nome": "Filipeconstantinofiosse F",
+      "pushName": "Filipeconstantinofiosse F",
+      "numero": "99828528869487",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "162560687009888@lid": {
+      "nome": "Usuário",
+      "pushName": "Usuário",
+      "numero": "162560687009888",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "86952166576371@lid": {
+      "nome": "Eliobros Tech",
+      "pushName": "Eliobros Tech",
+      "numero": "86952166576371",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "1750439863@broadcast": {
+      "nome": "Veja Meus Status",
+      "pushName": "Veja Meus Status",
+      "numero": "1750439863",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "137602783027410@lid": {
+      "nome": "Usuário",
+      "pushName": "Usuário",
+      "numero": "137602783027410",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "127345864257553@lid": {
+      "nome": "ibraimomabunda244",
+      "pushName": "ibraimomabunda244",
+      "numero": "127345864257553",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "48898806685746@lid": {
+      "nome": "LADRÃO Perigoso 💀☠️💀",
+      "pushName": "LADRÃO Perigoso 💀☠️💀",
+      "numero": "48898806685746",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "5511991109276@s.whatsapp.net": {
+      "nome": "5511991109276",
+      "pushName": "5511991109276",
+      "numero": "5511991109276",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "1614341946@broadcast": {
+      "nome": "Pizzaria Bel Pezzo",
+      "pushName": "Pizzaria Bel Pezzo",
+      "numero": "1614341946",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "551128475131@s.whatsapp.net": {
+      "nome": "551128475131",
+      "pushName": "551128475131",
+      "numero": "551128475131",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "5513997075806@s.whatsapp.net": {
+      "nome": "ALICE BOT",
+      "pushName": "ALICE BOT",
+      "numero": "5513997075806",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "160099251286046@lid": {
+      "nome": "Reginaldo",
+      "pushName": "Reginaldo",
+      "numero": "160099251286046",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "15724496089246@lid": {
+      "nome": "Sofia Isabelle",
+      "pushName": "Usuário",
+      "numero": "15724496089246",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "258851345642@s.whatsapp.net": {
+      "nome": "Paulo Silvestre",
+      "pushName": "Usuário",
+      "numero": "258851345642",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "258841321055@s.whatsapp.net": {
+      "nome": "ALICE BOT",
+      "pushName": "ALICE BOT",
+      "numero": "258841321055",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "45127691153660@lid": {
+      "nome": "ALICE BOT",
+      "pushName": "ALICE BOT",
+      "numero": "45127691153660",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "13035829723250@lid": {
+      "nome": "Usuário",
+      "pushName": "Usuário",
+      "numero": "13035829723250",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "217733702639822@lid": {
+      "nome": "Usuário",
+      "pushName": "Usuário",
+      "numero": "217733702639822",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "71240773583099@lid": {
+      "nome": "ALICE BOT",
+      "pushName": "Usuário",
+      "numero": "71240773583099",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "261375234453705@lid": {
+      "nome": "edilson",
+      "pushName": "Usuário",
+      "numero": "261375234453705",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "105644048822438@lid": {
+      "nome": "Usuário",
+      "pushName": "Usuário",
+      "numero": "105644048822438",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "201383047385263@lid": {
+      "nome": "Usuário",
+      "pushName": "Usuário",
+      "numero": "201383047385263",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "85376014225565@lid": {
+      "nome": "ALICE BOT",
+      "pushName": "Adriano",
+      "numero": "85376014225565",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "120363294031651231@g.us": {
+      "nome": "Usuário",
+      "pushName": "Usuário",
+      "numero": "120363294031651231",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "142490321608761@lid": {
+      "nome": "José Antônio",
+      "pushName": "José Antônio",
+      "numero": "142490321608761",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "93252648759335@lid": {
+      "nome": "𝒲𝒾𝓁𝓁𝒾𝒶𝓂 𝑀𝒶𝓇𝓀 ─",
+      "pushName": "𝒲𝒾𝓁𝓁𝒾𝒶𝓂 𝑀𝒶𝓇𝓀 ─",
+      "numero": "93252648759335",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "157707038372035@lid": {
+      "nome": "Fagner Amaral",
+      "pushName": "Usuário",
+      "numero": "157707038372035",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "558007070398@s.whatsapp.net": {
+      "nome": "558007070398",
+      "pushName": "558007070398",
+      "numero": "558007070398",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "1750439126@broadcast": {
+      "nome": "Veja Meu Status",
+      "pushName": "Veja Meu Status",
+      "numero": "1750439126",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "37096404340893@lid": {
+      "nome": "Usuário",
+      "pushName": "Usuário",
+      "numero": "37096404340893",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "63810564030503@lid": {
+      "nome": "Usuário",
+      "pushName": "Usuário",
+      "numero": "63810564030503",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "222303883415758@lid": {
+      "nome": "🇬🇧╰‿╯ᴰᴬᴿᴷ ᴳᴿᴵᴺᴳØ💀",
+      "pushName": "🇬🇧╰‿╯ᴰᴬᴿᴷ ᴳᴿᴵᴺᴳØ💀",
+      "numero": "222303883415758",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "129498011959433@lid": {
+      "nome": "Marlene Mussane",
+      "pushName": "Marlene Mussane",
+      "numero": "129498011959433",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "126006304202881@lid": {
+      "nome": "C.M.J👽🤤🤡",
+      "pushName": "C.M.J👽🤤🤡",
+      "numero": "126006304202881",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "188832800604248@lid": {
+      "nome": "cris dos anjo",
+      "pushName": "cris dos anjo",
+      "numero": "188832800604248",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "76914643464311@lid": {
+      "nome": "mother two Queens",
+      "pushName": "mother two Queens",
+      "numero": "76914643464311",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "25890717221104@lid": {
+      "nome": "Usuário",
+      "pushName": "Usuário",
+      "numero": "25890717221104",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "218743288426581@lid": {
+      "nome": "Usuário",
+      "pushName": "Usuário",
+      "numero": "218743288426581",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "246565616754867@lid": {
+      "nome": "Usuário",
+      "pushName": "Usuário",
+      "numero": "246565616754867",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "73577185472520@lid": {
+      "nome": "ALICE BOT",
+      "pushName": "ALICE BOT",
+      "numero": "73577185472520",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "91792561156121@lid": {
+      "nome": "Cíntia",
+      "pushName": "Cíntia",
+      "numero": "91792561156121",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "46188313182347@lid": {
+      "nome": "Neidy🤎",
+      "pushName": "Neidy🤎",
+      "numero": "46188313182347",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "167138971111490@lid": {
+      "nome": "Micaela🥹💜",
+      "pushName": "Usuário",
+      "numero": "167138971111490",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "261375217692699@lid": {
+      "nome": "Ana Flávia ♥️",
+      "pushName": "Ana Flávia ♥️",
+      "numero": "261375217692699",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "56488030666899@lid": {
+      "nome": "🥰",
+      "pushName": "🥰",
+      "numero": "56488030666899",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "71181013102838@lid": {
+      "nome": "ALICE BOT",
+      "pushName": "ALICE BOT",
+      "numero": "71181013102838",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "274070939672597@lid": {
+      "nome": "Usuário",
+      "pushName": "Usuário",
+      "numero": "274070939672597",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "46454433382631@lid": {
+      "nome": "ALICE BOT",
+      "pushName": "https://minioprime.com",
+      "numero": "46454433382631",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "99063924052068@lid": {
+      "nome": "Usuário",
+      "pushName": "Usuário",
+      "numero": "99063924052068",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "89537267126504@lid": {
+      "nome": "Usuário",
+      "pushName": "Usuário",
+      "numero": "89537267126504",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "9191733334098@lid": {
+      "nome": "Sr.Tsambe",
+      "pushName": "Sr.Tsambe",
+      "numero": "9191733334098",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "84310258384994@lid": {
+      "nome": "Celsa Maboy ❤️🥰😇",
+      "pushName": "Celsa Maboy ❤️🥰😇",
+      "numero": "84310258384994",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "46721157599275@lid": {
+      "nome": "...",
+      "pushName": "...",
+      "numero": "46721157599275",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "165361106321456@lid": {
+      "nome": "♰₳Ɏ₳₦Ø₭ØɄJł♰",
+      "pushName": "♰₳Ɏ₳₦Ø₭ØɄJł♰",
+      "numero": "165361106321456",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "163020416241670@lid": {
+      "nome": "molindazunguene2",
+      "pushName": "molindazunguene2",
+      "numero": "163020416241670",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "144766788460717@lid": {
+      "nome": "Milton Chimen",
+      "pushName": "Milton Chimen",
+      "numero": "144766788460717",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "184267552374833@lid": {
+      "nome": "Lucimuel luciano",
+      "pushName": "Lucimuel luciano",
+      "numero": "184267552374833",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "270076620099820@lid": {
+      "nome": "Rosmin Bachir",
+      "pushName": "Rosmin Bachir",
+      "numero": "270076620099820",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "232439771340978@lid": {
+      "nome": "Delsa",
+      "pushName": "Delsa",
+      "numero": "232439771340978",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "44968911597766@lid": {
+      "nome": "juventinoaugusto2",
+      "pushName": "juventinoaugusto2",
+      "numero": "44968911597766",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "80299463544888@lid": {
+      "nome": "Iı MAŪRICIO🫗󱢏 Iı",
+      "pushName": "Iı MAŪRICIO🫗󱢏 Iı",
+      "numero": "80299463544888",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "56445081010216@lid": {
+      "nome": "sergiohelder2009@gmail.co",
+      "pushName": "sergiohelder2009@gmail.co",
+      "numero": "56445081010216",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "199772032000121@lid": {
+      "nome": "@MárlenM",
+      "pushName": "@MárlenM",
+      "numero": "199772032000121",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "66842743861389@lid": {
+      "nome": "Octávio",
+      "pushName": "Octávio",
+      "numero": "66842743861389",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "193243698454765@lid": {
+      "nome": "Kasisi Nyondo",
+      "pushName": "Kasisi Nyondo",
+      "numero": "193243698454765",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "149181998096567@lid": {
+      "nome": "Usuário",
+      "pushName": "Usuário",
+      "numero": "149181998096567",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "215358921306227@lid": {
+      "nome": "antoniovidamauro",
+      "pushName": "antoniovidamauro",
+      "numero": "215358921306227",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "255486649704449@lid": {
+      "nome": "Mimiana Bonde ❤️",
+      "pushName": "Mimiana Bonde ❤️",
+      "numero": "255486649704449",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "42829699100747@lid": {
+      "nome": "Lopes",
+      "pushName": "Lopes",
+      "numero": "42829699100747",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "194880466849829@lid": {
+      "nome": "Carla🥰🥰",
+      "pushName": "Carla🥰🥰",
+      "numero": "194880466849829",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "58880142897358@lid": {
+      "nome": "bssolution001",
+      "pushName": "bssolution001",
+      "numero": "58880142897358",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "91028174450729@lid": {
+      "nome": "stella🥰",
+      "pushName": "stella🥰",
+      "numero": "91028174450729",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "147536992034830@lid": {
+      "nome": "tyvania 💙",
+      "pushName": "tyvania 💙",
+      "numero": "147536992034830",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "261147483717637@lid": {
+      "nome": "Biatriz Isac cuco",
+      "pushName": "Biatriz Isac cuco",
+      "numero": "261147483717637",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "147089996656765@lid": {
+      "nome": "chineidemiliamacamo",
+      "pushName": "chineidemiliamacamo",
+      "numero": "147089996656765",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "112137888391295@lid": {
+      "nome": "it'Ss Re Be Ca♥️🥺",
+      "pushName": "it'Ss Re Be Ca♥️🥺",
+      "numero": "112137888391295",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "1271947903142@lid": {
+      "nome": "Usuário",
+      "pushName": "Usuário",
+      "numero": "1271947903142",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "120551846739969@lid": {
+      "nome": "Shantel",
+      "pushName": "Shantel",
+      "numero": "120551846739969",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "1750439974@broadcast": {
+      "nome": "Veja o Status",
+      "pushName": "Veja o Status",
+      "numero": "1750439974",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "258862840075@s.whatsapp.net": {
+      "nome": "ALICE BOT",
+      "pushName": "Usuário",
+      "numero": "258862840075",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "112511416287386@lid": {
+      "nome": "Usuário",
+      "pushName": "Usuário",
+      "numero": "112511416287386",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "120363406011100630@newsletter": {
+      "nome": "Usuário",
+      "pushName": "Usuário",
+      "numero": "120363406011100630",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "210642912948345@lid": {
+      "nome": "Usuário",
+      "pushName": "Helio",
+      "numero": "210642912948345",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "258848041369@s.whatsapp.net": {
+      "nome": "ALICE BOT",
+      "pushName": "ALICE BOT",
+      "numero": "258848041369",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "258871090137@s.whatsapp.net": {
+      "nome": "ALICE BOT",
+      "pushName": "ALICE BOT",
+      "numero": "258871090137",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "1750439976@broadcast": {
+      "nome": "Veja o Status",
+      "pushName": "Veja o Status",
+      "numero": "1750439976",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "181282315206785@lid": {
+      "nome": "Bruno",
+      "pushName": "Bruno",
+      "numero": "181282315206785",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "265858643423301@lid": {
+      "nome": "Daniel Henrique",
+      "pushName": "Daniel Henrique",
+      "numero": "265858643423301",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "96590190608543@lid": {
+      "nome": "Usuário",
+      "pushName": "Usuário",
+      "numero": "96590190608543",
       "total_compras": 0,
       "total_gb_acumulado": 0,
       "primeira_compra": "",
@@ -16336,11 +19059,33 @@
         "emola": {
           "numeros": [
             "862840075",
-            "873255276"
+            "873255276",
+            "866399986"
           ],
           "nomes": {
             "862840075": "Habibo",
+            "866399986": "AIDA",
             "873255276": "ESTEVAO"
+          }
+        }
+      }
+    },
+    "120363402495483214@g.us": {
+      "numeros_pagamento": {
+        "mpesa": {
+          "numeros": [
+            "841617651"
+          ],
+          "nomes": {
+            "841617651": "HABIBO"
+          }
+        },
+        "emola": {
+          "numeros": [
+            "862840075"
+          ],
+          "nomes": {
+            "862840075": "HABIBO"
           }
         }
       }

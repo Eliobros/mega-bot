@@ -5,7 +5,6 @@ const CompraHandler = require('./CompraHandler');
 // Comandos de membros
 //const TinaCommand = require('../commands/membros/tina');
 const MenuCommand = require('../commands/membros/menu');
-const TikTokCommand = require('../commands/membros/tiktok');
 //const SemCompraCommand = require('../commands/dono/semcompra');
 //const MarcarCommand = require('../commands/dono/marcar');
 const TabelaCommand = require('../commands/membros/tabela');
@@ -75,7 +74,6 @@ class MessageHandler {
         this.infoCommand = new MeInfoCommand(sock, dataManager)
         this.clientesCommand = new ClientesCommand(sock, dataManager);
         this.addcoinCommand = new AddCoinCommand(sock, dataManager);
-	this.tiktokCommand = new TikTokCommand(sock, dataManager);
         this.fotogpCommand = new FotoGpCommand(sock, dataManager);
         this.descgpCommand = new DescGpCommand(sock, dataManager);
         this.nomegpCommand = new NomeGpCommand(sock, dataManager)
@@ -692,7 +690,7 @@ if (hasImage) {
         if (messageText) {
             const lowerText = messageText.toLowerCase().trim();
             const parts = messageText.trim().split(/\s+/);
-            const lowerCmd = parts[0].toLowerCase();
+            let lowerCmd = parts[0].toLowerCase();
 //            const publicArgs = parts.slice(1);
 	    if (lowerCmd.startsWith('!') || lowerCmd.startsWith('/')) {
     lowerCmd = lowerCmd.substring(1); // Remove o ! ou /
@@ -722,10 +720,6 @@ if (hasImage) {
                 case '/tabela':
                     await this.tabelaCommand.execute(msg, from, sender);
                     break;
-
-	       case 'tiktok':
-   	             await this.tiktokCommand.execute(msg, commandArgs, from, sender);
-		     break;
 
                 case 'me':
                 case '/me':
@@ -1011,10 +1005,6 @@ ${from}
 	    case 'config':
     		await this.configNumerosCommand.execute(msg, commandArgs, from, sender);
     		break;
-
-	   case 'tiktok':
-                     await this.tiktokCommand.execute(msg, commandArgs, from, sender);
-                     break;
 
             case 'msgbv':
                 await this.adminCommands.msgbv(msg, commandArgs, from, sender);

@@ -28,12 +28,13 @@
       "groupId": "120363401341705925@g.us",
       "startDate": "2025-10-12T08:45:43.916Z",
       "endDate": "2025-11-11T08:45:43.916Z",
-      "active": true
+      "active": true,
+      "lastWarning": "Sun Nov 09 2025"
     },
     {
       "groupId": "120363294031651231@g.us",
       "startDate": "2025-10-12T08:47:35.275Z",
-      "endDate": "2025-12-11T08:47:35.275Z",
+      "endDate": "2026-01-10T08:47:35.275Z",
       "active": true,
       "history": [
         {
@@ -41,8 +42,15 @@
           "days": 30,
           "action": "renewed",
           "previousEndDate": "2025-11-11T08:47:35.275Z"
+        },
+        {
+          "date": "2025-12-14T18:36:37.764Z",
+          "days": 30,
+          "action": "renewed",
+          "previousEndDate": "2025-12-11T08:47:35.275Z"
         }
-      ]
+      ],
+      "lastWarning": "Mon Dec 08 2025"
     },
     {
       "groupId": "120363421189875513@g.us",
@@ -60,31 +68,42 @@
       "groupId": "120363153010260261@g.us",
       "startDate": "2025-10-12T10:50:56.624Z",
       "endDate": "2025-11-11T10:50:56.623Z",
-      "active": true
+      "active": false,
+      "lastWarning": "Sun Nov 09 2025"
     },
     {
       "groupId": "558799104354-1571508070@g.us",
       "startDate": "2025-10-12T11:37:37.951Z",
       "endDate": "2025-11-11T11:37:37.951Z",
-      "active": true
+      "active": false,
+      "lastWarning": "Sun Nov 09 2025"
     },
     {
       "groupId": "120363402495483214@g.us",
       "startDate": "2025-10-20T14:07:05.269Z",
-      "endDate": "2025-11-19T14:07:05.269Z",
-      "active": true
+      "endDate": "2026-05-18T14:07:05.269Z",
+      "active": true,
+      "history": [
+        {
+          "date": "2025-11-05T13:37:47.587Z",
+          "days": 180,
+          "action": "renewed",
+          "previousEndDate": "2025-11-19T14:07:05.269Z"
+        }
+      ]
     },
     {
       "groupId": "120363297384462457@g.us",
       "startDate": "2025-10-25T02:59:42.653Z",
       "endDate": "2025-11-24T02:59:42.653Z",
-      "active": true
+      "active": false
     },
     {
       "groupId": "120363419612048640@g.us",
       "startDate": "2025-10-27T04:32:23.723Z",
       "endDate": "2025-11-26T04:32:23.723Z",
-      "active": true
+      "active": false,
+      "lastWarning": "Sun Nov 23 2025"
     },
     {
       "groupId": "120363405716799197@g.us",

@@ -1,0 +1,17 @@
+temp
+auth_info_baileys
+node_modules
+.git
+package-lock.json
+.env
+.DS_Store
+dist
+build
+.mozhost.json
+*.log
+.vscode
+.idea
+__pycache__
+*.pyc
+venv
+env

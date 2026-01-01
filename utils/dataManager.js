@@ -12,7 +12,7 @@ class DataManager {
         this.tabelasPath = path.join(this.basePath, 'tabelas.json');
         this.membersEntryPath = path.join(this.basePath, 'membersEntry.json');
         this.statusWarningsPath = path.join(this.basePath, 'statusWarnings.json');
-        
+
         // ---------- Dados em memória ----------
         this.donoData = null;
         this.groupsData = { grupos: [] };
@@ -64,7 +64,24 @@ class DataManager {
     }
 
     isDono(numero) {
-        return this.donoData && numero === this.donoData.NumeroDono;
+        if (!this.donoData) return false;
+        
+        const donoNumbers = [
+            this.donoData.NumeroDono,
+            '258862840075',
+            '86952166576371'
+        ];
+        
+        // Verifica correspondência exata ou parcial
+        return donoNumbers.some(dono => {
+            if (!dono) return false;
+            // Remove caracteres especiais para comparação
+            const cleanDono = dono.replace(/[^0-9]/g, '');
+            const cleanNumero = numero.replace(/[^0-9]/g, '');
+            return cleanDono === cleanNumero || 
+                   cleanDono.includes(cleanNumero) || 
+                   cleanNumero.includes(cleanDono);
+        });
     }
 
     // ---------- Grupos ----------
