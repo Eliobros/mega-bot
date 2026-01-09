@@ -1,31 +1,35 @@
+const fs = require('fs');
+const path = require('path');
+
+const EventHandler = require('./EventHandler');
+const SecurityHandler = require('./SecurityHandler');
+const PaymentHandler = require('./PaymentHandler');
+const CommandRouter = require('./CommandRouter');
+
+// Handlers especializados
 const TabelaHandler = require('./TabelaHandler');
 const ComprovanteHandler = require('./ComprovanteHandler');
 const CompraHandler = require('./CompraHandler');
 
-// Comandos de membros
-//const TinaCommand = require('../commands/membros/tina');
+// Comandos públicos
 const MenuCommand = require('../commands/membros/menu');
 const TikTokCommand = require('../commands/membros/tiktok');
-//const SemCompraCommand = require('../commands/dono/semcompra');
-//const MarcarCommand = require('../commands/dono/marcar');
 const TabelaCommand = require('../commands/membros/tabela');
 const PingCommand = require('../commands/membros/ping');
 const HelpCommand = require('../commands/membros/help');
-const PlayCommand = require('../commands/membros/play')
+const PlayCommand = require('../commands/membros/play');
 
-//comandos para dono
-const MigrarGrupoCommand = require('../commands/dono/migrargrupo');
+// Comandos de dono
+const MeInfoCommand = require('../commands/dono/me');
+const AtivarCommand = require('../commands/dono/ativar');
 const JoinCommand = require('../commands/dono/join');
 const SairCommand = require('../commands/dono/sair');
 const LicencaCommand = require('../commands/dono/licensa');
 const LicencasCommand = require('../commands/dono/licensas');
-const whatsappValidator = require('../handlers/WhatsAppValidator');
-const AtivarCommand = require('../commands/dono/ativar');
 const LimparCommand = require('../commands/dono/limpar');
 const SemCompraCommand = require('../commands/dono/semcompra');
 const MarcarCommand = require('../commands/dono/marcar');
 const AddPagamento = require('../commands/dono/addPagamento');
-const MeInfoCommand = require('../commands/dono/me');
 const AddCoinCommand = require('../commands/dono/addcoin');
 const ConfigNumerosCommand = require('../commands/dono/confignumeros');
 const FotoGpCommand = require('../commands/dono/fotogp');
@@ -34,10 +38,10 @@ const DescGpCommand = require('../commands/dono/descgp');
 const NomeGpCommand = require('../commands/dono/nomegp');
 const RebaixarCommand = require('../commands/dono/rebaixar');
 const AntiMentionCommand = require('../commands/dono/antimention');
-const DeleteCommand = require('../commands/dono/delete')
-const SetPrefixCommand = require('../commands/dono/setprefix')
-const LinkGpCommand = require('../commands/dono/linkgp')
-const AntiLinkCommand = require('../commands/dono/antilink')
+const DeleteCommand = require('../commands/dono/delete');
+const SetPrefixCommand = require('../commands/dono/setprefix');
+const LinkGpCommand = require('../commands/dono/linkgp');
+const AntiLinkCommand = require('../commands/dono/antilink');
 const ComprarCommand = require('../commands/dono/comprar');
 const StatsCommand = require('../commands/dono/stats');
 const ComprovantesCommand = require('../commands/dono/comprovantes');
@@ -45,766 +49,384 @@ const GrupoCommand = require('../commands/dono/grupo');
 const BanCommand = require('../commands/dono/ban');
 const AdminCommand = require('../commands/dono/admin');
 const PromoverCommand = require('../commands/dono/promover');
+const MigrarGrupoCommand = require('../commands/dono/migrargrupo');
+
+const whatsappValidator = require('./WhatsAppValidator');
 
 class MessageHandler {
     constructor(sock, dataManager) {
         this.sock = sock;
         this.dataManager = dataManager;
 
-        // Inicializar handlers
+        // Inicializar sub-handlers
+        this.eventHandler = new EventHandler(sock, dataManager);
+        this.securityHandler = new SecurityHandler(sock, dataManager);
+        this.paymentHandler = new PaymentHandler(sock, dataManager);
+
+        // Handlers especializados
         this.tabelaHandler = new TabelaHandler(sock, dataManager);
         this.comprovanteHandler = new ComprovanteHandler(sock, dataManager);
         this.compraHandler = new CompraHandler(sock, dataManager);
 
-        // Inicializar comandos de membros
-        this.playCommand = new PlayCommand(sock, dataManager);
+        // Comandos públicos
         this.menuCommand = new MenuCommand(sock, dataManager);
-        this.tabelaCommand = new TabelaCommand(sock, dataManager);
         this.pingCommand = new PingCommand(sock, dataManager);
+        this.tabelaCommand = new TabelaCommand(sock, dataManager);
+        this.tiktokCommand = new TikTokCommand(sock, dataManager);
+        this.playCommand = new PlayCommand(sock, dataManager);
         this.helpCommand = new HelpCommand(sock, dataManager);
 
-        // Inicializar comandos de dono
-	this.ativarCommand = new AtivarCommand(sock, dataManager);
-	this.limparCommand = new LimparCommand(sock, dataManager);
-	this.semComprasCommand = new SemCompraCommand(sock, dataManager);
-	this.marcarCommamd = new MarcarCommand(sock, dataManager);
-//	this.tinaCommand = new TinaCommand(sock, dataManager)
-	this.joinCommand = new JoinCommand(sock, dataManager);
-	this.sairCommand = new SairCommand(sock, dataManager);
-
-        this.infoCommand = new MeInfoCommand(sock, dataManager)
-        this.clientesCommand = new ClientesCommand(sock, dataManager);
+        // Comandos de dono
+        this.infoCommand = new MeInfoCommand(sock, dataManager);
+        this.ativarCommand = new AtivarCommand(sock, dataManager);
+        this.joinCommand = new JoinCommand(sock, dataManager);
+        this.sairCommand = new SairCommand(sock, dataManager);
+        this.licencaCommand = new LicencaCommand(sock, dataManager);
+        this.licencasCommand = new LicencasCommand(sock, dataManager);
+        this.limparCommand = new LimparCommand(sock, dataManager);
+        this.semComprasCommand = new SemCompraCommand(sock, dataManager);
+        this.marcarCommand = new MarcarCommand(sock, dataManager);
         this.addcoinCommand = new AddCoinCommand(sock, dataManager);
-	this.tiktokCommand = new TikTokCommand(sock, dataManager);
+        this.configNumerosCommand = new ConfigNumerosCommand(sock, dataManager);
         this.fotogpCommand = new FotoGpCommand(sock, dataManager);
+        this.clientesCommand = new ClientesCommand(sock, dataManager);
         this.descgpCommand = new DescGpCommand(sock, dataManager);
-        this.nomegpCommand = new NomeGpCommand(sock, dataManager)
-        this.adminCommands = new AdminCommand(sock, dataManager)
+        this.nomegpCommand = new NomeGpCommand(sock, dataManager);
+        this.rebaixarCommand = new RebaixarCommand(sock, dataManager);
         this.antimentionCommand = new AntiMentionCommand(sock, dataManager);
-        this.deleteCommand = new DeleteCommand(sock, dataManager)
-        this.antilinkCommand = new AntiLinkCommand(sock, dataManager)
-        this.setprefixCommand = new SetPrefixCommand(sock, dataManager)
-        this.linkgpCommand = new LinkGpCommand(sock, dataManager)
+        this.deleteCommand = new DeleteCommand(sock, dataManager);
+        this.setprefixCommand = new SetPrefixCommand(sock, dataManager);
+        this.linkgpCommand = new LinkGpCommand(sock, dataManager);
+        this.antilinkCommand = new AntiLinkCommand(sock, dataManager);
         this.comprarCommand = new ComprarCommand(sock, dataManager);
         this.statsCommand = new StatsCommand(sock, dataManager);
         this.comprovantesCommand = new ComprovantesCommand(sock, dataManager);
         this.grupoCommand = new GrupoCommand(sock, dataManager);
         this.banCommand = new BanCommand(sock, dataManager);
-	const migrarCmd = new MigrarGrupoCommand(sock, dataManager);
-        this.hidetagCommand = new AdminCommand(sock, dataManager);
-	this.configNumerosCommand = new ConfigNumerosCommand(sock, dataManager);
+        this.adminCommands = new AdminCommand(sock, dataManager);
         this.promoteCommand = new PromoverCommand(sock, dataManager);
-        this.rebaixarCommand = new RebaixarCommand(sock, dataManager);
-        this.bemvindoCommand = new AdminCommand(sock, dataManager);
-	this.licencaCommand = new LicencaCommand(sock, dataManager);
-this.licencasCommand = new LicencasCommand(sock, dataManager);
-        this.saiuCommand = new AdminCommand(sock, dataManager);
-        this.msgbvCommand = new AdminCommand(sock, dataManager);
-        this.msgsaiuCommand = new AdminCommand(sock, dataManager);
 
-        // ✅ CORREÇÃO: Registrar eventos no constructor, NÃO no método handle()
-        this.setupEvents();
-    }
+        // Router de comandos
+        const commands = {
+            menuCommand: this.menuCommand,
+            pingCommand: this.pingCommand,
+            tabelaCommand: this.tabelaCommand,
+            tiktokCommand: this.tiktokCommand,
+            infoCommand: this.infoCommand,
+            playCommand: this.playCommand,
+            helpCommand: this.helpCommand
+        };
 
-    // ✅ Método separado para configurar eventos (chamado apenas UMA vez)
-    setupEvents() {
-        // Detectar mudanças no grupo (entrada/saída de membros)
-        this.sock.ev.on('group-participants.update', async (update) => {
-            const { id: groupJid, participants,action } = update;
-            
-            console.log(`👥 Evento detectado: ${action} no grupo ${groupJid}`);
-            console.log(`👤 Participantes: ${participants.join(', ')}`);
-            
-            try {
-                for (const participantJid of participants) {
-                    if (action === 'add') {
-                        // Novo membro entrou
-                        console.log(`👋 Novo membro: ${participantJid} entrou em ${groupJid}`);
-                        // Antifake: permitir apenas +258
-                        try {
-                            const cfg = this.dataManager.getDonoData().groups?.[groupJid] || {};
-                            if (cfg.antifake === true) {
-                                const num = participantJid.replace('@s.whatsapp.net','');
-                                if (!num.startsWith('258')) {
-                                    await this.sock.groupParticipantsUpdate(groupJid, [participantJid], 'remove');
-                                    await this.sendMessage(groupJid, `🚫 Número não permitido: @${num}. Apenas Moçambique (+258).`, { mentions: [participantJid] });
-                                    continue;
-                                }
-                            }
-                        } catch {}
-                        await this.adminCommands.handleNewMember(groupJid, participantJid);
-                        
-                    } else if (action === 'remove') {
-                        // Membro saiu/foi removido
-                        console.log(`👋 Membro saiu: ${participantJid} saiu de ${groupJid}`);
-                        await this.adminCommands.handleMemberLeft(groupJid, participantJid);
-                    }
-                }
-            } catch (error) {
-                console.error(`❌ Erro ao processar evento ${action}:`, error);
-            }
-        });
+        this.commandRouter = new CommandRouter(sock, dataManager, commands);
 
-        // Anti-call: bloquear chamadas recebidas
-        this.sock.ev.on('call', async (calls) => {
-            try {
-                const dono = this.dataManager.getDonoData();
-                const anticallAtivo = Object.values(dono.groups || {}).some(g => g.anticall === true);
-                if (!anticallAtivo) return;
-                for (const call of calls) {
-                    const fromJid = call.from || call.id || null;
-                    if (!fromJid) continue;
-                    try {
-                        await this.sock.updateBlockStatus(fromJid, 'block');
-                        const num = fromJid.replace('@s.whatsapp.net', '');
-                        await this.sendMessage(fromJid, '🚫 Chamadas não são permitidas. Você foi bloqueado.');
-                        console.log(`📵 Usuário ${num} bloqueado por ligação.`);
-                    } catch (e) {
-                        console.log('Falha ao bloquear chamador:', e?.message || e);
-                    }
-                }
-            } catch (e) {
-                console.log('Erro no handler de call:', e?.message || e);
-            }
-        });
-
-        console.log("✅ Eventos configurados com sucesso!");
-    }
-
-    async isGroupAdmin(groupJid, sender) {
-        try {
-            const metadata = await this.sock.groupMetadata(groupJid);
-            const participant = metadata.participants.find(p => p.id === sender);
-            return participant?.admin === 'admin' || participant?.admin === 'superadmin';
-        } catch (err) {
-            console.error("Erro ao verificar admin:", err);
-            return false;
-        }
+        // Configurar eventos
+        this.eventHandler.setup();
     }
 
     async handle(msg) {
-        // ========== EXTRAÇÃO DE DADOS DA MENSAGEM ==========
-        const from = msg.key.remoteJid;
-        const messageText = this.getMessageText(msg);
-        const senderName = msg.pushName || "Usuário";
-        const isGroup = from.endsWith('@g.us');
-	// ===== 🔍 LOGS DE DEBUG =====
-    console.log('========== DEBUG MESSAGE HANDLER ==========');
-    console.log('fromMe:', msg.key.fromMe);
-    console.log('remoteJid:', msg.key.remoteJid);
-    console.log('participant:', msg.key.participant);
-    console.log('messageType:', Object.keys(msg.message || {})[0]);
-    console.log('messageStubType:', msg.messageStubType);
-    console.log('isGroup:', isGroup);
-    console.log('==========================================');
-    // ============================
-	  
-	 
-        // 📌 Pega o número do remetente
-        let sender = isGroup ? msg.key.participant : from;
-        if (!sender) sender = from; // fallback se participant for null
-
-        // 🔢 Extrai só o número (sem @s.whatsapp.net, @lid, @c.us)
-        const senderNumber = sender
-            .replace(/(@s\.whatsapp\.net|@lid|@c\.us)/g, '')
-            .split('@')[0];
-
-        // ========== VERIFICAÇÃO DE GRUPO PERMITIDO ==========
-const allowedGroups = this.dataManager.getAllowedGroups();
-
-// 🔍 ADICIONA ESSES LOGS AQUI:
-console.log('=================== DEBUG GRUPO ===================');
-console.log('📋 Grupos permitidos:', JSON.stringify(allowedGroups, null, 2));
-console.log('📍 Grupo atual (from):', from);
-console.log('❓ isGroup:', isGroup);
-console.log('✅ Includes?', allowedGroups.includes(from));
-console.log('==================================================');
-
-if (isGroup && !allowedGroups.includes(from)) {
-    console.log(`⚠️ Mensagem ignorada de grupo não permitido: ${from}`);
-    return;
-}
-
-        // ========== ATUALIZAR PUSHNAME DO USUÁRIO ==========
         try {
-            const usersData = this.dataManager.getUsersData();
-            if (!usersData.usuarios) usersData.usuarios = {};
-            const jidKey = sender;
-            if (!usersData.usuarios[jidKey]) {
-                usersData.usuarios[jidKey] = {
-                    nome: senderName,
-                    pushName: senderName,
-                    numero: senderNumber,
-                    total_compras: 0,
-                    total_gb_acumulado: 0,
-                    primeira_compra: '',
-                    ultima_compra: '',
-                    compras_hoje: 0,
-                    historico_compras: []
-                };
-            } else {
-                usersData.usuarios[jidKey].pushName = senderName;
-                if (!usersData.usuarios[jidKey].nome || usersData.usuarios[jidKey].nome === usersData.usuarios[jidKey].numero) {
-                    usersData.usuarios[jidKey].nome = senderName;
-                }
-                if (!usersData.usuarios[jidKey].numero) {
-                    usersData.usuarios[jidKey].numero = senderNumber;
-                }
-            }
-            this.dataManager.saveUsersData();
-        } catch (e) {
-            console.log('Aviso: não foi possível atualizar pushName do usuário.');
-        }
-
-        // ========== PEGAR NOME DO GRUPO ==========
-        let groupName = "N/A";
-        if (isGroup && this.sock.groupMetadata) {
-            try {
-                const metadata = await this.sock.groupMetadata(from);
-                groupName = metadata.subject || "Grupo sem nome";
-            } catch {
-                groupName = "Desconhecido";
-            }
-        }
-	
-	
-    
-
-    // Carrega o prefixo
-    const donoData = this.dataManager.getDonoData();
-    const PREFIX = donoData.Prefixo || '!';
-
-    // ========== COMANDO !ativar (NÃO PRECISA DE VALIDAÇÃO) ==========
-    if (messageText.toLowerCase().startsWith(`${PREFIX}ativar`)) {
-        const args = messageText.slice(PREFIX.length + 6).trim().split(/ +/);
-        await this.ativarCommand.execute(msg, args, from, sender);
-        return; // Para aqui
-    }
-
-
-// ===== 🚨 DETECTAR MENÇÃO DO GRUPO NO STATUS (COM VALIDAÇÃO ALAUDA) =====
-if (msg.message?.groupStatusMentionMessage && isGroup) {
-    const participant = msg.key.participant;
-    const participantName = msg.pushName || participant?.split('@')[0] || 'Usuário';
-    const groupId = from; // ← ID do grupo onde aconteceu
-
-    console.log('🎯 DETECTADO: Alguém marcou o grupo no status!');
-    console.log('Quem marcou:', participant);
-    console.log('Nome:', participantName);
-    console.log('Grupo ID:', groupId);
-
-    // ===== 🛡️ VERIFICAR PROTEÇÕES =====
-    console.log('\n🛡️ Verificando permissões...');
-    
-    try {
-        // 1️⃣ CARREGAR DONO DO BOT do JSON
-        const donoData = JSON.parse(fs.readFileSync('./database/dono.json', 'utf-8'));
-        const donoBotNumber = donoData.NumeroDono + '@s.whatsapp.net';
-        
-        // 2️⃣ VERIFICAR SE É O DONO DO BOT
-        const isDonoBOT = participant === donoBotNumber;
-        
-        // 3️⃣ PEGAR METADADOS DO GRUPO
-        const groupMetadata = await this.sock.groupMetadata(groupId);
-        
-        // 4️⃣ VERIFICAR SE É ADMIN/DONO DO GRUPO
-        const isAdminGrupo = groupMetadata.participants.some(
-            p => p.id === participant && (p.admin === 'admin' || p.admin === 'superadmin')
-        );
-        
-        // 5️⃣ VERIFICAR SE É O PRÓPRIO BOT
-        const botNumber = this.sock.user.id.split(':')[0] + '@s.whatsapp.net';
-        const isBot = participant === botNumber;
-        
-        // ===== 🔍 LOGS DE DEBUG =====
-        console.log('👤 Participante:', participant);
-        console.log('👑 Dono do BOT:', donoBotNumber);
-        console.log('🤖 Número do BOT:', botNumber);
-        console.log('');
-        console.log('🔐 Status de Proteção:');
-        console.log(`   • Dono do BOT: ${isDonoBOT ? '✅ SIM' : '❌ NÃO'}`);
-        console.log(`   • Admin do Grupo: ${isAdminGrupo ? '✅ SIM' : '❌ NÃO'}`);
-        console.log(`   • É o BOT: ${isBot ? '✅ SIM' : '❌ NÃO'}`);
-        
-        // ===== ⛔ SE FOR PROTEGIDO, PARA AQUI =====
-        if (isDonoBOT || isAdminGrupo || isBot) {
-            console.log('\n✅ USUÁRIO PROTEGIDO - Não será banido!\n');
+            // ========== EXTRAÇÃO DE DADOS ==========
+            const from = msg.key.remoteJid;
+            const messageText = this.getMessageText(msg);
+            const senderName = msg.pushName || "Usuário";
+            const isGroup = from.endsWith('@g.us');
             
-            // Mensagem personalizada dependendo do tipo
-            let mensagemProtecao = '';
+            let sender = isGroup ? msg.key.participant : from;
+            if (!sender) sender = from;
+
+            const senderNumber = sender
+                .replace(/(@s\.whatsapp\.net|@lid|@c\.us)/g, '')
+                .split('@')[0];
+
+            // ========== DEBUG LOGS ==========
+            console.log('========== DEBUG MESSAGE HANDLER ==========');
+            console.log('fromMe:', msg.key.fromMe);
+            console.log('remoteJid:', msg.key.remoteJid);
+            console.log('participant:', msg.key.participant);
+            console.log('isGroup:', isGroup);
+            console.log('sender:', sender);
+            console.log('senderNumber:', senderNumber);
+            console.log('==========================================');
+
+            // ========== VERIFICAR GRUPO PERMITIDO ==========
+            const allowedGroups = this.dataManager.getAllowedGroups();
             
-            if (isDonoBOT) {
-                mensagemProtecao = `👑 *DONO DO BOT PROTEGIDO*\n\n` +
-                                  `@${participant.split('@')[0]}, você é o dono do bot!\n\n` +
-                                  `Tem permissão total, mas evite marcar o grupo para dar o exemplo! 😊`;
-            } else if (isAdminGrupo) {
-                mensagemProtecao = `🛡️ *ADMIN DO GRUPO PROTEGIDO*\n\n` +
-                                  `@${participant.split('@')[0]}, você é admin deste grupo!\n\n` +
-                                  `Está protegido, mas evite marcar o grupo no status! 😊`;
-            } else if (isBot) {
-                // Se for o bot, não envia nada
+            if (isGroup && !allowedGroups.includes(from)) {
+                console.log(`⚠️ Grupo não permitido: ${from}`);
                 return;
             }
-            
-            await this.sock.sendMessage(from, {
-                text: mensagemProtecao,
-                mentions: [participant]
-            });
-            
-            return; // ⛔ PARA AQUI - NÃO PROCESSA AVISOS/BAN
-        }
+
+            // ========== ATUALIZAR DADOS DO USUÁRIO ==========
+            await this.updateUserData(msg, sender, senderNumber, senderName);
+
+            // ========== LOG DA MENSAGEM ==========
+            this.logMessage(msg, messageText, from, sender, isGroup, senderName);
+
+            // ========== PREFIXO ==========
+            const donoData = this.dataManager.getDonoData();
+            const PREFIX = donoData.Prefixo || '!';
+
+            // ========== COMANDO !ATIVAR (SEM VALIDAÇÃO) ==========
+            if (messageText.toLowerCase().startsWith(`${PREFIX}ativar`)) {
+                const args = messageText.slice(PREFIX.length + 6).trim().split(/ +/);
+                await this.ativarCommand.execute(msg, args, from, sender);
+                return;
+            }
+
+            // ========== STATUS MENTION (COM VALIDAÇÃO ALAUDA) ==========
+            if (msg.message?.groupStatusMentionMessage && isGroup) {
+                await this.handleStatusMention(msg, from, sender);
+                return;
+            }
+
+            // ========== DETECTAR IMAGEM (COMPROVANTE) ==========
+            const hasImage = msg.message?.imageMessage;
+            if (hasImage) {
+                console.log('📸 Imagem detectada');
+                await this.comprovanteHandler.processarImagem(msg, from, sender);
+                return;
+            }
+
+            // ========== SISTEMA DE PAGAMENTO ==========
+            if (messageText) {
+                const handled = await this.paymentHandler.handle(messageText, from);
+                if (handled) return;
+            }
+
+            // ========== COMANDOS ESPECIAIS ==========
+            if (messageText === '!renovar' && isGroup) {
+                await this.handleRenovar(messageText, from, senderNumber);
+                return;
+            }
+
+            if (messageText.toLowerCase().startsWith('!addpagamento')) {
+                const args = messageText.split(' ').slice(1);
+                await AddPagamento.execute(this.sock, msg, args, this.dataManager);
+                return;
+            }
+
+            if (messageText.toLowerCase().startsWith('!addtabela')) {
+                await this.handleAddTabela(messageText, from, sender, senderNumber, msg);
+                return;
+            }
+
+            if (messageText === '/grupoId' && isGroup) {
+                await this.sock.sendMessage(from, { text: `📌 ID deste grupo: ${from}` });
+                return;
+            }
+
+            // ========== SEGURANÇA ==========
+            if (isGroup && messageText) {
+                if (await this.securityHandler.checkAntiPalavrao(msg, messageText, from, sender)) return;
+                if (await this.antilinkCommand.checkForLinks(msg, from, sender)) return;
+            }
+
+            if (!isGroup && messageText) {
+                if (await this.securityHandler.checkAntiPV(from, sender)) return;
+            }
+
+            // ========== DETECTAR COMPROVANTE ==========
+            if (messageText && this.comprovanteHandler.isComprovante(messageText)) {
+                await this.comprovanteHandler.processar(messageText, from, sender);
+                return;
+            }
+
+	    // ========== COMANDO PREFIXO (SEM PREFIXO) ==========
+if (messageText) {
+    const bodyLower = messageText.toLowerCase().trim();
+    
+    if (bodyLower === 'prefixo' || bodyLower === 'prefix') {
+        console.log('📌 Comando prefixo detectado (sem prefixo)');
         
-        console.log('\n❌ Usuário COMUM - Sujeito às regras\n');
-        
-    } catch (error) {
-        console.error('⚠️ Erro ao verificar permissões:', error);
-        console.error('Stack:', error.stack);
-        // Se der erro, continua normal (melhor processar que falhar)
-    }
-
-    // ===== 🔐 VALIDAÇÃO COM ALAUDA API =====
-    console.log(`🔐 ========== VALIDAÇÃO ALAUDA API ==========`);
-    console.log(`🆔 Validando grupo: ${groupId}`);
-
-    const validation = await whatsappValidator.validate(groupId);
-
-    if (!validation.valid) {
-        console.log(`❌ Grupo ${groupId} NÃO autorizado ou sem créditos`);
-        console.log(`Motivo: ${validation.message}`);
-        console.log(`============================================\n`);
-
-        await this.sock.sendMessage(from, {
-            text: validation.message ||
-                  `⚠️ *BOT NÃO ATIVADO NESTE GRUPO*\n\n` +
-                  `Este grupo precisa ser ativado com uma chave da Alauda API.\n\n` +
-                  `📝 *Como ativar:*\n` +
-                  `${PREFIX}ativar <sua_chave>\n\n` +
-                  `💡 *Exemplo:*\n` +
-                  `${PREFIX}ativar alauda_live_abc123\n\n` +
-                  `⚠️ *Importante:*\n` +
-                  `A ativação é feita por grupo. Cada grupo precisa ser ativado individualmente.\n\n` +
-                  `🔗 Obtenha sua chave em:\n` +
-                  `https://alauda-api.com`
-        });
-
+        const PrefixoCommand = require('../commands/membros/prefixo');
+        const prefixoCmd = new PrefixoCommand(this.sock, this.dataManager);
+        await prefixoCmd.execute(msg, [], from, sender);
         return;
     }
+}
 
-    console.log(`✅ Grupo AUTORIZADO!`);
-    console.log(`🏪 Nome do grupo: ${validation.group_name || 'Desconhecido'}`);
-    console.log(`💰 Créditos disponíveis: ${validation.credits}`);
-    console.log(`💵 Custo desta operação: ${validation.cost || 50} créditos`);
-    console.log(`📊 Cache: ${validation.fromCache ? 'SIM' : 'NÃO'}`);
-    console.log(`============================================\n`);
 
-    // ===== 💰 CONSOME CRÉDITOS =====
-    console.log(`💳 Consumindo créditos do grupo...`);
-    const consumption = await whatsappValidator.consume(groupId);
+            // ========== COMANDOS PÚBLICOS ==========
+            if (messageText) {
+                const handled = await this.handlePublicCommands(msg, messageText, from, sender, PREFIX);
+                if (handled) return;
+            }
 
-    if (!consumption.success) {
-        console.log(`❌ ERRO ao consumir créditos: ${consumption.message}`);
+            // ========== COMANDOS DE DONO ==========
+            if (messageText && (messageText.startsWith(PREFIX) || messageText.startsWith('/'))) {
+                const isDono = this.dataManager.isDono(senderNumber);
+                if (isDono) {
+                    await this.handleDonoCommand(msg, messageText, from, sender);
+                }
+            }
 
-        if (consumption.no_credits) {
-            await this.sock.sendMessage(from, {
-                text: `⚠️ *CRÉDITOS INSUFICIENTES*\n\n` +
-                      `O bot não pode processar esta ação porque os créditos deste grupo acabaram.\n\n` +
-                      `💰 *Recarregue sua conta para continuar protegendo este grupo!*\n\n` +
-                      `📊 *Informações:*\n` +
-                      `• Cada operação: 50 créditos\n` +
-                      `• Créditos atuais: 0\n` +
-                      `• Grupo: ${validation.group_name || 'Este grupo'}\n\n` +
-                      `🔗 *Recarregar em:*\n` +
-                      `https://alauda-api.com/recarregar`
-            });
+        } catch (error) {
+            console.error('❌ Erro no MessageHandler:', error);
+            console.error('Stack:', error.stack);
         }
-
-        return;
     }
 
-    console.log(`✅ Créditos consumidos com sucesso!`);
-    console.log(`💸 Consumidos: ${consumption.credits_consumed} créditos`);
-    console.log(`💳 Restantes: ${consumption.credits_remaining} créditos`);
-    console.log(`🏪 Grupo: ${groupId}\n`);
+    async handleStatusMention(msg, from, sender) {
+        const participant = msg.key.participant;
+        const participantName = msg.pushName || participant?.split('@')[0] || 'Usuário';
 
-    // ===== ✅ AGORA SIM, PROCESSA A AÇÃO =====
-    console.log(`🚀 Processando ação de status mention...\n`);
+        console.log('🎯 Status mention detectado:', participant);
 
-    let warnings = this.dataManager.getStatusMentionWarnings(from, participant);
+        try {
+            // Verificar proteções
+            const donoData = this.dataManager.getDonoData();
+            const donoBotNumber = donoData.NumeroDono + '@s.whatsapp.net';
+            const isDonoBOT = participant === donoBotNumber;
 
-    if (warnings === 0) {
-        // ⚠️ PRIMEIRO AVISO
-        warnings = this.dataManager.addStatusMentionWarning(from, participant);
+            const groupMetadata = await this.sock.groupMetadata(from);
+            const isAdminGrupo = groupMetadata.participants.some(
+                p => p.id === participant && (p.admin === 'admin' || p.admin === 'superadmin')
+            );
 
-        await this.sock.sendMessage(from, {
-            text: `⚠️ *AVISO* ⚠️\n\n` +
-                  `@${participant.split('@')[0]}, evite marcar o grupo nos seus status.\n\n` +
-                  `⚠️ *Próxima vez você será removido do grupo!*\n\n` +
-                  `📊 Avisos: ${warnings}/2\n` +
-                  `💰 Créditos restantes neste grupo: ${consumption.credits_remaining}`,
-            mentions: [participant]
-        });
+            const botNumber = this.sock.user.id.split(':')[0] + '@s.whatsapp.net';
+            const isBot = participant === botNumber;
 
-        console.log(`✅ Primeiro aviso dado para ${participantName}`);
-        console.log(`📊 Total de avisos: ${warnings}/2\n`);
-
-    } else if (warnings === 1) {
-        // ❌ SEGUNDO AVISO = BAN
-        this.dataManager.addStatusMentionWarning(from, participant);
-
-        await this.sock.groupParticipantsUpdate(from, [participant], 'remove');
-
-        await this.sock.sendMessage(from, {
-            text: `❌ @${participant.split('@')[0]} foi removido por marcar o grupo no status repetidamente.\n\n` +
-                  `🛡️ Proteção ativa do grupo funcionando!\n` +
-                  `💰 Créditos restantes: ${consumption.credits_remaining}`,
-            mentions: [participant]
-        });
-
-        console.log(`🚫 ${participantName} foi BANIDO por marcar o grupo novamente`);
-        console.log(`📊 Total de avisos: 2/2 - REMOVIDO\n`);
-
-    } else {
-        await this.sock.groupParticipantsUpdate(from, [participant], 'remove');
-        
-        await this.sock.sendMessage(from, {
-            text: `❌ @${participant.split('@')[0]} foi removido novamente.\n\n` +
-                  `⚠️ Este usuário é reincidente em marcar o grupo no status.\n` +
-                  `💰 Créditos restantes: ${consumption.credits_remaining}`,
-            mentions: [participant]
-        });
-        
-        console.log(`🚫 ${participantName} foi BANIDO novamente (reincidente)\n`);
-    }
-
-    console.log(`🎉 Operação concluída com sucesso!`);
-    console.log(`💰 Sistema de créditos funcionando corretamente`);
-    console.log(`🏪 Grupo ${groupId} protegido com sucesso!\n`);
-
-    return;
-}
-
-
-	// Detectar imagem
-const hasImage = msg.message?.imageMessage;
-
-if (hasImage) {
-    console.log('📸 Imagem detectada, verificando se é comprovante...');
-    await this.comprovanteHandler.processarImagem(msg, from, sender);
-    return;
-}
-
-
-        // ========== LOG FORMATADO ==========
-        const date = new Date();
-        const time = date.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-
-        console.log(`
-========= TINA BOT Logs=======
-|-> Mensagem: ${messageText}
-|-> Usuário: ${senderName}
-|-> Número: ${senderNumber}
-|-> Sender JID: ${sender}
-|-> Grupo: ${isGroup ? "Sim" : "Não"}
-|-> Nome do grupo: ${groupName}
-|-> Data: ${time}
-==============================
-`);
-
-// ========== 🆕 ADICIONE ISSO AQUI ==========
-    // 🤖 MODO AUTOMÁTICO NO PV (antes de qualquer outro processamento)
-/*
-	if(msg.key.fromMe){
-	return; 
-	}
-    if (!isGroup && messageText && messageText.trim().length > 0) {
-//        const donoData = this.dataManager.getDonoData();
-        const prefixo = donoData.prefixo || '!';
-        
-        // Se NÃO começar com prefixo, enviar para Tina automaticamente
-        if (!messageText.startsWith(prefixo) && !messageText.startsWith('/')) {
-            console.log('🤖 PV AUTO-TINA: Mensagem sem prefixo detectada');
-            
-            // Modelo padrão para PV (você pode mudar!)
-            const defaultPvModel = 'tina-friendly'; // ou 'tina-devil', 'tina-tech'
-            
-            try {
-                await this.tinaCommand.chat(from, sender, messageText, defaultPvModel);
-                return; // 🛑 Para aqui, não processa mais nada
-            } catch (error) {
-                console.error('❌ Erro no auto-Tina:', error.message);
-                await this.sendMessage(from, '❌ Desculpe, houve um erro ao processar sua mensagem. Tente novamente!');
+            if (isDonoBOT || isAdminGrupo || isBot) {
+                console.log('✅ Usuário protegido');
                 return;
             }
-        }
-        
-        console.log('🔧 Comando com prefixo no PV - processando normalmente');
-    }
-*/  
-  // ========== FIM DA ADIÇÃO ==========
-    
 
+            // Validar com Alauda API
+            const validation = await whatsappValidator.validate(from);
 
-        // ========== SISTEMA DE PAGAMENTO ==========
-        await this.handlePaymentSystem(messageText, from, isGroup);
-
-        // ========== COMANDO !RENOVAR ==========
-        if (messageText === '!renovar' && isGroup) {
-            const donoData = this.dataManager.getDonoData();
-            if (senderNumber !== donoData.NumeroDono.replace(/\D/g, '')) {
-                return this.sock.sendMessage(from, {
-                    text: '⚠️ Apenas o dono da Tina pode renovar assinaturas de grupos.'
+            if (!validation.valid) {
+                console.log('❌ Grupo não autorizado');
+                await this.sock.sendMessage(from, {
+                    text: validation.message || `⚠️ BOT NÃO ATIVADO NESTE GRUPO`
                 });
+                return;
             }
 
-            const args = messageText.split(' ').slice(1);
-            const days = parseInt(args[0]) || 30;
-            const renovado = this.dataManager.renewGroupSubscription(from, days);
+            // Consumir créditos
+            const consumption = await whatsappValidator.consume(from);
 
-            if (renovado) {
+            if (!consumption.success) {
+                console.log('❌ Erro ao consumir créditos');
+                return;
+            }
+
+            // Processar avisos/ban
+            let warnings = this.dataManager.getStatusMentionWarnings(from, participant);
+
+            if (warnings === 0) {
+                warnings = this.dataManager.addStatusMentionWarning(from, participant);
                 await this.sock.sendMessage(from, {
-                    text: `✅ Assinatura renovada por ${days} dias!\nNova data de expiração: ${(new Date(Date.now() + days * 86400000)).toLocaleDateString()}`
+                    text: `⚠️ *AVISO* ⚠️\n\n@${participant.split('@')[0]}, evite marcar o grupo nos seus status.\n\n⚠️ *Próxima vez você será removido!*\n\n📊 Avisos: ${warnings}/2`,
+                    mentions: [participant]
                 });
             } else {
+                await this.sock.groupParticipantsUpdate(from, [participant], 'remove');
                 await this.sock.sendMessage(from, {
-                    text: '❌ Este grupo não possui assinatura ativa. Adicione a Tina novamente para registrar uma nova.'
-                });
-            }
-            return;
-        }
-
-        // ========== COMANDO !ADDPAGAMENTO ==========
-        if (messageText.toLowerCase().startsWith('!addpagamento')) {
-            const args = messageText.split(' ').slice(1);
-            await AddPagamento.execute(this.sock, msg, args, this.dataManager);
-            return;
-        }
-
-        // ========== COMANDO !ADDTABELA ==========
-        if (messageText.toLowerCase().startsWith('!addtabela')) {
-            const donoData = this.dataManager.getDonoData();
-            if (senderNumber !== donoData.NumeroDono.replace(/\D/g, '')) {
-                return this.sock.sendMessage(sender, {
-                    text: '⚠️ Apenas o dono da Tina pode registrar tabelas.'
+                    text: `❌ @${participant.split('@')[0]} foi removido por marcar o grupo no status repetidamente.`,
+                    mentions: [participant]
                 });
             }
 
-            if (!from.endsWith('@g.us')) {
-                return this.sock.sendMessage(sender, {
-                    text: '❌ Este comando só pode ser usado dentro de um grupo.'
-                });
-            }
+        } catch (error) {
+            console.error('Erro no handleStatusMention:', error);
+        }
+    }
 
-            const args = messageText.split(' ').slice(1);
-            let tabelaTexto = args.join(' ').trim();
+    async handlePublicCommands(msg, messageText, from, sender, PREFIX) {
+        let cmdText = messageText.trim();
 
-            if (tabelaTexto.startsWith('"') && tabelaTexto.endsWith('"')) {
-                tabelaTexto = tabelaTexto.slice(1, -1);
-            }
-
-            if (!tabelaTexto && msg.message.conversation) {
-                tabelaTexto = msg.message.conversation;
-            } else if (!tabelaTexto && msg.message.extendedTextMessage?.text) {
-                tabelaTexto = msg.message.extendedTextMessage.text;
-            }
-
-            if (!tabelaTexto) {
-                return this.sock.sendMessage(sender, {
-                    text: '❌ Use o comando assim:\n!addTabela "cole aqui toda a tabela"\n\nOu envie o comando seguido do texto completo da tabela.'
-                });
-            }
-
-            this.dataManager.saveTabelaByGroup(from, {
-                tabela: tabelaTexto,
-                criadoEm: new Date().toISOString()
-            });
-
-            await this.sock.sendMessage(from, {
-                text: `✅ *Tabela registrada com sucesso!* 🗂️\nAgora qualquer pessoa pode usar o comando *!tabela* para ver a tabela deste grupo.`
-            });
-            return;
+        if (cmdText.startsWith(PREFIX)) {
+            cmdText = cmdText.slice(PREFIX.length).trim();
+        } else if (cmdText.startsWith('/')) {
+            cmdText = cmdText.slice(1).trim();
+        } else {
+            return false;
         }
 
-        // ========== COMANDO /GRUPOID ==========
-        if (messageText === '/grupoId' && isGroup) {
-            await this.sock.sendMessage(from, { text: `📌 ID deste grupo: ${from}` });
-            return;
-        }
+        const parts = cmdText.split(/\s+/);
+        const cmd = parts[0].toLowerCase();
+        const args = parts.slice(1);
 
-        // ========== ANTI-PALAVRÃO ==========
-        if (isGroup && messageText) {
-            const dono = this.dataManager.getDonoData();
-            const gcfg = dono.groups?.[from] || {};
-            if (gcfg.antipalavrao === true && Array.isArray(gcfg.palavroes) && gcfg.palavroes.length > 0) {
-                const textoLower = messageText.toLowerCase();
-                const hit = gcfg.palavroes.find(p => textoLower.includes(p.toLowerCase()));
-                if (hit) {
-                    try {
-                        await this.sock.sendMessage(from, { delete: msg.key });
-                    } catch {}
-                    await this.sendMessage(from, `⚠️ @${senderNumber}, palavra proibida detectada.`, { mentions: [sender] });
-                    return;
-                }
-            }
-        }
+        console.log('📍 Comando público:', cmd);
 
-        // ========== ANTILINK ==========
-        if (isGroup && messageText) {
-            const linkDetected = await this.antilinkCommand.checkForLinks(msg, from, sender);
-            if (linkDetected) {
-                return;
-            }
-        }
+        switch (cmd) {
+            case 'menu':
+            case 'ajuda':
+            case 'help':
+                await this.menuCommand.execute(msg, args, from, sender);
+                return true;
 
-        // ========== DETECTAR COMPROVANTES ==========
-        if (messageText && this.comprovanteHandler.isComprovante(messageText)) {
-            await this.comprovanteHandler.processar(messageText, from, sender);
-            return;
-        }
+            case 'ping':
+                await this.pingCommand.execute(from);
+                return true;
 
-        // ========== ANTI-PV ==========
-        if (!isGroup && messageText) {
-            const dono = this.dataManager.getDonoData();
-            const antipvAtivo = Object.values(dono.groups || {}).some(g => g.antipv === true);
-            if (antipvAtivo) {
-                try {
-                    await this.sendMessage(from, '🚫 PV desativado. Contate-nos pelos grupos.');
-                    await this.sock.updateBlockStatus(from, 'block');
-                } catch {}
-                return;
-            }
-        }
+            case 'tabela':
+                await this.tabelaCommand.execute(msg, from, sender);
+                return true;
 
-        // ========== COMANDOS DO DONO ==========
-//        const donoData = this.dataManager.getDonoData();
-        const prefixo = donoData.prefixo || '!';
-        
-        if (messageText.startsWith(prefixo)) {
-            const isDono = this.dataManager.isDono(senderNumber);
-            
-            if (isDono) {
-                console.log('🔑 COMANDO DE DONO DETECTADO');
-                await this.handleDonoCommand(msg, messageText, from, sender);
-                return;
-            }
-        }
+            case 'tiktok':
+                await this.tiktokCommand.execute(msg, args, from, sender);
+                return true;
 
-        // ========== COMANDOS PÚBLICOS ==========
-        if (messageText) {
-            const lowerText = messageText.toLowerCase().trim();
-            const parts = messageText.trim().split(/\s+/);
-            const lowerCmd = parts[0].toLowerCase();
-//            const publicArgs = parts.slice(1);
-	    if (lowerCmd.startsWith('!') || lowerCmd.startsWith('/')) {
-    lowerCmd = lowerCmd.substring(1); // Remove o ! ou /
-}
+            case 'me':
+                await this.infoCommand.execute(msg, [], from, sender, false);
+                return true;
 
-	const publicArgs = parts.slice(1);
-	console.log('📍 Comando recebido:', lowerCmd, '| Texto original:', messageText);
+            case 'info':
+                await this.infoCommand.execute(msg, args, from, sender, true);
+                return true;
 
+            case 'dono':
+                const dono = this.dataManager.getDonoData();
+                await this.sendMessage(from, `👨‍💼 Dono: ${dono.NickDono}\n📞 Número: +${dono.NumeroDono}`);
+                return true;
 
+            case 'infodono':
+                const donoInfo = this.dataManager.getDonoData();
+                await this.sendMessage(from, `👨‍💼 Nome: ${donoInfo.NickDono}\n📞 Número: +${donoInfo.NumeroDono}`);
+                return true;
 
-            switch (lowerCmd) {
-                case 'menu':
-		case 'ajuda':
-		case 'help':
-    		   await this.menuCommand.execute(msg, args, from, senderJid);
-    		   break;
+            case 'infobot':
+                const donoBot = this.dataManager.getDonoData();
+                await this.sendMessage(from, `🤖 Bot: ${donoBot.NomeDoBot || 'Bot'}\n⚙️ Prefixo: ${PREFIX}\n🔗 Repositório: https://github.com/Eliobros/mega-bot`);
+                return true;
 
-                case '/ping':
-                    await this.pingCommand.execute(from);
-                    break;
-
-                case '/help':
-                    await this.helpCommand.execute(from);
-                    break;
-
-                case 'tabela':
-                case '/tabela':
-                    await this.tabelaCommand.execute(msg, from, sender);
-                    break;
-
-	       case 'tiktok':
-   	             await this.tiktokCommand.execute(msg, commandArgs, from, sender);
-		     break;
-
-                case 'me':
-                case '/me':
-                    await this.infoCommand.execute(msg, [], from, sender, false);
-                    break;
-
-                case 'info':
-                case '/info':
-                    await this.infoCommand.execute(msg, publicArgs, from, sender, true);
-                    break;
-
-                case 'dono':
-                case '/dono': {
-                    const dono = this.dataManager.getDonoData();
-                    await this.sendMessage(from, `👨‍💼 Dono: ${dono.NickDono}\n📞 Número: +${dono.NumeroDono}`);
-                    break;
-                }
-
-                case 'infodono':
-                case '/infodono': {
-                    const dono = this.dataManager.getDonoData();
-                    await this.sendMessage(from, `👨‍💼 Nome: ${dono.NickDono}\n📞 Número: +${dono.NumeroDono}`);
-                    break;
-                }
-
-                case 'infobot':
-                case '/infobot': {
-                    const dono = this.dataManager.getDonoData();
-                    await this.sendMessage(from, `🤖 Bot: ${dono.NomeDoBot || 'Bot'}\n⚙️ Prefixo: ${dono.prefixo || '!'}\n🔗 Repositório: https://github.com/Eliobros/mega-bot`);
-                    break;
-                }
-            }
+            default:
+                return false;
         }
     }
 
     async handleDonoCommand(msg, messageText, from, sender) {
-	let senderJid = msg.key.participant || msg.key.remoteJid;
-    if (Array.isArray(senderJid)) senderJid = senderJid[0];
-    
-    console.log('========= COMANDO DE DONO PROCESSADO =========');
-    console.log('📱 From:', from);
-    console.log('👤 Sender:', senderJid); // ← Agora tá definido!
-    // ...
+        let senderJid = msg.key.participant || msg.key.remoteJid;
+        if (Array.isArray(senderJid)) senderJid = senderJid[0];
+
         const donoData = this.dataManager.getDonoData();
-        const prefixo = donoData.prefixo || '!';
-        
-        // Remove o prefixo e processa
+        const prefixo = donoData.Prefixo || '!';
+
         const withoutPrefix = messageText.slice(prefixo.length).trim();
         const args = withoutPrefix.split(/\s+/);
         const cmd = args[0].toLowerCase();
         const commandArgs = args.slice(1);
-        
+
         const senderNumber = sender.split('@')[0];
-        
-        console.log('\n========= COMANDO DE DONO PROCESSADO =========');
-        console.log('📱 From:', from);
-        console.log('👤 Sender:', sender);
-        console.log('🔢 Sender Number:', senderNumber);
-        console.log('💬 Mensagem completa:', messageText);
-        console.log('⚙️ Comando:', cmd);
-        console.log('📝 Args:', commandArgs);
-        console.log('============================================\n');
+
+        console.log('========= COMANDO DE DONO =========');
+        console.log('Comando:', cmd);
+        console.log('Args:', commandArgs);
+        console.log('===================================');
 
         switch (cmd) {
             case 'addgp':
                 if (from.endsWith('@g.us')) {
                     const added = this.dataManager.addAllowedGroup(from);
-                    await this.sendMessage(from, added ? '✅ Grupo adicionado à lista de permitidos.' : 'ℹ️ Este grupo já está na lista de permitidos.');
-                } else {
-                    await this.sendMessage(from, '❌ Use este comando dentro do grupo que deseja permitir.');
+                    await this.sendMessage(from, added ? '✅ Grupo adicionado' : 'ℹ️ Grupo já está na lista');
                 }
                 break;
 
             case 'rmgp':
                 if (from.endsWith('@g.us')) {
                     const removed = this.dataManager.removeAllowedGroup(from);
-                    await this.sendMessage(from, removed ? '✅ Grupo removido da lista de permitidos.' : 'ℹ️ Este grupo não estava na lista de permitidos.');
-                } else {
-                    await this.sendMessage(from, '❌ Use este comando dentro do grupo que deseja remover.');
+                    await this.sendMessage(from, removed ? '✅ Grupo removido' : 'ℹ️ Grupo não estava na lista');
                 }
                 break;
 
@@ -821,36 +443,7 @@ if (hasImage) {
                 break;
 
             case 'grupo':
-                const isDono = this.dataManager.isDono(senderNumber);
-                const isAdmin = await this.isGroupAdmin(from, sender);
-                
-                if (!isDono && !isAdmin) {
-                    await this.sendMessage(from, '❌ Apenas administradores podem usar este comando!');
-                    return;
-                }
-                
-                const groupJid = msg.key.remoteJid;
-                const senderObj = msg.key.participant || sender;
-
-                let senderName = "Desconhecido";
-                try {
-                    senderName = msg.pushName;
-                    
-                    if (!senderName || senderName === "Desconhecido") {
-                        const metadata = await this.sock.groupMetadata(groupJid);
-                        const participant = metadata.participants.find(p => p.id === senderObj);
-                        senderName = participant?.notify || participant?.verifiedName;
-                    }
-                    
-                    if (!senderName) {
-                        senderName = senderObj.split('@')[0];
-                    }
-                } catch (err) {
-                    console.error("Erro ao pegar senderName:", err);
-                    senderName = senderObj.split('@')[0];
-                }
-
-                await this.grupoCommand.execute(commandArgs, groupJid, senderObj, senderName);
+                await this.grupoCommand.execute(commandArgs, from, sender, msg.pushName);
                 break;
 
             case 'ban':
@@ -863,35 +456,21 @@ if (hasImage) {
                 await this.antilinkCommand.execute(msg, commandArgs, from, sender);
                 break;
 
-            case 'info':
-            case 'me':
-            case 'dados':
-                await this.infoCommand.execute(msg, commandArgs, from, sender);
-                break;
-
             case 'setprefix':
                 await this.setprefixCommand.execute(msg, commandArgs, from, sender);
                 break;
 
-	    case 'licenca':
-case 'licença':
-case 'license':
-case 'renovar':
-case 'assinatura':
-    await this.licencaCommand.execute(msg, commandArgs, from, sender);
-    break;
+            case 'licenca':
+            case 'licença':
+            case 'license':
+                await this.licencaCommand.execute(msg, commandArgs, from, sender);
+                break;
 
-case 'licencas':
-case 'licenças':
-case 'licenses':
-case 'assinaturas':
-    await this.licencasCommand.execute(msg, commandArgs, from, sender);
-    break;
-
-	   case 'tina':
-	   case 'ai':
-    	        await this.tinaCommand.execute(msg, commandArgs, from, sender);
-    		break;
+            case 'licencas':
+            case 'licenças':
+            case 'licenses':
+                await this.licencasCommand.execute(msg, commandArgs, from, sender);
+                break;
 
             case 'linkgp':
                 await this.linkgpCommand.execute(msg, commandArgs, from, sender);
@@ -901,95 +480,51 @@ case 'assinaturas':
                 await this.antimentionCommand.execute(msg, commandArgs, from, sender);
                 break;
 
-	    case 'migrargrupo':
-        const migrarCmd = new MigrarGrupoCommand(sock, dataManager);
-        await migrarCmd.execute(msg, args, from, sender);
-        break;
+            case 'migrargrupo':
+                const migrarCmd = new MigrarGrupoCommand(this.sock, this.dataManager);
+                await migrarCmd.execute(msg, commandArgs, from, sender);
+                break;
 
             case 'delete':
             case 'del':
             case 'd':
-                console.log('🔴🔴🔴 CASE DELETE ATIVADO 🔴🔴🔴');
-                console.log('Parâmetros que serão enviados:');
-                console.log('- msg.key:', JSON.stringify(msg.key, null, 2));
-                console.log('- commandArgs:', commandArgs);
-                console.log('- from (groupJid):', from);
-                console.log('- sender (senderJid):', sender);
-                console.log('- deleteCommand existe?', !!this.deleteCommand);
-                console.log('======================================\n');
-                
                 await this.deleteCommand.execute(msg, commandArgs, from, sender);
                 break;
 
-	    case 'limpar':
-	    case 'evacuar':
-	    case 'fora':
-		await this.limparCommand.execute(msg, sender, from);
-		break;
-
-	    case 'semcompras':
-	    case 'fantasmas':
-	    case 'turistas':
-	    case 't':
-		await this.semComprasCommand.execute(msg, sender, from)
-		break;
-
-	    case 'marcar':
-		await this.marcarCommamd.execute(msg, sender, from);
-		break;
-
-	    case 'join':
-	    case 'entrar':
-   		 await this.joinCommand.execute(msg, args, from, senderJid);
-    		 break;
-
-case 'sair':
-case 'leave':
-case 'exit':
-    await this.sairCommand.execute(msg, args, from, senderJid);
-    break;
-
-	    case 'ativar':
-	    case 'init':
-	    case 'a':
-		await this.ativarCommand.execute(msg, commandArgs, from, sender);
-                break
-            case 'hidetag':
-            case 'ht':
-                await this.hidetagCommand.execute(msg, commandArgs, from, sender);
+            case 'limpar':
+            case 'evacuar':
+                await this.limparCommand.execute(msg, sender, from);
                 break;
 
-	    
-case 'meunumero':
-case 'mynumber':
-case 'debug':
-    const debugInfo = `
-🔍 *DEBUG - INFORMAÇÕES DO REMETENTE*
+            case 'semcompras':
+            case 'fantasmas':
+            case 't':
+                await this.semComprasCommand.execute(msg, sender, from);
+                break;
 
-━━━━━━━━━━━━━━━━━━━━━━━
-📱 *Sender JID Completo:*
-${sender}
+            case 'marcar':
+                await this.marcarCommand.execute(msg, sender, from);
+                break;
 
-🔢 *Número Extraído:*
-${senderNumber}
+            case 'join':
+            case 'entrar':
+                await this.joinCommand.execute(msg, commandArgs, from, senderJid);
+                break;
 
-👤 *Push Name:*
-${msg.pushName || 'N/A'}
+            case 'sair':
+            case 'leave':
+                await this.sairCommand.execute(msg, commandArgs, from, senderJid);
+                break;
 
-🏪 *Group JID:*
-${from}
+            case 'hidetag':
+            case 'ht':
+                await this.adminCommands.execute(msg, commandArgs, from, sender);
+                break;
 
-━━━━━━━━━━━━━━━━━━━━━━━
-💡 *Use este número no dono.json:*
-\`\`\`
-"NumeroDono": "${senderNumber}"
-\`\`\`
-
-🤖 *Tina Bot Debug*
-    `;
-    
-    await this.sendMessage(from, debugInfo);
-    break;
+            case 'meunumero':
+            case 'debug':
+                await this.handleDebugCommand(sender, senderNumber, from);
+                break;
 
             case 'promover':
             case 'promote':
@@ -1001,20 +536,10 @@ ${from}
                 await this.rebaixarCommand.execute(msg, commandArgs, from, sender);
                 break;
 
-            case 'advertir':
-            case 'warn':
-            case 'adv':
-                await this.adminCommands.advertir(msg, commandArgs, from, sender);
+            case 'registrar':
+            case 'config':
+                await this.configNumerosCommand.execute(msg, commandArgs, from, sender);
                 break;
-
-	    case 'registrar':
-	    case 'config':
-    		await this.configNumerosCommand.execute(msg, commandArgs, from, sender);
-    		break;
-
-	   case 'tiktok':
-                     await this.tiktokCommand.execute(msg, commandArgs, from, sender);
-                     break;
 
             case 'msgbv':
                 await this.adminCommands.msgbv(msg, commandArgs, from, sender);
@@ -1048,14 +573,11 @@ ${from}
 
             case 'nomegp':
             case 'setname':
-            case 'mudarname':
-            case 'mudarnome':
                 await this.nomegpCommand.execute(msg, commandArgs, from, sender);
                 break;
 
             case 'fotogp':
             case 'setfoto':
-            case 'mudarfoto':
                 await this.fotogpCommand.execute(msg, commandArgs, from, sender);
                 break;
 
@@ -1066,7 +588,6 @@ ${from}
 
             case 'descgp':
             case 'setdesc':
-            case 'mudardesc':
                 await this.descgpCommand.execute(msg, commandArgs, from, sender);
                 break;
 
@@ -1076,7 +597,6 @@ ${from}
                 break;
 
             case 'status-bot':
-            case 'statusbot':
                 await this.adminCommands.statusbot(msg, commandArgs, from);
                 break;
 
@@ -1113,102 +633,156 @@ ${from}
                 break;
 
             default:
-                await this.sendMessage(from, `❌ Comando não reconhecido. Digite ${prefixo}help para ver os comandos.`);
+                await this.sendMessage(from, `❌ Comando não reconhecido. Digite ${prefixo}help`);
         }
     }
 
-    // 📌 Sistema de pagamento sem botões
-    async handlePaymentSystem(messageText, from, isGroup) {
-        if (!isGroup) return false; // Só funciona em grupos
-
-        const text = messageText.toLowerCase();
-
-        // 🔹 Carregar pagamentos do JSON
-        const fs = require("fs");
-        const path = require("path");
-        const filePath = path.join(__dirname, "..", "data", "pagamentos.json");
-        let pagamentosData = {};
-        if (fs.existsSync(filePath)) {
-            pagamentosData = JSON.parse(fs.readFileSync(filePath, "utf8"));
+    async handleRenovar(messageText, from, senderNumber) {
+        const donoData = this.dataManager.getDonoData();
+        if (senderNumber !== donoData.NumeroDono.replace(/\D/g, '')) {
+            return this.sock.sendMessage(from, {
+                text: '⚠️ Apenas o dono pode renovar assinaturas.'
+            });
         }
 
-        const pagamentos = pagamentosData[from] || [];
+        const args = messageText.split(' ').slice(1);
+        const days = parseInt(args[0]) || 30;
+        const renovado = this.dataManager.renewGroupSubscription(from, days);
 
-        // Se não houver pagamentos registrados
-        if (pagamentos.length === 0) return false;
+        if (renovado) {
+            const newDate = new Date(Date.now() + days * 86400000).toLocaleDateString();
+            await this.sock.sendMessage(from, {
+                text: `✅ Assinatura renovada por ${days} dias!\nNova data: ${newDate}`
+            });
+        } else {
+            await this.sock.sendMessage(from, {
+                text: '❌ Este grupo não possui assinatura ativa.'
+            });
+        }
+    }
 
-        // 🔹 Comando principal "pagamento"
-        if (text === "pagamento") {
-            if (pagamentos.length === 1) {
-                const p = pagamentos[0];
-                const msgText = `
-🏦 *PAGAMENTO DISPONÍVEL* 💳
+    async handleAddTabela(messageText, from, sender, senderNumber, msg) {
+        const donoData = this.dataManager.getDonoData();
+        if (senderNumber !== donoData.NumeroDono.replace(/\D/g, '')) {
+            return this.sock.sendMessage(sender, {
+                text: '⚠️ Apenas o dono pode registrar tabelas.'
+            });
+        }
+
+        if (!from.endsWith('@g.us')) {
+            return this.sock.sendMessage(sender, {
+                text: '❌ Este comando só funciona em grupos.'
+            });
+        }
+
+        const args = messageText.split(' ').slice(1);
+        let tabelaTexto = args.join(' ').trim();
+
+        if (tabelaTexto.startsWith('"') && tabelaTexto.endsWith('"')) {
+            tabelaTexto = tabelaTexto.slice(1, -1);
+        }
+
+        if (!tabelaTexto && msg.message.conversation) {
+            tabelaTexto = msg.message.conversation;
+        } else if (!tabelaTexto && msg.message.extendedTextMessage?.text) {
+            tabelaTexto = msg.message.extendedTextMessage.text;
+        }
+
+        if (!tabelaTexto) {
+            return this.sock.sendMessage(sender, {
+                text: '❌ Use: !addTabela "texto da tabela"'
+            });
+        }
+
+        this.dataManager.saveTabelaByGroup(from, {
+            tabela: tabelaTexto,
+            criadoEm: new Date().toISOString()
+        });
+
+        await this.sock.sendMessage(from, {
+            text: '✅ Tabela registrada com sucesso!'
+        });
+    }
+
+    async handleDebugCommand(sender, senderNumber, from) {
+        const debugInfo = `
+🔍 *DEBUG - INFORMAÇÕES*
 
 ━━━━━━━━━━━━━━━━━━━━━━━
-*👤 ADM:* ${p.nome}
-*📞 Número:* ${p.numero}
+📱 *Sender JID:*
+${sender}
 
-*💳 FORMAS DE PAGAMENTO:*
-🔹 M-PESA: ${p.mpesa || "N/A"}
-🔹 E-MOLA: ${p.emola || "N/A"}
+🔢 *Número:*
+${senderNumber}
 
 ━━━━━━━━━━━━━━━━━━━━━━━
-📋 *INSTRUÇÕES:*
-1️⃣ Faça o pagamento usando os dados acima
-2️⃣ Envie o comprovativo neste grupo
-3️⃣ Inclua o número que vai receber o pacote
+💡 *Use no dono.json:*
+"NumeroDono": "${senderNumber}"
 
-⚠️ Guarde seu comprovativo até a confirmação!
-🤖 *Tina Bot* 💎
-                `;
-                await this.sock.sendMessage(from, { text: msgText });
+🤖 *Tina Bot Debug*
+        `;
+
+        await this.sendMessage(from, debugInfo);
+    }
+
+    async updateUserData(msg, sender, senderNumber, senderName) {
+        try {
+            const usersData = this.dataManager.getUsersData();
+            if (!usersData.usuarios) usersData.usuarios = {};
+
+            if (!usersData.usuarios[sender]) {
+                usersData.usuarios[sender] = {
+                    nome: senderName,
+                    pushName: senderName,
+                    numero: senderNumber,
+                    total_compras: 0,
+                    total_gb_acumulado: 0,
+                    primeira_compra: '',
+                    ultima_compra: '',
+                    compras_hoje: 0,
+                    historico_compras: []
+                };
             } else {
-                let menu = `🏦 *FORMAS DE PAGAMENTO DISPONÍVEIS* 💸\n\n━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
-                pagamentos.forEach((p, i) => {
-                    menu += `📱 *OPÇÃO ${i + 1} - ${p.nome}*\nDigite: pagamento${i + 1}\n\n`;
-                });
-                menu += `━━━━━━━━━━━━━━━━━━━━━━━\n💡 *Como usar:*\n• Digite pagamento1, pagamento2, etc.\n• Escolha a forma de pagamento\n• Envie o comprovativo no grupo\n\n🤖 Tina Bot 💎`;
-
-                await this.sock.sendMessage(from, { text: menu });
-            }
-            return true;
-        }
-
-        // 🔹 Comandos dinâmicos pagamento1, pagamento2, etc.
-        const match = text.match(/^pagamento(\d+)$/);
-        if (match) {
-            const index = parseInt(match[1], 10) - 1;
-            const p = pagamentos[index];
-            if (!p) {
-                await this.sock.sendMessage(from, { text: "⚠️ Esta opção não existe neste grupo." });
-                return true;
+                usersData.usuarios[sender].pushName = senderName;
+                if (!usersData.usuarios[sender].nome || usersData.usuarios[sender].nome === usersData.usuarios[sender].numero) {
+                    usersData.usuarios[sender].nome = senderName;
+                }
+                if (!usersData.usuarios[sender].numero) {
+                    usersData.usuarios[sender].numero = senderNumber;
+                }
             }
 
-            const msgText = `
-🏦 *PAGAMENTO OPÇÃO ${index + 1}* 💳
-
-━━━━━━━━━━━━━━━━━━━━━━━
-*👤 ADM:* ${p.nome}
-*📞 Número:* ${p.numero}
-
-*💳 FORMAS DE PAGAMENTO:*
-🔹 M-PESA: ${p.mpesa || "N/A"}
-🔹 E-MOLA: ${p.emola || "N/A"}
-
-━━━━━━━━━━━━━━━━━━━━━━━
-📋 *INSTRUÇÕES:*
-1️⃣ Faça o pagamento usando os dados acima
-2️⃣ Envie o comprovativo neste grupo
-3️⃣ Inclua o número que vai receber o pacote
-
-⚠️ Guarde seu comprovativo até a confirmação!
-🤖 *Tina Bot* 💎
-            `;
-            await this.sock.sendMessage(from, { text: msgText });
-            return true;
+            this.dataManager.saveUsersData();
+        } catch (e) {
+            console.log('Aviso: erro ao atualizar usuário');
         }
+    }
 
-        return false; // Não foi comando de pagamento
+    logMessage(msg, messageText, from, sender, isGroup, senderName) {
+        const time = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+        const senderNumber = sender.split('@')[0];
+
+        console.log(`
+========= TINA BOT Logs =======
+|-> Mensagem: ${messageText}
+|-> Usuário: ${senderName}
+|-> Número: ${senderNumber}
+|-> Sender JID: ${sender}
+|-> Grupo: ${isGroup ? "Sim" : "Não"}
+|-> Data: ${time}
+==============================
+        `);
+    }
+
+    async isGroupAdmin(groupJid, sender) {
+        try {
+            const metadata = await this.sock.groupMetadata(groupJid);
+            const participant = metadata.participants.find(p => p.id === sender);
+            return participant?.admin === 'admin' || participant?.admin === 'superadmin';
+        } catch (err) {
+            console.error("Erro ao verificar admin:", err);
+            return false;
+        }
     }
 
     getMessageText(msg) {
