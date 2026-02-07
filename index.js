@@ -1,7 +1,8 @@
 const Bot = require('./src/Bot');
 
-// Inicializar o bot
-const bot = new Bot();
+const MEU_NUMERO = '258862840075'; 
+
+const bot = new Bot(MEU_NUMERO);
 
 // Gerenciar encerramento gracioso
 process.on('SIGINT', () => {
