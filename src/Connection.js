@@ -6,24 +6,32 @@ const {
 } = require('baileys');
 const { Boom } = require('@hapi/boom');
 const pino = require('pino');
-const qrcode = require('qrcode-terminal');
 
 class Connection {
     constructor() {
         this.sock = null;
-        this.qrCode = null;
+        this.pairingCode = null;
     }
 
-    async initialize() {
+    async initialize(phoneNumber = null) {
         const { state, saveCreds } = await useMultiFileAuthState('auth_info_baileys');
-        
+
         this.sock = makeWASocket({
             auth: state,
-            printQRInTerminal: false, // Removido para evitar o warning
+            printQRInTerminal: false,
             logger: pino({ level: 'silent' }),
             browser: Browsers.macOS('Desktop'),
             generateHighQualityLinkPreview: true,
         });
+
+        // Gerar Pairing Code se não estiver registrado
+        if (phoneNumber && !this.sock.authState.creds.registered) {
+            console.log('📱 Gerando Pairing Code...');
+            const code = await this.sock.requestPairingCode(phoneNumber);
+            this.pairingCode = code;
+            console.log('🔑 SEU PAIRING CODE:', code);
+            console.log('👉 Abra WhatsApp > Dispositivos Vinculados > Vincular com número');
+        }
 
         // Salvar credenciais quando atualizadas
         this.sock.ev.on('creds.update', saveCreds);
@@ -33,21 +41,15 @@ class Connection {
 
     setupConnectionHandlers(reconnectCallback) {
         this.sock.ev.on('connection.update', (update) => {
-            const { connection, lastDisconnect, qr } = update;
-            
-            if (qr) {
-                console.log('📱 QR Code gerado! Escaneie com seu WhatsApp');
-                qrcode.generate(qr, { small: true });
-                this.qrCode = qr;
-            }
-            
+            const { connection, lastDisconnect } = update;
+
             if (connection === 'close') {
                 const shouldReconnect = (lastDisconnect?.error instanceof Boom) 
                     ? lastDisconnect.error.output.statusCode !== DisconnectReason.loggedOut
                     : true;
-                    
+
                 console.log('Conexão fechada devido a:', lastDisconnect?.error);
-                
+
                 if (shouldReconnect) {
                     console.log('🔄 Reconectando...');
                     reconnectCallback();
@@ -60,6 +62,10 @@ class Connection {
 
     getSocket() {
         return this.sock;
+    }
+
+    getPairingCode() {
+        return this.pairingCode;
     }
 }
 
