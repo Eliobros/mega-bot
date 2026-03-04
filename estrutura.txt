@@ -66,6 +66,7 @@
           "compras_hoje": 1,
           "historico_compras": [
             {
+
               "data": "2025-11-02",
               "hora": "05:29:53",
               "pacote": "7MT",
