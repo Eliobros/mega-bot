@@ -37,6 +37,45 @@ class Bot {
 
             const from = msg.key.remoteJid;
 
+	     // FILTRO 1: Só processar mensagens novas (type: 'notify')
+    if (m.type !== 'notify') {
+        console.log('⏭️ Ignorando mensagens do histórico (type:', m.type + ')');
+        return; // Para TUDO aqui se não for 'notify'
+    }
+    
+//    const msg = m.messages[0];
+  //  if (!msg) return;
+
+    // FILTRO 2: Ignorar notificações de sistema
+    if (msg.messageStubType) {
+        console.log('⏭️ Ignorando notificação de sistema (stubType:', msg.messageStubType + ')');
+        return;
+    }
+
+    // FILTRO 3: Ignorar mensagens antigas (mais de 1 minuto)
+    const messageTimestamp = msg.messageTimestamp;
+    const currentTimestamp = Math.floor(Date.now() / 1000);
+    const messageAge = currentTimestamp - messageTimestamp;
+    
+    if (messageAge > 60) {
+        console.log('⏭️ Mensagem antiga ignorada (idade:', messageAge, 'segundos)');
+        return;
+    }
+
+    // FILTRO 4: Ignorar newsletter
+//    const from = msg.key.remoteJid;
+    if (from?.includes('@newsletter')) {
+        console.log('⏭️ Ignorando mensagem de newsletter');
+        return;
+    }
+
+    // FILTRO 5: Ignorar suas próprias mensagens
+    if (msg.key.fromMe) {
+        console.log('⏭️ Ignorando mensagem própria');
+        return;
+    }
+
+
             // ===== 🔍 LOGS PARA DESCOBRIR O TIPO DA MENSAGEM =====
             console.log('========== NOVA MENSAGEM ==========');
             const messageType = Object.keys(msg.message || {})[0];

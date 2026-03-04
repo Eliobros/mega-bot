@@ -74,5 +74,41 @@
       "bemvindo_ativo": true,
       "disabledAt": "2025-12-25T05:49:56.660Z"
     }
+  },
+  "vips": {
+    "10879185735734@lid": {
+      "userJid": "10879185735734@lid",
+      "userNumber": "10879185735734",
+      "startDate": "2026-02-10T10:41:40.778Z",
+      "endDate": "2026-03-12T10:41:40.778Z",
+      "active": true,
+      "addedBy": "Zëüs Lykraios",
+      "addedAt": "2026-02-10T10:41:40.778Z",
+      "history": [
+        {
+          "date": "2026-02-10T10:41:40.778Z",
+          "days": 30,
+          "action": "created",
+          "addedBy": "Zëüs Lykraios"
+        }
+      ]
+    },
+    "86952166576371@lid": {
+      "userJid": "86952166576371@lid",
+      "userNumber": "86952166576371",
+      "startDate": "2026-02-10T10:56:09.724Z",
+      "endDate": "2027-02-10T10:56:09.724Z",
+      "active": true,
+      "addedBy": "Sistema",
+      "addedAt": "2026-02-10T10:56:09.724Z",
+      "history": [
+        {
+          "date": "2026-02-10T10:56:09.724Z",
+          "days": 365,
+          "action": "created",
+          "addedBy": "Sistema"
+        }
+      ]
+    }
   }
 }

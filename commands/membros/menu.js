@@ -93,29 +93,51 @@ class MenuCommand {
             );
 
             const comandosAdmin = this.listarComandos(
-                path.join(__dirname, "../admin")
+                path.join(__dirname, "../admins")
             );
 
             const comandosDono = this.listarComandos(
                 path.join(__dirname, "../dono")
             );
 
+	    const comandosVips = this.listarComandos(
+	        path.join(__dirname, "../vips")
+	    );
+
             console.log(`📋 Comandos encontrados:`);
             console.log(`- Membros: ${comandosMembros.length}`);
             console.log(`- Admin: ${comandosAdmin.length}`);
             console.log(`- Dono: ${comandosDono.length}`);
-
+	    console.log(`- VIPs: ${comandosVips.length}`);
             // ===== MONTAR MENU =====
             let menu = `╭━━━━━━━━━━━━━━━━━━━╮\n`;
             menu += `│   🤖 *TINA BOT MENU*\n`;
             menu += `╰━━━━━━━━━━━━━━━━━━━╯\n\n`;
 
-            // Informações do usuário
-            menu += `┏━━━ ⊱ 👤 *USUÁRIO* ⊰ ━━━┓\n`;
-            menu += `│ 📛 Nome: ${pushname}\n`;
-            menu += `│ 📱 Número: +${senderNumber}\n`;
-            menu += `│ 👑 Status: ${ehDono ? 'DONO' : 'Membro'}\n`;
-            menu += `┗━━━━━━━━━━━━━━━━━━━┛\n\n`;
+            let isAdmin = false;
+if (isGroup) {
+    try {
+        const metadata = await this.sock.groupMetadata(from);
+        const participant = metadata.participants.find(p => p.id === senderJid);
+        isAdmin = participant && (participant.admin === 'admin' || participant.admin === 'superadmin');
+    } catch (err) {
+        console.error("❌ Erro ao verificar admin:", err);
+    }
+}
+
+// Verificar se é VIP
+const isVip = this.dataManager.isVip(senderJid);
+
+// Informações do usuário
+menu += `┏━━━ ⊱ 👤 *USUÁRIO* ⊰ ━━━┓\n`;
+menu += `│ 📛 Nome: ${pushname}\n`;
+menu += `│ 📱 Número: +${senderNumber}\n`;
+menu += `│ 👑 Dono: ${ehDono ? '✅' : '❌'}\n`;
+if (isGroup) {
+    menu += `│ 👮 Admin: ${isAdmin ? '✅' : '❌'}\n`;
+}
+menu += `│ ⭐ VIP: ${isVip ? '✅' : '❌'}\n`;
+menu += `┗━━━━━━━━━━━━━━━━━━━┛\n\n`;
 
             // Informações do grupo/chat
             menu += `┏━━━ ⊱ 💬 *LOCAL* ⊰ ━━━┓\n`;
@@ -145,6 +167,15 @@ class MenuCommand {
                 menu += `╰━━━━━━━━━━━━━━━━━━━━━━━━━━╯\n\n`;
             }
 
+	    // Comandos de VIP
+if (comandosVips.length > 0) {
+    menu += `╭━━━ ⊱ ⭐ *COMANDOS VIP* ⊰ ━━━╮\n`;
+    comandosVips.forEach((cmd, index) => {
+        menu += `│ ${(index + 1).toString().padStart(2, '0')}. ${prefix}${cmd}\n`;
+    });
+    menu += `╰━━━━━━━━━━━━━━━━━━━━━━━━━━╯\n\n`;
+}
+
             // Comandos de DONO (apenas se for dono)
             if (ehDono && comandosDono.length > 0) {
                 menu += `╭━━━ ⊱ 👑 *COMANDOS DONO* ⊰ ━━━╮\n`;
@@ -155,9 +186,10 @@ class MenuCommand {
             }
 
             // Rodapé
-            const totalComandos = comandosMembros.length + 
-                                 comandosAdmin.length + 
-                                 (ehDono ? comandosDono.length : 0);
+            const totalComandos = comandosMembros.length +
+                     comandosAdmin.length +
+                     comandosVips.length +
+                     (ehDono ? comandosDono.length : 0);
 
             menu += `╭━━━━━━━━━━━━━━━━━━━╮\n`;
             menu += `│ 💡 *DICA*\n`;

@@ -19078,6 +19078,28 @@
       "ultima_compra": "",
       "compras_hoje": 0,
       "historico_compras": []
+    },
+    "120363404701403742@newsletter": {
+      "nome": "Usuário",
+      "pushName": "Usuário",
+      "numero": "120363404701403742",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
+    },
+    "120363154081218773@newsletter": {
+      "nome": "Usuário",
+      "pushName": "Usuário",
+      "numero": "120363154081218773",
+      "total_compras": 0,
+      "total_gb_acumulado": 0,
+      "primeira_compra": "",
+      "ultima_compra": "",
+      "compras_hoje": 0,
+      "historico_compras": []
     }
   },
   "configuracoes_grupos": {

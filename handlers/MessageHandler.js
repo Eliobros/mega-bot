@@ -4,52 +4,12 @@ const path = require('path');
 const EventHandler = require('./EventHandler');
 const SecurityHandler = require('./SecurityHandler');
 const PaymentHandler = require('./PaymentHandler');
-const CommandRouter = require('./CommandRouter');
+const CommandLoader = require('./CommandLoader');
 
 // Handlers especializados
 const TabelaHandler = require('./TabelaHandler');
 const ComprovanteHandler = require('./ComprovanteHandler');
 const CompraHandler = require('./CompraHandler');
-
-// Comandos públicos
-const MenuCommand = require('../commands/membros/menu');
-const TikTokCommand = require('../commands/membros/tiktok');
-const TabelaCommand = require('../commands/membros/tabela');
-const PingCommand = require('../commands/membros/ping');
-const HelpCommand = require('../commands/membros/help');
-const PlayCommand = require('../commands/membros/play');
-
-// Comandos de dono
-const MeInfoCommand = require('../commands/dono/me');
-const AtivarCommand = require('../commands/dono/ativar');
-const JoinCommand = require('../commands/dono/join');
-const SairCommand = require('../commands/dono/sair');
-const LicencaCommand = require('../commands/dono/licensa');
-const LicencasCommand = require('../commands/dono/licensas');
-const LimparCommand = require('../commands/dono/limpar');
-const SemCompraCommand = require('../commands/dono/semcompra');
-const MarcarCommand = require('../commands/dono/marcar');
-const AddPagamento = require('../commands/dono/addPagamento');
-const AddCoinCommand = require('../commands/dono/addcoin');
-const ConfigNumerosCommand = require('../commands/dono/confignumeros');
-const FotoGpCommand = require('../commands/dono/fotogp');
-const ClientesCommand = require('../commands/dono/clientes');
-const DescGpCommand = require('../commands/dono/descgp');
-const NomeGpCommand = require('../commands/dono/nomegp');
-const RebaixarCommand = require('../commands/dono/rebaixar');
-const AntiMentionCommand = require('../commands/dono/antimention');
-const DeleteCommand = require('../commands/dono/delete');
-const SetPrefixCommand = require('../commands/dono/setprefix');
-const LinkGpCommand = require('../commands/dono/linkgp');
-const AntiLinkCommand = require('../commands/dono/antilink');
-const ComprarCommand = require('../commands/dono/comprar');
-const StatsCommand = require('../commands/dono/stats');
-const ComprovantesCommand = require('../commands/dono/comprovantes');
-const GrupoCommand = require('../commands/dono/grupo');
-const BanCommand = require('../commands/dono/ban');
-const AdminCommand = require('../commands/dono/admin');
-const PromoverCommand = require('../commands/dono/promover');
-const MigrarGrupoCommand = require('../commands/dono/migrargrupo');
 
 const whatsappValidator = require('./WhatsAppValidator');
 
@@ -57,6 +17,9 @@ class MessageHandler {
     constructor(sock, dataManager) {
         this.sock = sock;
         this.dataManager = dataManager;
+
+        // 🆕 Proteção contra duplicação de mensagens
+        this.processedMessages = new Set();
 
         // Inicializar sub-handlers
         this.eventHandler = new EventHandler(sock, dataManager);
@@ -68,69 +31,34 @@ class MessageHandler {
         this.comprovanteHandler = new ComprovanteHandler(sock, dataManager);
         this.compraHandler = new CompraHandler(sock, dataManager);
 
-        // Comandos públicos
-        this.menuCommand = new MenuCommand(sock, dataManager);
-        this.pingCommand = new PingCommand(sock, dataManager);
-        this.tabelaCommand = new TabelaCommand(sock, dataManager);
-        this.tiktokCommand = new TikTokCommand(sock, dataManager);
-        this.playCommand = new PlayCommand(sock, dataManager);
-        this.helpCommand = new HelpCommand(sock, dataManager);
-
-        // Comandos de dono
-        this.infoCommand = new MeInfoCommand(sock, dataManager);
-        this.ativarCommand = new AtivarCommand(sock, dataManager);
-        this.joinCommand = new JoinCommand(sock, dataManager);
-        this.sairCommand = new SairCommand(sock, dataManager);
-        this.licencaCommand = new LicencaCommand(sock, dataManager);
-        this.licencasCommand = new LicencasCommand(sock, dataManager);
-        this.limparCommand = new LimparCommand(sock, dataManager);
-        this.semComprasCommand = new SemCompraCommand(sock, dataManager);
-        this.marcarCommand = new MarcarCommand(sock, dataManager);
-        this.addcoinCommand = new AddCoinCommand(sock, dataManager);
-        this.configNumerosCommand = new ConfigNumerosCommand(sock, dataManager);
-        this.fotogpCommand = new FotoGpCommand(sock, dataManager);
-        this.clientesCommand = new ClientesCommand(sock, dataManager);
-        this.descgpCommand = new DescGpCommand(sock, dataManager);
-        this.nomegpCommand = new NomeGpCommand(sock, dataManager);
-        this.rebaixarCommand = new RebaixarCommand(sock, dataManager);
-        this.antimentionCommand = new AntiMentionCommand(sock, dataManager);
-        this.deleteCommand = new DeleteCommand(sock, dataManager);
-        this.setprefixCommand = new SetPrefixCommand(sock, dataManager);
-        this.linkgpCommand = new LinkGpCommand(sock, dataManager);
-        this.antilinkCommand = new AntiLinkCommand(sock, dataManager);
-        this.comprarCommand = new ComprarCommand(sock, dataManager);
-        this.statsCommand = new StatsCommand(sock, dataManager);
-        this.comprovantesCommand = new ComprovantesCommand(sock, dataManager);
-        this.grupoCommand = new GrupoCommand(sock, dataManager);
-        this.banCommand = new BanCommand(sock, dataManager);
-        this.adminCommands = new AdminCommand(sock, dataManager);
-        this.promoteCommand = new PromoverCommand(sock, dataManager);
-
-        // Router de comandos
-        const commands = {
-            menuCommand: this.menuCommand,
-            pingCommand: this.pingCommand,
-            tabelaCommand: this.tabelaCommand,
-            tiktokCommand: this.tiktokCommand,
-            infoCommand: this.infoCommand,
-            playCommand: this.playCommand,
-            helpCommand: this.helpCommand
-        };
-
-        this.commandRouter = new CommandRouter(sock, dataManager, commands);
+        // 🚀 NOVO: Sistema de carregamento automático de comandos
+        this.commandLoader = new CommandLoader(sock, dataManager);
 
         // Configurar eventos
         this.eventHandler.setup();
+
+        console.log('✅ MessageHandler inicializado com sistema de comandos dinâmico');
     }
 
     async handle(msg) {
         try {
+            // 🆕 PROTEÇÃO CONTRA FLOOD - Ignorar mensagens duplicadas
+            const msgId = msg.key.id;
+            if (this.processedMessages.has(msgId)) {
+                console.log('⏭️ Mensagem já processada, ignorando...');
+                return;
+            }
+            this.processedMessages.add(msgId);
+            
+            // Limpar cache após 2 minutos
+            setTimeout(() => this.processedMessages.delete(msgId), 120000);
+
             // ========== EXTRAÇÃO DE DADOS ==========
             const from = msg.key.remoteJid;
             const messageText = this.getMessageText(msg);
             const senderName = msg.pushName || "Usuário";
             const isGroup = from.endsWith('@g.us');
-            
+
             let sender = isGroup ? msg.key.participant : from;
             if (!sender) sender = from;
 
@@ -150,7 +78,7 @@ class MessageHandler {
 
             // ========== VERIFICAR GRUPO PERMITIDO ==========
             const allowedGroups = this.dataManager.getAllowedGroups();
-            
+
             if (isGroup && !allowedGroups.includes(from)) {
                 console.log(`⚠️ Grupo não permitido: ${from}`);
                 return;
@@ -169,7 +97,7 @@ class MessageHandler {
             // ========== COMANDO !ATIVAR (SEM VALIDAÇÃO) ==========
             if (messageText.toLowerCase().startsWith(`${PREFIX}ativar`)) {
                 const args = messageText.slice(PREFIX.length + 6).trim().split(/ +/);
-                await this.ativarCommand.execute(msg, args, from, sender);
+                await this.commandLoader.executeCommand('ativar', msg, args, from, sender);
                 return;
             }
 
@@ -193,7 +121,7 @@ class MessageHandler {
                 if (handled) return;
             }
 
-            // ========== COMANDOS ESPECIAIS ==========
+            // ========== COMANDOS ESPECIAIS (SEM PREFIXO) ==========
             if (messageText === '!renovar' && isGroup) {
                 await this.handleRenovar(messageText, from, senderNumber);
                 return;
@@ -201,7 +129,7 @@ class MessageHandler {
 
             if (messageText.toLowerCase().startsWith('!addpagamento')) {
                 const args = messageText.split(' ').slice(1);
-                await AddPagamento.execute(this.sock, msg, args, this.dataManager);
+                await this.commandLoader.executeCommand('addpagamento', msg, args, from, sender);
                 return;
             }
 
@@ -217,8 +145,14 @@ class MessageHandler {
 
             // ========== SEGURANÇA ==========
             if (isGroup && messageText) {
+                // Verificar palavrão
                 if (await this.securityHandler.checkAntiPalavrao(msg, messageText, from, sender)) return;
-                if (await this.antilinkCommand.checkForLinks(msg, from, sender)) return;
+                
+                // 🆕 Verificar antilink apenas se houver link na mensagem
+                if (messageText.includes('http') || messageText.includes('www.') || messageText.includes('.com')) {
+                    const hasAntilink = await this.securityHandler.checkAntilink(messageText, from, sender);
+                    if (hasAntilink) return;
+                }
             }
 
             if (!isGroup && messageText) {
@@ -231,38 +165,61 @@ class MessageHandler {
                 return;
             }
 
-	    // ========== COMANDO PREFIXO (SEM PREFIXO) ==========
-if (messageText) {
-    const bodyLower = messageText.toLowerCase().trim();
-    
-    if (bodyLower === 'prefixo' || bodyLower === 'prefix') {
-        console.log('📌 Comando prefixo detectado (sem prefixo)');
-        
-        const PrefixoCommand = require('../commands/membros/prefixo');
-        const prefixoCmd = new PrefixoCommand(this.sock, this.dataManager);
-        await prefixoCmd.execute(msg, [], from, sender);
-        return;
-    }
-}
-
-
-            // ========== COMANDOS PÚBLICOS ==========
+            // ========== COMANDO PREFIXO (SEM PREFIXO - CASO ESPECIAL) ==========
             if (messageText) {
-                const handled = await this.handlePublicCommands(msg, messageText, from, sender, PREFIX);
-                if (handled) return;
+                const bodyLower = messageText.toLowerCase().trim();
+                if (bodyLower === 'prefixo' || bodyLower === 'prefix') {
+                    console.log('📌 Comando prefixo detectado (sem prefixo)');
+                    await this.commandLoader.executeCommand('prefixo', msg, [], from, sender);
+                    return;
+                }
             }
 
-            // ========== COMANDOS DE DONO ==========
+            // ========== PROCESSAR COMANDOS COM PREFIXO ==========
             if (messageText && (messageText.startsWith(PREFIX) || messageText.startsWith('/'))) {
-                const isDono = this.dataManager.isDono(senderNumber);
-                if (isDono) {
-                    await this.handleDonoCommand(msg, messageText, from, sender);
-                }
+                await this.handleCommand(messageText, msg, from, sender, PREFIX);
+                return;
             }
 
         } catch (error) {
             console.error('❌ Erro no MessageHandler:', error);
             console.error('Stack:', error.stack);
+        }
+    }
+
+    async handleCommand(messageText, msg, from, sender, PREFIX) {
+        // Remove prefixo
+        let cmdText = messageText.trim();
+
+        if (cmdText.startsWith(PREFIX)) {
+            cmdText = cmdText.slice(PREFIX.length).trim();
+        } else if (cmdText.startsWith('/')) {
+            cmdText = cmdText.slice(1).trim();
+        }
+
+        // Parse comando e argumentos
+        const parts = cmdText.split(/\s+/);
+        const commandName = parts[0].toLowerCase();
+        const args = parts.slice(1);
+
+        console.log(`🎮 Executando comando: ${commandName}`);
+        console.log(`📝 Argumentos:`, args);
+
+        // Executar comando através do CommandLoader
+        const executed = await this.commandLoader.executeCommand(
+            commandName,
+            msg,
+            args,
+            from,
+            sender
+        );
+
+        // Se comando não foi encontrado
+        if (!executed) {
+            await this.sock.sendMessage(from, {
+                text: `❌ Comando *${PREFIX}${commandName}* não encontrado.\n\n` +
+                      `💡 Digite *${PREFIX}help* para ver comandos disponíveis.`
+            });
         }
     }
 
@@ -329,311 +286,6 @@ if (messageText) {
 
         } catch (error) {
             console.error('Erro no handleStatusMention:', error);
-        }
-    }
-
-    async handlePublicCommands(msg, messageText, from, sender, PREFIX) {
-        let cmdText = messageText.trim();
-
-        if (cmdText.startsWith(PREFIX)) {
-            cmdText = cmdText.slice(PREFIX.length).trim();
-        } else if (cmdText.startsWith('/')) {
-            cmdText = cmdText.slice(1).trim();
-        } else {
-            return false;
-        }
-
-        const parts = cmdText.split(/\s+/);
-        const cmd = parts[0].toLowerCase();
-        const args = parts.slice(1);
-
-        console.log('📍 Comando público:', cmd);
-
-        switch (cmd) {
-            case 'menu':
-            case 'ajuda':
-            case 'help':
-                await this.menuCommand.execute(msg, args, from, sender);
-                return true;
-
-            case 'ping':
-                await this.pingCommand.execute(from);
-                return true;
-
-            case 'tabela':
-                await this.tabelaCommand.execute(msg, from, sender);
-                return true;
-
-            case 'tiktok':
-                await this.tiktokCommand.execute(msg, args, from, sender);
-                return true;
-
-            case 'me':
-                await this.infoCommand.execute(msg, [], from, sender, false);
-                return true;
-
-            case 'info':
-                await this.infoCommand.execute(msg, args, from, sender, true);
-                return true;
-
-            case 'dono':
-                const dono = this.dataManager.getDonoData();
-                await this.sendMessage(from, `👨‍💼 Dono: ${dono.NickDono}\n📞 Número: +${dono.NumeroDono}`);
-                return true;
-
-            case 'infodono':
-                const donoInfo = this.dataManager.getDonoData();
-                await this.sendMessage(from, `👨‍💼 Nome: ${donoInfo.NickDono}\n📞 Número: +${donoInfo.NumeroDono}`);
-                return true;
-
-            case 'infobot':
-                const donoBot = this.dataManager.getDonoData();
-                await this.sendMessage(from, `🤖 Bot: ${donoBot.NomeDoBot || 'Bot'}\n⚙️ Prefixo: ${PREFIX}\n🔗 Repositório: https://github.com/Eliobros/mega-bot`);
-                return true;
-
-            default:
-                return false;
-        }
-    }
-
-    async handleDonoCommand(msg, messageText, from, sender) {
-        let senderJid = msg.key.participant || msg.key.remoteJid;
-        if (Array.isArray(senderJid)) senderJid = senderJid[0];
-
-        const donoData = this.dataManager.getDonoData();
-        const prefixo = donoData.Prefixo || '!';
-
-        const withoutPrefix = messageText.slice(prefixo.length).trim();
-        const args = withoutPrefix.split(/\s+/);
-        const cmd = args[0].toLowerCase();
-        const commandArgs = args.slice(1);
-
-        const senderNumber = sender.split('@')[0];
-
-        console.log('========= COMANDO DE DONO =========');
-        console.log('Comando:', cmd);
-        console.log('Args:', commandArgs);
-        console.log('===================================');
-
-        switch (cmd) {
-            case 'addgp':
-                if (from.endsWith('@g.us')) {
-                    const added = this.dataManager.addAllowedGroup(from);
-                    await this.sendMessage(from, added ? '✅ Grupo adicionado' : 'ℹ️ Grupo já está na lista');
-                }
-                break;
-
-            case 'rmgp':
-                if (from.endsWith('@g.us')) {
-                    const removed = this.dataManager.removeAllowedGroup(from);
-                    await this.sendMessage(from, removed ? '✅ Grupo removido' : 'ℹ️ Grupo não estava na lista');
-                }
-                break;
-
-            case 'comprar':
-                await this.comprarCommand.execute(msg, commandArgs, from, sender);
-                break;
-
-            case 'stats':
-                await this.statsCommand.execute(from);
-                break;
-
-            case 'comprovantes':
-                await this.comprovantesCommand.execute(from, commandArgs);
-                break;
-
-            case 'grupo':
-                await this.grupoCommand.execute(commandArgs, from, sender, msg.pushName);
-                break;
-
-            case 'ban':
-            case 'b':
-            case 'chutar':
-                await this.banCommand.execute(msg, commandArgs, from, sender);
-                break;
-
-            case 'antilink':
-                await this.antilinkCommand.execute(msg, commandArgs, from, sender);
-                break;
-
-            case 'setprefix':
-                await this.setprefixCommand.execute(msg, commandArgs, from, sender);
-                break;
-
-            case 'licenca':
-            case 'licença':
-            case 'license':
-                await this.licencaCommand.execute(msg, commandArgs, from, sender);
-                break;
-
-            case 'licencas':
-            case 'licenças':
-            case 'licenses':
-                await this.licencasCommand.execute(msg, commandArgs, from, sender);
-                break;
-
-            case 'linkgp':
-                await this.linkgpCommand.execute(msg, commandArgs, from, sender);
-                break;
-
-            case 'antimention':
-                await this.antimentionCommand.execute(msg, commandArgs, from, sender);
-                break;
-
-            case 'migrargrupo':
-                const migrarCmd = new MigrarGrupoCommand(this.sock, this.dataManager);
-                await migrarCmd.execute(msg, commandArgs, from, sender);
-                break;
-
-            case 'delete':
-            case 'del':
-            case 'd':
-                await this.deleteCommand.execute(msg, commandArgs, from, sender);
-                break;
-
-            case 'limpar':
-            case 'evacuar':
-                await this.limparCommand.execute(msg, sender, from);
-                break;
-
-            case 'semcompras':
-            case 'fantasmas':
-            case 't':
-                await this.semComprasCommand.execute(msg, sender, from);
-                break;
-
-            case 'marcar':
-                await this.marcarCommand.execute(msg, sender, from);
-                break;
-
-            case 'join':
-            case 'entrar':
-                await this.joinCommand.execute(msg, commandArgs, from, senderJid);
-                break;
-
-            case 'sair':
-            case 'leave':
-                await this.sairCommand.execute(msg, commandArgs, from, senderJid);
-                break;
-
-            case 'hidetag':
-            case 'ht':
-                await this.adminCommands.execute(msg, commandArgs, from, sender);
-                break;
-
-            case 'meunumero':
-            case 'debug':
-                await this.handleDebugCommand(sender, senderNumber, from);
-                break;
-
-            case 'promover':
-            case 'promote':
-                await this.promoteCommand.execute(msg, commandArgs, from, sender);
-                break;
-
-            case 'rebaixar':
-            case 'demote':
-                await this.rebaixarCommand.execute(msg, commandArgs, from, sender);
-                break;
-
-            case 'registrar':
-            case 'config':
-                await this.configNumerosCommand.execute(msg, commandArgs, from, sender);
-                break;
-
-            case 'msgbv':
-                await this.adminCommands.msgbv(msg, commandArgs, from, sender);
-                break;
-
-            case 'msgsaiu':
-                await this.adminCommands.msgsaiu(msg, commandArgs, from, sender);
-                break;
-
-            case 'bemvindo':
-                await this.adminCommands.bemvindo(msg, commandArgs, from, sender);
-                break;
-
-            case 'saiu':
-                await this.adminCommands.saiu(msg, commandArgs, from, sender);
-                break;
-
-            case 'play':
-            case 'p':
-                await this.playCommand.execute(msg, commandArgs, from, sender);
-                break;
-
-            case 'admins':
-                await this.adminCommands.admins(msg, commandArgs, from, sender);
-                break;
-
-            case 'clientes':
-            case 'rankmb':
-                await this.clientesCommand.execute(msg, commandArgs, from, sender);
-                break;
-
-            case 'nomegp':
-            case 'setname':
-                await this.nomegpCommand.execute(msg, commandArgs, from, sender);
-                break;
-
-            case 'fotogp':
-            case 'setfoto':
-                await this.fotogpCommand.execute(msg, commandArgs, from, sender);
-                break;
-
-            case 'addcoin':
-            case 'addsaldo':
-                await this.addcoinCommand.execute(msg, commandArgs, from, sender);
-                break;
-
-            case 'descgp':
-            case 'setdesc':
-                await this.descgpCommand.execute(msg, commandArgs, from, sender);
-                break;
-
-            case 'reiniciar':
-            case 'restart':
-                await this.adminCommands.reiniciar(msg, commandArgs, from);
-                break;
-
-            case 'status-bot':
-                await this.adminCommands.statusbot(msg, commandArgs, from);
-                break;
-
-            case 'premio':
-                await this.adminCommands.premio(msg, commandArgs, from);
-                break;
-
-            case 'anticall':
-                await this.adminCommands.anticall(msg, commandArgs, from);
-                break;
-
-            case 'antipalavrao':
-                await this.adminCommands.antipalavrao(msg, commandArgs, from);
-                break;
-
-            case 'addpalavrao':
-                await this.adminCommands.addpalavrao(msg, commandArgs, from);
-                break;
-
-            case 'rmpalavra':
-                await this.adminCommands.rmpalavra(msg, commandArgs, from);
-                break;
-
-            case 'listpalavra':
-                await this.adminCommands.listpalavra(msg, commandArgs, from);
-                break;
-
-            case 'antifake':
-                await this.adminCommands.antifake(msg, commandArgs, from);
-                break;
-
-            case 'antipv':
-                await this.adminCommands.antipv(msg, commandArgs, from);
-                break;
-
-            default:
-                await this.sendMessage(from, `❌ Comando não reconhecido. Digite ${prefixo}help`);
         }
     }
 
@@ -704,27 +356,6 @@ if (messageText) {
         });
     }
 
-    async handleDebugCommand(sender, senderNumber, from) {
-        const debugInfo = `
-🔍 *DEBUG - INFORMAÇÕES*
-
-━━━━━━━━━━━━━━━━━━━━━━━
-📱 *Sender JID:*
-${sender}
-
-🔢 *Número:*
-${senderNumber}
-
-━━━━━━━━━━━━━━━━━━━━━━━
-💡 *Use no dono.json:*
-"NumeroDono": "${senderNumber}"
-
-🤖 *Tina Bot Debug*
-        `;
-
-        await this.sendMessage(from, debugInfo);
-    }
-
     async updateUserData(msg, sender, senderNumber, senderName) {
         try {
             const usersData = this.dataManager.getUsersData();
@@ -774,17 +405,6 @@ ${senderNumber}
         `);
     }
 
-    async isGroupAdmin(groupJid, sender) {
-        try {
-            const metadata = await this.sock.groupMetadata(groupJid);
-            const participant = metadata.participants.find(p => p.id === sender);
-            return participant?.admin === 'admin' || participant?.admin === 'superadmin';
-        } catch (err) {
-            console.error("Erro ao verificar admin:", err);
-            return false;
-        }
-    }
-
     getMessageText(msg) {
         return (
             msg.message?.conversation ||
@@ -805,3 +425,4 @@ ${senderNumber}
 }
 
 module.exports = MessageHandler;
+
